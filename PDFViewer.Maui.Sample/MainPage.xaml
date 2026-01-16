@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:pdf="clr-namespace:ZPF.PDFViewer.Maui;assembly=PDFViewer.Maui"
+   x:Class="PDFViewer.Maui.Sample.MainPage">
+
+   <!-- ToDo: replace with a menu -->
+   <ContentPage.ToolbarItems>
+      <ToolbarItem Order="Secondary" Text="embRes PDF1" CommandParameter="PDF1" Clicked="OnToolClicked" />
+      <ToolbarItem Order="Secondary" Text="embRes PDF2" CommandParameter="PDF2" Clicked="OnToolClicked" />
+      <ToolbarItem Order="Secondary" Text="HTTP PDF"  CommandParameter="PDF3" Clicked="OnToolClicked" />
+      <ToolbarItem Order="Secondary" Text="Properties" CommandParameter="INFO" Clicked="OnToolClicked" />
+   </ContentPage.ToolbarItems>
+   
+   <Grid Margin="5" ColumnDefinitions="auto,*" RowDefinitions="auto,*" >
+
+      <Image x:Name="imageCover" Grid.Column="0" Grid.RowSpan="2" Margin="5" 
+             BackgroundColor="Gray" VerticalOptions="Start" WidthRequest="120" />
+
+      <pdf:PDFViewer x:Name="pdfViewer"
+         Grid.Column="1" Grid.Row="1" Margin="5" />
+
+   </Grid>
+
+</ContentPage>
