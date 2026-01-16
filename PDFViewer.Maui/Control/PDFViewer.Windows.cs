@@ -67,12 +67,14 @@ partial class PDFViewer
    }
 
 
-   public async System.Threading.Tasks.Task SavePageAsImageAsync(string outputImagePath, uint pageNumber = 0)
+   public async System.Threading.Tasks.Task<object> SavePageAsImageAsync(string outputImagePath, uint pageNumber = 0)
    {
       if (_PdfDocument == null)
       {
          return;
       }
+
+      Debug.WriteLine($"In {pageNumber} {outputImagePath} \n" );
 
       using (PdfPage page = _PdfDocument.GetPage(pageNumber))
       {
@@ -117,12 +119,16 @@ partial class PDFViewer
 
                await encoder.FlushAsync();
             }
+
+            return page;
          }
          catch (Exception ex)
          {
-            Debug.WriteLine(ex.ToString());
+            Debug.WriteLine( $"{pageNumber} {outputImagePath} \n" + ex.ToString());
          }
       }
+
+      Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n"  );
    }
 
 
