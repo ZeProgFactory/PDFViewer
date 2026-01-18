@@ -1,11 +1,13 @@
 ﻿#if WINDOWS
 
 using System.Diagnostics;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using ZPF.PDFViewer.DataSources;
+using static ZPF.PDFViewer.PDFHelper;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -67,7 +69,7 @@ partial class PDFViewer
    }
 
 
-   public async System.Threading.Tasks.Task<object> SavePageAsImageAsync(string outputImagePath, uint pageNumber = 0)
+   public async System.Threading.Tasks.Task SavePageAsImageAsync(string outputImagePath, uint pageNumber = 0)
    {
       if (_PdfDocument == null)
       {
@@ -120,7 +122,7 @@ partial class PDFViewer
                await encoder.FlushAsync();
             }
 
-            return page;
+            return;
          }
          catch (Exception ex)
          {
@@ -129,6 +131,93 @@ partial class PDFViewer
       }
 
       Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n"  );
+   }
+
+
+   public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo( PDFPageInfo pageInfo, string outputImagePath )
+   {
+      if (_PdfDocument == null || pageInfo == null )
+      {
+         return pageInfo;
+      }
+
+      Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
+
+      using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber))
+      {
+         #region - - - size, ... - - - 
+
+         //ToDo: write converter
+         pageInfo.Rotation = (page.Rotation == PdfPageRotation.Normal ? PDFPageOrientations.Portrait : PDFPageOrientations.Landscape);
+
+         pageInfo.Width = PDFHelper.ToCM(page.Size.Width);
+         pageInfo.Height = PDFHelper.ToCM(page.Size.Height);
+
+         var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
+         pageInfo.WidthRequest = rect.Width;
+         pageInfo.HeightRequest = rect.Height;
+
+         #endregion
+
+         #region - - - image - - - 
+
+         // Render page to an in-memory stream
+         InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
+         await page.RenderToStreamAsync(imageStream);
+
+         // Create a BitmapDecoder from the rendered stream
+         imageStream.Seek(0);
+         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+         try
+         {
+            // Create output file
+            // StorageFile outputFile = await StorageFile.GetFileFromPathAsync(outputImagePath);
+            // If you want to create/overwrite instead:
+            StorageFolder outputFolder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(outputImagePath));
+            StorageFile outputFile = await outputFolder.CreateFileAsync(
+               System.IO.Path.GetFileName(outputImagePath),
+               CreationCollisionOption.ReplaceExisting);
+
+            using (IRandomAccessStream fileStream =
+                   await outputFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+               // Encode as PNG (you can choose JPEG or others)
+               BitmapEncoder encoder = await BitmapEncoder.CreateAsync(
+                   BitmapEncoder.PngEncoderId,
+                   fileStream);
+
+               // Copy pixel data from decoder to encoder
+               PixelDataProvider pixelData = await decoder.GetPixelDataAsync();
+               byte[] pixels = pixelData.DetachPixelData();
+
+               encoder.SetPixelData(
+                   decoder.BitmapPixelFormat,
+                   decoder.BitmapAlphaMode,
+                   decoder.PixelWidth,
+                   decoder.PixelHeight,
+                   decoder.DpiX,
+                   decoder.DpiY,
+                   pixels);
+
+               await encoder.FlushAsync();
+            }
+
+            pageInfo.ImageFileName = outputImagePath;
+
+            return pageInfo;
+         }
+         catch (Exception ex)
+         {
+            Debug.WriteLine($"{pageInfo.PageNumber} {outputImagePath} \n" + ex.ToString());
+         }
+
+         #endregion
+      }
+
+      Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
+
+      return pageInfo;
    }
 
 

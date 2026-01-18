@@ -2,7 +2,7 @@
 
 namespace ZPF.PDFViewer;
 
-public delegate void OnNeedDataEventHandler(object sender );
+public delegate void OnNeedDataEventHandler(object sender);
 
 //ToDo: observeableobject
 public class PDFPageInfo : BaseViewModel<PDFPageInfo>
@@ -19,13 +19,13 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    /// </summary>
    public double Height { get; set; } = -1;
 
-   public string ImageFileName 
-   { 
-      get 
+   public string ImageFileName
+   {
+      get
       {
-         if( string.IsNullOrEmpty(_ImageFileName))
+         if (string.IsNullOrEmpty(_ImageFileName))
          {
-            if( OnNeedData != null)
+            if (OnNeedData != null)
             {
                OnNeedData(this);
             }
@@ -34,8 +34,8 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
          }
 
          return _ImageFileName;
-      } 
-      set => SetField(ref _ImageFileName, value); 
+      }
+      set => SetField(ref _ImageFileName, value);
    }
    string _ImageFileName = "";
 
@@ -48,13 +48,37 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
          if (SetField(ref _IsCurrentPage, value))
          {
             OnPropertyChanged("SelectedColor");
-         };
+         }
       }
    }
    bool _IsCurrentPage = false;
 
    [JsonIgnore]
    public Color SelectedColor { get => (IsCurrentPage ? Colors.Red : Colors.Transparent); }
+
+
+   [JsonIgnore]
+   public double WidthRequest { get => _WidthRequest; set => SetField(ref _WidthRequest, value); }
+   double _WidthRequest = -1;
+
+
+   [JsonIgnore]
+   public double HeightRequest { get => _HeightRequest; set => SetField(ref _HeightRequest, value); }
+   double _HeightRequest = -1;
+
+
+   public PDFHelper.PDFPageOrientations Rotation { get; internal set; }
+
+   // - - -  - - - 
+
+   public void SetValues(PDFPageInfo pDFPageInfo)
+   {
+      this.PageNumber = pDFPageInfo.PageNumber;
+      this.Width = pDFPageInfo.Width;
+      this.Height = pDFPageInfo.Height;
+      this.ImageFileName = pDFPageInfo.ImageFileName;
+      this.IsCurrentPage = pDFPageInfo.IsCurrentPage;
+   }
 
    // - - -  - - - 
 
@@ -66,4 +90,5 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    {
       return $"{(IsCurrentPage ? "¤" : " ")}{PageNumber}";
    }
+
 }

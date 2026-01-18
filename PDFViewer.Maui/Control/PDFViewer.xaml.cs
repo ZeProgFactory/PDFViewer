@@ -139,12 +139,7 @@ public partial class PDFViewer : ContentView
          tnFileName = PdfTempFileHelper.CreateTempPageFilePath( $"TNPage({p.PageNumber}).jpeg" );
       }
 
-      await SavePageAsImageAsync(tnFileName, (uint)p.PageNumber-1);
-      p.ImageFileName = tnFileName; 
-
-      //var rect = PDFHelper.GetPageSizeWithRotation(PDFViewModel.Current.CurrentFileName, p.PageNumber - 1);
-      //p.Width = PDFHelper.ToCM(rect.Width);
-      //p.Height = PDFHelper.ToCM(rect.Height);
+      p.SetValues( await UpdatePageInfo( p, tnFileName) );
    }
 
 
