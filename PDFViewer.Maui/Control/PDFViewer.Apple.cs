@@ -159,6 +159,12 @@ partial class PDFViewer
       //   (platformHandler as Maui.PDFView.PdfViewHandler)?.RenderPages(_PdfDocument);
       //}
    }
+
+
+   public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
+   {
+      throw new NotImplementedException();
+   }
 }
 
 #endif
