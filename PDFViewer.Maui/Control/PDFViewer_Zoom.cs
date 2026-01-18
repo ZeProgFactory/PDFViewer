@@ -17,33 +17,33 @@ public partial class PDFViewer
    int RealWidth = 0;
    int RealHeight = 0;
 
-   public void CalcZoom()
+   public void CalcZoom( PDFPageInfo pageInfo )
    {
       //Debug.WriteLine($" {svImage.Width}  {imagePage.Width}  {dropImage.Width}");
 
-      RealWidth = (int)PDFHelper.ToPT( Pages.First().Width) * 3;
-      RealHeight = (int)PDFHelper.ToPT(Pages.First().Height) * 3;
+      RealWidth = (int)PDFHelper.ToPT(pageInfo.Width) * 3;
+      RealHeight = (int)PDFHelper.ToPT(pageInfo.Height) * 3;
 
       MainThread.BeginInvokeOnMainThread(() =>
       {
          // Code to run on the main thread
-         imagePage.WidthRequest = RealWidth + 20;
-         imagePage.HeightRequest = RealHeight + 20;
+         pageInfo.WidthRequest = RealWidth + 20;
+         pageInfo.HeightRequest = RealHeight + 20;
       });
 
-      CalculatedZoom = (decimal)((int)(svImage.Width / RealWidth * 10) / 10.0);
+      //CalculatedZoom = (decimal)((int)(svImage.Width / RealWidth * 10) / 10.0);
 
-      if (CalculatedZoom < 0.1m)
-      {
-         CalculatedZoom = 0.1m;
-      };
+      //if (CalculatedZoom < 0.1m)
+      //{
+      //   CalculatedZoom = 0.1m;
+      //};
 
-      if (CalculatedZoom > 1.0m)
-      {
-         CalculatedZoom = 1.0m;
-      };
+      //if (CalculatedZoom > 1.0m)
+      //{
+      //   CalculatedZoom = 1.0m;
+      //};
 
-      ZoomFactor = CalculatedZoom;
+      //ZoomFactor = CalculatedZoom;
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
@@ -53,34 +53,34 @@ public partial class PDFViewer
 
    public async Task DoZoom(decimal scale)
    {
-      try
-      {
-         ZoomFactor = scale;
-         lbZoom.Text = $"{(int)(100.0m * scale)} %";
+      //try
+      //{
+      //   ZoomFactor = scale;
+      //   lbZoom.Text = $"{(int)(100.0m * scale)} %";
 
-         absoluteLayout.Children.Clear();
+      //   absoluteLayout.Children.Clear();
 
-         imagePage.Scale = (double)scale;
-         dropImage.Source = PDFViewModel.Current.ImageFileName;
+      //   imagePage.Scale = (double)scale;
+      //   dropImage.Source = PDFViewModel.Current.ImageFileName;
 
-         var sX = (1 - imagePage.Scale) * RealWidth / 2;
-         var sY = (1 - imagePage.Scale) * RealHeight / 2;
+      //   var sX = (1 - imagePage.Scale) * RealWidth / 2;
+      //   var sY = (1 - imagePage.Scale) * RealHeight / 2;
 
-         int delay = (First_DoZoom ? FirstTimeZoomDelay : 100);
+      //   int delay = (First_DoZoom ? FirstTimeZoomDelay : 100);
 
-         // workaround to scroll the first page into viewport ...
-         await DoIt.Delay(delay, () =>
-         {
-            MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-               // do ui stuff
-               await svImage.ScrollToAsync(sX, sY, true);
-            });
-         });
-      }
-      catch { }
+      //   // workaround to scroll the first page into viewport ...
+      //   await DoIt.Delay(delay, () =>
+      //   {
+      //      MainThread.InvokeOnMainThreadAsync(async () =>
+      //      {
+      //         // do ui stuff
+      //         await svImage.ScrollToAsync(sX, sY, true);
+      //      });
+      //   });
+      //}
+      //catch { }
 
-      First_DoZoom = false;
+      //First_DoZoom = false;
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 

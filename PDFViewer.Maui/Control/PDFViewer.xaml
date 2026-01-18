@@ -36,11 +36,11 @@
          <!--<Button Text="First" Command="{Binding FirstPageCommand, Source={x:Reference Name=pdfViewer}}" />
          <Button Text="Prev" Command="{Binding PrevPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
 
-         <Label Text="{Binding CurrentPageNumber, Source={x:Reference Name=pdfViewer}}" 
+         <!--<Label Text="{Binding CurrentPageNumber, Source={x:Reference Name=pdfViewer}}" 
                 VerticalOptions="Center" HorizontalOptions="Center" />
          <Label Text=" / " VerticalOptions="Center" HorizontalOptions="Center" />
          <Label Text="{Binding TotalPages, Source={x:Reference Name=pdfViewer}}" 
-                VerticalOptions="Center" HorizontalOptions="Center" />
+                VerticalOptions="Center" HorizontalOptions="Center" />-->
 
          <!--<Button Text="Next" Command="{Binding NextPageCommand, Source={x:Reference Name=pdfViewer}}" />
          <Button Text="Last" Command="{Binding LastPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
@@ -49,8 +49,9 @@
       <CollectionView x:Name="collectionView" Grid.Row="1" >
          <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="pdf:PDFPageInfo" >
-               <Image Source="{Binding ImageFileName}" BackgroundColor="DarkGray" 
-                      WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}" />
+               <Image Source="{Binding ImageFileName}" BackgroundColor="DarkGray" Margin="10" 
+                      WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"
+                      VerticalOptions="Center" HorizontalOptions="Center" />
             </DataTemplate>
          </CollectionView.ItemTemplate>
       </CollectionView>

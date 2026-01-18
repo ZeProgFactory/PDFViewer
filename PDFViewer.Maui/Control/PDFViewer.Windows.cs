@@ -143,7 +143,7 @@ partial class PDFViewer
 
       Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
 
-      using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber))
+      using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber-1))
       {
          #region - - - size, ... - - - 
 
