@@ -8,6 +8,10 @@ public static class PDFHelper
 
    public static float ToPT(float cm)
    {
+#if WINDOWS
+      return (float)(cm * 37.79736534);
+#endif
+
       return cm / 0.03527731092f;
    }
    public static float ToPT(double cm)
@@ -19,6 +23,10 @@ public static class PDFHelper
 
    public static float ToCM(float pt)
    {
+#if WINDOWS
+      return (float)(pt / 37.79736534);
+#endif
+
       return pt * 0.03527731092f;
    }
    public static float ToCM(double pt)

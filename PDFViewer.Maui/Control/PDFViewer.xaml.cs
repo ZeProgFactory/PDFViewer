@@ -109,14 +109,27 @@ public partial class PDFViewer : ContentView
    }
 
 
-   public void GeneratePages(int numberOfPages)
+   public async void GeneratePages(int numberOfPages)
    {
       Pages.Clear();
       GC.Collect();
 
+      var p = new PDFPageInfo() { PageNumber = 1 };
+
+      //var tnFileName = PdfTempFileHelper.CreateTempPageFilePath("Cover.jpeg");
+      p.SetValues(await UpdatePageInfo(p, ""));
+
+      var scale = Math.Min(
+         collectionView.Width / p.WidthRequest,
+         collectionView.Height / p.HeightRequest);
+
+      //collectionView.Scale = scale;
+
+      //Pages.Add(p);
+
       for (var i = 1; i <= numberOfPages; i++)
       {
-         Pages.Add(new PDFPageInfo() { PageNumber = i, });
+         Pages.Add(new PDFPageInfo() { PageNumber = i, Scale = scale});
       }
 
       OnPropertyChanged("Pages");
@@ -125,21 +138,21 @@ public partial class PDFViewer : ContentView
 
    private async void PDFPageInfo_OnNeedData(object sender)
    {
-      if( sender is not PDFPageInfo p)
+      if (sender is not PDFPageInfo p)
          return;
 
       string tnFileName = "";
 
       if (p.PageNumber == 1)
       {
-         tnFileName = PdfTempFileHelper.CreateTempPageFilePath( "_Thumbnail_.jpeg" );
+         tnFileName = PdfTempFileHelper.CreateTempPageFilePath("_Thumbnail_.jpeg");
       }
       else
       {
-         tnFileName = PdfTempFileHelper.CreateTempPageFilePath( $"TNPage({p.PageNumber}).jpeg" );
+         tnFileName = PdfTempFileHelper.CreateTempPageFilePath($"TNPage({p.PageNumber}).jpeg");
       }
 
-      p.SetValues( await UpdatePageInfo( p, tnFileName) );
+      p.SetValues(await UpdatePageInfo(p, tnFileName));
    }
 
 

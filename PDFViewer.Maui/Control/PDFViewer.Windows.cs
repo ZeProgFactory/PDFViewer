@@ -154,8 +154,15 @@ partial class PDFViewer
          pageInfo.Height = PDFHelper.ToCM(page.Size.Height);
 
          var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
-         pageInfo.WidthRequest = rect.Width;
-         pageInfo.HeightRequest = rect.Height;
+         pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
+         pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
+
+         if( string.IsNullOrEmpty(outputImagePath) )
+         {
+            Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
+
+            return pageInfo;
+         }
 
          #endregion
 
@@ -218,21 +225,6 @@ partial class PDFViewer
       Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 
       return pageInfo;
-   }
-
-
-   public void RenderPages()
-   {
-      if (_PdfDocument == null)
-      {
-         return;
-      }
-
-      if (Handler is IPlatformViewHandler platformHandler)
-      {
-         Debugger.Break();
-         // (platformHandler as Maui.PDFView.PdfViewHandler)?.RenderPages(_PdfDocument);
-      }
    }
 }
 

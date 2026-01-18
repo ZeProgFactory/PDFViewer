@@ -46,11 +46,13 @@
          <Button Text="Last" Command="{Binding LastPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
       </HorizontalStackLayout>
 
+      <!--WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"-->
+
       <CollectionView x:Name="collectionView" Grid.Row="1" >
          <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="pdf:PDFPageInfo" >
                <Image Source="{Binding ImageFileName}" BackgroundColor="DarkGray" Margin="10" 
-                      WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"
+                      Scale="{Binding Scale}"
                       VerticalOptions="Center" HorizontalOptions="Center" />
             </DataTemplate>
          </CollectionView.ItemTemplate>

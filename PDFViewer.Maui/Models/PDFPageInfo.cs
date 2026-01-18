@@ -69,6 +69,18 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
 
    public PDFHelper.PDFPageOrientations Rotation { get; internal set; }
 
+
+   /// <summary>
+   /// Gets or sets the scale factor applied to the element. 
+   /// 
+   /// Remarks:
+   ///    Default value is 1.0.
+   /// </summary>
+   [JsonIgnore]
+
+   public double Scale { get => _Scale; set => _Scale = value; }
+   double _Scale = 1.0;
+
    // - - -  - - - 
 
    public void SetValues(PDFPageInfo pDFPageInfo)
