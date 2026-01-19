@@ -64,9 +64,13 @@
          </CollectionView.ItemTemplate>
       </CollectionView>
 
-      <Label 
-            Text="Welcome to .PDFViewer!"
+      <ActivityIndicator Grid.RowSpan="2"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center" 
+            Color="Blue"
+            WidthRequest="100"
+            HeightRequest="100" />
    </Grid>
 </ContentView>
