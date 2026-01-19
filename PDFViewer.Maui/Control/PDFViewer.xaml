@@ -48,12 +48,18 @@
 
       <!--WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"-->
 
-      <CollectionView x:Name="collectionView" Grid.Row="1" >
+      <CollectionView x:Name="collectionView" Grid.Row="1"  SelectionMode="None" ItemSizingStrategy="MeasureAllItems"  >
+         <CollectionView.ItemsLayout>
+            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+         </CollectionView.ItemsLayout>
+         
          <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="pdf:PDFPageInfo" >
-               <Image Source="{Binding ImageFileName}" BackgroundColor="DarkGray" Margin="10" 
+               <Grid BackgroundColor="DarkGray" Margin="10" >
+                  <Image Source="{Binding ImageFileName}" BackgroundColor="White" Margin="5" 
                       Scale="{Binding Scale}"
-                      VerticalOptions="Center" HorizontalOptions="Center" />
+                       />
+               </Grid>
             </DataTemplate>
          </CollectionView.ItemTemplate>
       </CollectionView>
