@@ -9,7 +9,7 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPdfFilePath()
    {
-#if ANDROID
+#if ANDROID || IOS || MACCATALYST
       var tmpFolder = Path.GetTempPath();
 #else
       var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
@@ -35,7 +35,7 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPageFilePath(string filename)
    {
-#if ANDROID
+#if ANDROID || IOS || MACCATALYST
       var tmpFolder = Path.GetTempPath();
 #else
       var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
@@ -52,7 +52,7 @@ public class PdfTempFileHelper
 
    public static void DeleteTempFiles()
    {
-#if ANDROID
+#if ANDROID || IOS || MACCATALYST
 #else
       var tmpFolder = CreateTempPageFilePath("");
 

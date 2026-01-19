@@ -7,7 +7,12 @@ public delegate void OnNeedDataEventHandler(object sender);
 //ToDo: observeableobject
 public class PDFPageInfo : BaseViewModel<PDFPageInfo>
 {
-   public int PageNumber { get; set; } = -1;
+   public int PageNumber
+   {
+      get => _PageNumber;
+      set => _PageNumber = value;
+   }
+   int _PageNumber = -1;
 
    /// <summary>
    /// Width in cm
@@ -79,17 +84,18 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    [JsonIgnore]
 
    public double Scale { get => _Scale; set => _Scale = value; }
+
    double _Scale = 1.0;
 
    // - - -  - - - 
 
    public void SetValues(PDFPageInfo pDFPageInfo)
    {
-      this.PageNumber = pDFPageInfo.PageNumber;
+      this._PageNumber = pDFPageInfo.PageNumber;
       this.Width = pDFPageInfo.Width;
       this.Height = pDFPageInfo.Height;
-      this.ImageFileName = pDFPageInfo.ImageFileName;
-      this.IsCurrentPage = pDFPageInfo.IsCurrentPage;
+      this._ImageFileName = pDFPageInfo.ImageFileName;
+      this._IsCurrentPage = pDFPageInfo.IsCurrentPage;
    }
 
    // - - -  - - - 

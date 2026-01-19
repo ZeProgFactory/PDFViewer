@@ -16,7 +16,9 @@ public static class PDFHelper
       return cm / 0.03527731092f;
 #endif
 
+#if IOS || MACCATALYST
       return cm / 0.03527731092f;
+#endif
    }
    public static float ToPT(double cm)
    {
@@ -35,7 +37,9 @@ public static class PDFHelper
       return pt * 0.03527731092f;
 #endif
 
+#if IOS || MACCATALYST
       return pt * 0.03527731092f;
+#endif
    }
    public static float ToCM(double pt)
    {
