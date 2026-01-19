@@ -13,7 +13,8 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 
 | Platform  | Android | iOS  | MacOS | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
-| Supported | ✅      | ✅  | ✅    | ✅    |
+| Supported (goal) | ✅      | ✅  | ✅    | ✅    |
+| Progress  |    60 %      |  50 % |    50 %    |   70 %   |
 
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer?style=for-the-badge)
@@ -29,7 +30,7 @@ Install-Package ZPF.PDFViewer
 
 &nbsp;<br>
 ## Usage
-*Nothing* to ad to MauiProgram.
+**Nothing** to ad to MauiProgram.
 
 &nbsp;<br>
 Simply add `PdfViewer` to XAML

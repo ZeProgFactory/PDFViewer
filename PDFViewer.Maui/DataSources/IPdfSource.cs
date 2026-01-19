@@ -8,3 +8,4 @@ public interface IPdfSource
 
    Task<string> LoadPDF(string url);
 }
+

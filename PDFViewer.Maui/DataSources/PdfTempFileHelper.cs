@@ -9,14 +9,23 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPdfFilePath()
    {
+#if ANDROID
+      var tmpFolder = Path.GetTempPath();
+#else
       var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
 
       if (!Directory.Exists(tmpFolder))
       {
          Directory.CreateDirectory(tmpFolder);
       }
+#endif
 
       var path = Path.Combine(tmpFolder, Path.GetRandomFileName() + ".pdf");
+
+#if ANDROID || IOS || MACCATALYST
+      path = path.Replace("\\", "/");
+      path = path.Replace("//", "/");
+#endif
 
       return path;
    }
@@ -26,12 +35,16 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPageFilePath(string filename)
    {
+#if ANDROID
+      var tmpFolder = Path.GetTempPath();
+#else
       var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
 
       if (!Directory.Exists(tmpFolder))
       {
          Directory.CreateDirectory(tmpFolder);
       }
+#endif
 
       return Path.Combine(tmpFolder, filename);
    }
@@ -39,6 +52,8 @@ public class PdfTempFileHelper
 
    public static void DeleteTempFiles()
    {
+#if ANDROID
+#else
       var tmpFolder = CreateTempPageFilePath("");
 
       // Get all files in the folder (non-recursive)
@@ -52,5 +67,6 @@ public class PdfTempFileHelper
          }
          catch { }
       }
+#endif
    }
 }

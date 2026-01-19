@@ -8,6 +8,8 @@ using Microsoft.Maui.Handlers;
 using Android.Widget;
 using Android.Views;
 using ZPF.PDFViewer.DataSources;
+using Kotlin.Jvm.Functions;
+using System.Diagnostics;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -29,8 +31,20 @@ partial class PDFViewer
       //   _PdfDocument = await PdfDocument.LoadFromStreamAsync(pdfStream);
       //}
 
-      _PdfRenderer = new PdfRenderer(ParcelFileDescriptor.Open(new Java.IO.File(pdfPath), ParcelFileMode.ReadOnly));
+      if (!System.IO.File.Exists(pdfPath))
+      {
+         Debugger.Break();
+      }
 
+      try
+      {
+         _PdfRenderer = new PdfRenderer(ParcelFileDescriptor.Open(new Java.IO.File(pdfPath), ParcelFileMode.ReadOnly));
+      }
+      catch (Exception ex)
+      {
+         System.Diagnostics.Debug.WriteLine(ex.ToString());
+         Debugger.Break();
+      }
    }
 
 
@@ -195,7 +209,63 @@ partial class PDFViewer
 
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
    {
-      throw new NotImplementedException();
+      if (_PdfDocument == null || pageInfo == null)
+      {
+         return pageInfo;
+      }
+
+      Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
+
+
+      var page = _PdfRenderer.OpenPage((int)pageInfo.PageNumber - 1);
+
+      #region - - - size, ... - - - 
+
+      pageInfo.Rotation = ( page.Width > page.Height ) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
+
+      pageInfo.Width = PDFHelper.ToCM(page.Width);
+      pageInfo.Height = PDFHelper.ToCM(page.Height);
+
+      var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
+      pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
+      pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
+
+      if (string.IsNullOrEmpty(outputImagePath))
+      {
+         // close the page
+         page.Close();
+
+         Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
+
+         return pageInfo;
+      }
+
+      #endregion
+
+      #region - - - image - - - 
+
+      // create bitmap at appropriate size
+      var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
+
+      //  If you need to apply a color to the page
+      bitmap.EraseColor(Android.Graphics.Color.White);
+
+      // Crop page
+      var matrix = GetCropMatrix(page, bitmap, Thickness.Zero);
+
+      // render PDF page to bitmap
+      page.Render(bitmap, null, matrix, PdfRenderMode.ForDisplay);
+
+      string savedPath = SaveBitmapToFile(bitmap, outputImagePath, Bitmap.CompressFormat.Png);
+
+      pageInfo.ImageFileName = savedPath;
+
+      #endregion
+
+      // close the page
+      page.Close();
+
+      return pageInfo;
    }
 }
 
