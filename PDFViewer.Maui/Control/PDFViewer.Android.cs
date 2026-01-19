@@ -209,12 +209,12 @@ partial class PDFViewer
 
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
    {
-      if (_PdfDocument == null || pageInfo == null)
+      if (_PdfRenderer == null || pageInfo == null)
       {
          return pageInfo;
       }
 
-      Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
+      System.Diagnostics.Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
 
 
       var page = _PdfRenderer.OpenPage((int)pageInfo.PageNumber - 1);
@@ -235,7 +235,7 @@ partial class PDFViewer
          // close the page
          page.Close();
 
-         Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
+         System.Diagnostics.Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 
          return pageInfo;
       }
