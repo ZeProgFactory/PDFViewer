@@ -1,4 +1,4 @@
-namespace ZPF.PDFViewer.DataSources;
+﻿namespace ZPF.PDFViewer.DataSources;
 
 public class PdfTempFileHelper
 {
@@ -16,7 +16,9 @@ public class PdfTempFileHelper
          Directory.CreateDirectory(tmpFolder);
       }
 
-      return Path.Combine(tmpFolder, Path.GetRandomFileName() + ".pdf");
+      var path = Path.Combine(tmpFolder, Path.GetRandomFileName() + ".pdf");
+
+      return path;
    }
 
    /// <summary>

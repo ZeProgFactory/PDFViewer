@@ -121,7 +121,7 @@ public partial class PDFViewer : ContentView
 
       var scale = Math.Min(
          collectionView.Width / p.WidthRequest,
-         collectionView.Height / p.HeightRequest);
+         (collectionView.Height - 30) / p.HeightRequest);
 
       //collectionView.Scale = scale;
 

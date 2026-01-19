@@ -56,7 +56,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\AppIcon\icon.png" />
+	  <None Remove="Resources\AppIcon\icon.svg" />
 	  <None Remove="Resources\PDF\pdf1.pdf" />
 	  <None Remove="Resources\PDF\pdf2.pdf" />
 	</ItemGroup>
@@ -67,7 +67,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiIcon Include="Resources\AppIcon\icon.png" />
+	  <MauiIcon Include="Resources\AppIcon\icon.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

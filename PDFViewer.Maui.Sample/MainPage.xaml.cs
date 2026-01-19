@@ -29,7 +29,7 @@ namespace PDFViewer.Maui.Sample
             switch ((sender as ToolbarItem)?.CommandParameter.ToString())
             {
                 case "PDF1":
-                    LoadPDFFromRessource("pdf1.pdf");
+                    LoadPDFFromRessource("PDFViewer.Maui.Sample.Resources.PDF.pdf1.pdf");
                     break;
 
                 case "PDF2":
