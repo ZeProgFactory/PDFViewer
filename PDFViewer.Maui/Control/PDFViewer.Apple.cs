@@ -62,8 +62,6 @@ partial class PDFViewer
 
    public async System.Threading.Tasks.Task SavePageAsImageAsync(string outputImagePath, uint pageNumber = 0)
    {
-      float scale = 2.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.
-
       if (_PdfDocument == null)
       {
          // ("No PDF loaded.");
@@ -75,76 +73,94 @@ partial class PDFViewer
 
       // Get page
       var page = _PdfDocument.GetPage((nint)pageNumber);
-      var bounds = page.GetBoundsForBox(PdfDisplayBox.Media);
 
-      int width = (int)(bounds.Width * scale);
-      int height = (int)(bounds.Height * scale);
+      await RenderPage(page, outputImagePath);
+   }
 
-      using var colorSpace = CGColorSpace.CreateDeviceRGB();
-      using var context = new CGBitmapContext(
-          IntPtr.Zero,
-          width,
-          height,
-          8,
-          width * 4,
-          colorSpace,
-          CGImageAlphaInfo.PremultipliedLast
-      );
+   private async Task<bool> RenderPage(PdfPage page, string outputImagePath)
+   {
+      float scale = 2.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.
 
-      // White background
-      context.SetFillColor(1, 1, 1, 1);
-      context.FillRect(new CGRect(0, 0, width, height));
-
-      // Flip coordinate system for PDF drawing
-      context.TranslateCTM(0, height);
-      context.ScaleCTM(1, -1);
-
-      // Apply scale factor to PDF content
-      context.ScaleCTM(scale, scale);
-
-      // Apply PDF page rotation
-      int rotation = (int)page.Rotation;
-      if (rotation != 0)
+      try
       {
-         context.TranslateCTM(width / 2f, height / 2f);
-         context.RotateCTM((float)(rotation * Math.PI / 180));
-         context.TranslateCTM(-width / 2f, -height / 2f);
+         var bounds = page.GetBoundsForBox(PdfDisplayBox.Media);
+
+         int width = (int)(bounds.Width * scale);
+         int height = (int)(bounds.Height * scale);
+
+         using var colorSpace = CGColorSpace.CreateDeviceRGB();
+         using var context = new CGBitmapContext(
+             IntPtr.Zero,
+             width,
+             height,
+             8,
+             width * 4,
+             colorSpace,
+             CGImageAlphaInfo.PremultipliedLast
+         );
+
+         // White background
+         context.SetFillColor(1, 1, 1, 1);
+         context.FillRect(new CGRect(0, 0, width, height));
+
+         // Flip coordinate system for PDF drawing
+         context.TranslateCTM(0, height);
+         context.ScaleCTM(1, -1);
+
+         // Apply scale factor to PDF content
+         context.ScaleCTM(scale, scale);
+
+         // Apply PDF page rotation
+         int rotation = (int)page.Rotation;
+         if (rotation != 0)
+         {
+            context.TranslateCTM(width / 2f, height / 2f);
+            context.RotateCTM((float)(rotation * Math.PI / 180));
+            context.TranslateCTM(-width / 2f, -height / 2f);
+         }
+
+         // Draw PDF page
+         page.Draw(PdfDisplayBox.Media, context);
+
+         // Create CGImage from the (flipped) context
+         using var cgImage = context.ToImage();
+
+         // ⭐ Flip the final CGImage so the PNG is upright
+         using var finalContext = new CGBitmapContext(
+             IntPtr.Zero,
+             width,
+             height,
+             8,
+             width * 4,
+             colorSpace,
+             CGImageAlphaInfo.PremultipliedLast
+         );
+
+         finalContext.SetFillColor(1, 1, 1, 1);
+         finalContext.FillRect(new CGRect(0, 0, width, height));
+
+         // Flip vertically
+         finalContext.TranslateCTM(0, height);
+         finalContext.ScaleCTM(1, -1);
+
+         finalContext.DrawImage(new CGRect(0, 0, width, height), cgImage);
+
+         using var finalImage = finalContext.ToImage();
+
+         // Save PNG
+         using var url = NSUrl.FromFilename(outputImagePath);
+         using var dest = CGImageDestination.Create(url, UTType.PNG, 1);
+
+         dest.AddImage(finalImage);
+         dest.Close();
+
+         return true;
       }
-
-      // Draw PDF page
-      page.Draw(PdfDisplayBox.Media, context);
-
-      // Create CGImage from the (flipped) context
-      using var cgImage = context.ToImage();
-
-      // ⭐ Flip the final CGImage so the PNG is upright
-      using var finalContext = new CGBitmapContext(
-          IntPtr.Zero,
-          width,
-          height,
-          8,
-          width * 4,
-          colorSpace,
-          CGImageAlphaInfo.PremultipliedLast
-      );
-
-      finalContext.SetFillColor(1, 1, 1, 1);
-      finalContext.FillRect(new CGRect(0, 0, width, height));
-
-      // Flip vertically
-      finalContext.TranslateCTM(0, height);
-      finalContext.ScaleCTM(1, -1);
-
-      finalContext.DrawImage(new CGRect(0, 0, width, height), cgImage);
-
-      using var finalImage = finalContext.ToImage();
-
-      // Save PNG
-      using var url = NSUrl.FromFilename(outputImagePath);
-      using var dest = CGImageDestination.Create(url, UTType.PNG, 1);
-
-      dest.AddImage(finalImage);
-      dest.Close();
+      catch (Exception ex)
+      {
+         Debug.WriteLine($"RenderPage Error: {ex.Message} \n");
+         return false;
+      }
    }
 
 
@@ -156,8 +172,6 @@ partial class PDFViewer
       }
 
       Debug.WriteLine($"UpdatePageInfo In {pageInfo.PageNumber} {callerName} \n");
-
-      float scale = 1.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.
 
       // Get page
       var page = _PdfDocument.GetPage((nint)pageInfo.PageNumber - 1);
@@ -185,78 +199,10 @@ partial class PDFViewer
 
       #region - - - image - - - 
 
-      var bounds = page.GetBoundsForBox(PdfDisplayBox.Media);
-
-      int width = (int)(bounds.Width * scale);
-      int height = (int)(bounds.Height * scale);
-
-      using var colorSpace = CGColorSpace.CreateDeviceRGB();
-      using var context = new CGBitmapContext(
-          IntPtr.Zero,
-          width,
-          height,
-          8,
-          width * 4,
-          colorSpace,
-          CGImageAlphaInfo.PremultipliedLast
-      );
-
-      // White background
-      context.SetFillColor(1, 1, 1, 1);
-      context.FillRect(new CGRect(0, 0, width, height));
-
-      // Flip coordinate system for PDF drawing
-      context.TranslateCTM(0, height);
-      context.ScaleCTM(1, -1);
-
-      // Apply scale factor to PDF content
-      context.ScaleCTM(scale, scale);
-
-      // Apply PDF page rotation
-      int rotation = (int)page.Rotation;
-      if (rotation != 0)
+      if (await RenderPage(page, outputImagePath))
       {
-         context.TranslateCTM(width / 2f, height / 2f);
-         context.RotateCTM((float)(rotation * Math.PI / 180));
-         context.TranslateCTM(-width / 2f, -height / 2f);
+         pageInfo.ImageFileName = outputImagePath;
       }
-
-      // Draw PDF page
-      page.Draw(PdfDisplayBox.Media, context);
-
-      // Create CGImage from the (flipped) context
-      using var cgImage = context.ToImage();
-
-      // ⭐ Flip the final CGImage so the PNG is upright
-      using var finalContext = new CGBitmapContext(
-          IntPtr.Zero,
-          width,
-          height,
-          8,
-          width * 4,
-          colorSpace,
-          CGImageAlphaInfo.PremultipliedLast
-      );
-
-      finalContext.SetFillColor(1, 1, 1, 1);
-      finalContext.FillRect(new CGRect(0, 0, width, height));
-
-      // Flip vertically
-      finalContext.TranslateCTM(0, height);
-      finalContext.ScaleCTM(1, -1);
-
-      finalContext.DrawImage(new CGRect(0, 0, width, height), cgImage);
-
-      using var finalImage = finalContext.ToImage();
-
-      // Save PNG
-      using var url = NSUrl.FromFilename(outputImagePath);
-      using var dest = CGImageDestination.Create(url, UTType.PNG, 1);
-
-      dest.AddImage(finalImage);
-      dest.Close();
-
-      pageInfo.ImageFileName = outputImagePath;
 
       #endregion
 

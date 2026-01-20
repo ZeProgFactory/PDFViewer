@@ -80,59 +80,64 @@ partial class PDFViewer
 
       using (PdfPage page = _PdfDocument.GetPage(pageNumber))
       {
-         // Render page to an in-memory stream
-         InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
-         await page.RenderToStreamAsync(imageStream);
-
-         // Create a BitmapDecoder from the rendered stream
-         imageStream.Seek(0);
-         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
-
-         try
-         {
-            // Create output file
-            // StorageFile outputFile = await StorageFile.GetFileFromPathAsync(outputImagePath);
-            // If you want to create/overwrite instead:
-            StorageFolder outputFolder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(outputImagePath));
-            StorageFile outputFile = await outputFolder.CreateFileAsync(
-               System.IO.Path.GetFileName(outputImagePath),
-               CreationCollisionOption.ReplaceExisting);
-
-            using (IRandomAccessStream fileStream =
-                   await outputFile.OpenAsync(FileAccessMode.ReadWrite))
-            {
-               // Encode as PNG (you can choose JPEG or others)
-               BitmapEncoder encoder = await BitmapEncoder.CreateAsync(
-                   BitmapEncoder.PngEncoderId,
-                   fileStream);
-
-               // Copy pixel data from decoder to encoder
-               PixelDataProvider pixelData = await decoder.GetPixelDataAsync();
-               byte[] pixels = pixelData.DetachPixelData();
-
-               encoder.SetPixelData(
-                   decoder.BitmapPixelFormat,
-                   decoder.BitmapAlphaMode,
-                   decoder.PixelWidth,
-                   decoder.PixelHeight,
-                   decoder.DpiX,
-                   decoder.DpiY,
-                   pixels);
-
-               await encoder.FlushAsync();
-            }
-
-            return;
-         }
-         catch (Exception ex)
-         {
-            Debug.WriteLine( $"{pageNumber} {outputImagePath} \n" + ex.ToString());
-         }
+         await RenderPage( page, outputImagePath );
       }
 
       Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n"  );
    }
 
+   private async Task<bool> RenderPage(PdfPage page, string outputImagePath)
+   {
+      // Render page to an in-memory stream
+      InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
+      await page.RenderToStreamAsync(imageStream);
+
+      // Create a BitmapDecoder from the rendered stream
+      imageStream.Seek(0);
+      BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+
+      try
+      {
+         // Create output file
+         // StorageFile outputFile = await StorageFile.GetFileFromPathAsync(outputImagePath);
+         // If you want to create/overwrite instead:
+         StorageFolder outputFolder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(outputImagePath));
+         StorageFile outputFile = await outputFolder.CreateFileAsync(
+            System.IO.Path.GetFileName(outputImagePath),
+            CreationCollisionOption.ReplaceExisting);
+
+         using (IRandomAccessStream fileStream =
+                await outputFile.OpenAsync(FileAccessMode.ReadWrite))
+         {
+            // Encode as PNG (you can choose JPEG or others)
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(
+                BitmapEncoder.PngEncoderId,
+                fileStream);
+
+            // Copy pixel data from decoder to encoder
+            PixelDataProvider pixelData = await decoder.GetPixelDataAsync();
+            byte[] pixels = pixelData.DetachPixelData();
+
+            encoder.SetPixelData(
+                decoder.BitmapPixelFormat,
+                decoder.BitmapAlphaMode,
+                decoder.PixelWidth,
+                decoder.PixelHeight,
+                decoder.DpiX,
+                decoder.DpiY,
+                pixels);
+
+            await encoder.FlushAsync();
+         }
+      }
+      catch (Exception ex)
+      {
+         Debug.WriteLine($"{page.Index+1} {outputImagePath} \n" + ex.ToString());
+         return false;
+      }
+
+      return true;
+   }
 
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo( PDFPageInfo pageInfo, string outputImagePath )
    {
@@ -168,55 +173,9 @@ partial class PDFViewer
 
          #region - - - image - - - 
 
-         // Render page to an in-memory stream
-         InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
-         await page.RenderToStreamAsync(imageStream);
-
-         // Create a BitmapDecoder from the rendered stream
-         imageStream.Seek(0);
-         BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
-
-         try
+         if( await RenderPage(page, outputImagePath) )
          {
-            // Create output file
-            // StorageFile outputFile = await StorageFile.GetFileFromPathAsync(outputImagePath);
-            // If you want to create/overwrite instead:
-            StorageFolder outputFolder = await StorageFolder.GetFolderFromPathAsync(System.IO.Path.GetDirectoryName(outputImagePath));
-            StorageFile outputFile = await outputFolder.CreateFileAsync(
-               System.IO.Path.GetFileName(outputImagePath),
-               CreationCollisionOption.ReplaceExisting);
-
-            using (IRandomAccessStream fileStream =
-                   await outputFile.OpenAsync(FileAccessMode.ReadWrite))
-            {
-               // Encode as PNG (you can choose JPEG or others)
-               BitmapEncoder encoder = await BitmapEncoder.CreateAsync(
-                   BitmapEncoder.PngEncoderId,
-                   fileStream);
-
-               // Copy pixel data from decoder to encoder
-               PixelDataProvider pixelData = await decoder.GetPixelDataAsync();
-               byte[] pixels = pixelData.DetachPixelData();
-
-               encoder.SetPixelData(
-                   decoder.BitmapPixelFormat,
-                   decoder.BitmapAlphaMode,
-                   decoder.PixelWidth,
-                   decoder.PixelHeight,
-                   decoder.DpiX,
-                   decoder.DpiY,
-                   pixels);
-
-               await encoder.FlushAsync();
-            }
-
             pageInfo.ImageFileName = outputImagePath;
-
-            return pageInfo;
-         }
-         catch (Exception ex)
-         {
-            Debug.WriteLine($"{pageInfo.PageNumber} {outputImagePath} \n" + ex.ToString());
          }
 
          #endregion

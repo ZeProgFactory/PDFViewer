@@ -101,19 +101,7 @@ partial class PDFViewer
 
       var page = _PdfRenderer.OpenPage((int)pageNumber);
 
-      // create bitmap at appropriate size
-      var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
-
-      //  If you need to apply a color to the page
-      bitmap.EraseColor(Android.Graphics.Color.White);
-
-      // Crop page
-      var matrix = GetCropMatrix(page, bitmap, Thickness.Zero);
-
-      // render PDF page to bitmap
-      page.Render(bitmap, null, matrix, PdfRenderMode.ForDisplay);
-
-      string savedPath = SaveBitmapToFile(bitmap, outputImagePath, Bitmap.CompressFormat.Png);
+      await RenderPage(page, outputImagePath);
 
       // close the page
       page.Close();
@@ -193,17 +181,30 @@ partial class PDFViewer
    }
 
 
-   public void RenderPages()
+   private async Task<string> RenderPage(PdfRenderer.Page page, string outputImagePath)
    {
-      //if (_PdfDocument == null)
-      //{
-      //   return;
-      //}
+      try
+      {
+         // create bitmap at appropriate size
+         var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
 
-      //if (Handler is IPlatformViewHandler platformHandler)
-      //{
-      //   (platformHandler as Maui.PDFView.PdfViewHandler)?.RenderPages(_PdfDocument);
-      //}
+         //  If you need to apply a color to the page
+         bitmap.EraseColor(Android.Graphics.Color.White);
+
+         // Crop page
+         var matrix = GetCropMatrix(page, bitmap, Thickness.Zero);
+
+         // render PDF page to bitmap
+         page.Render(bitmap, null, matrix, PdfRenderMode.ForDisplay);
+
+         string savedPath = SaveBitmapToFile(bitmap, outputImagePath, Bitmap.CompressFormat.Png);
+
+         return savedPath;
+      }
+      catch (Exception ex)
+      {
+         return "";
+      }
    }
 
 
@@ -244,21 +245,7 @@ partial class PDFViewer
 
       #region - - - image - - - 
 
-      // create bitmap at appropriate size
-      var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
-
-      //  If you need to apply a color to the page
-      bitmap.EraseColor(Android.Graphics.Color.White);
-
-      // Crop page
-      var matrix = GetCropMatrix(page, bitmap, Thickness.Zero);
-
-      // render PDF page to bitmap
-      page.Render(bitmap, null, matrix, PdfRenderMode.ForDisplay);
-
-      string savedPath = SaveBitmapToFile(bitmap, outputImagePath, Bitmap.CompressFormat.Png);
-
-      pageInfo.ImageFileName = savedPath;
+      pageInfo.ImageFileName = await RenderPage( page, outputImagePath);
 
       #endregion
 
