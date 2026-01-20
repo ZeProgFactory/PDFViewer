@@ -1,4 +1,4 @@
-# 19/01/2026 - Work in progress ...
+# 20/01/2026 - Work in progress ...
   
 # PDFViewer
 A simple Maui PDF viewer based on the nativ PDF libraries ...   
@@ -77,7 +77,7 @@ internal partial class MainPageViewModel : ObservableObject
 ## Helper classes implementing `IPdfSource`
 The `PdfView` component works **only with file paths**. This is because the native platform components primarily operate with file paths, and handling different PDF data sources directly inside the component would significantly complicate the code.
 
-Therefore, you must always provide a **file path** regardless of the form your PDF data takes—whether it’s a byte array, a stream, an asset, or a URL.
+Therefore, you must always provide a **file path** regardless of the form your PDF data takes—whether it’s a file, an asset, or a URL.
 
 To simplify working with these data sources, the component includes helper classes that implement the `IPdfSource` interface:
 
