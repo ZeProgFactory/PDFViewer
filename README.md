@@ -101,3 +101,21 @@ Example of using PdfSource
 You can also create your own implementation of the `IPdfSource` interface to address your specific needs.
 
 
+&nbsp;<br>
+## Helper classe `PDFToImageHelper`
+
+Methods to save PDF pages as images:
+- `SaveFirstPageAsImageAsync(string pdfPath, string outputImagePath)`
+- `SavePageAsImageAsync(string pdfPath, string outputImagePath, uint pageNumber = 0)`
+
+&nbsp;<br>
+Example of using `PDFToImageHelper`
+```C#
+   {
+      string tnFileName = System.IO.Path.GetTempFileName();
+
+      await PDFToImageHelper.SaveFirstPageAsImageAsync(pdfFilepath, tnFileName);
+
+      return tnFileName;
+   }
+```
