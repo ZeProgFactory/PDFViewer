@@ -4,6 +4,11 @@ public partial class PDFViewer
 {
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
+   /// <summary>
+   /// Gets the current page number in the pagination system.
+   /// </summary>
+   /// <remarks>This property is updated internally and raises a property change notification when its value
+   /// changes. It is intended for read-only access from outside the class.</remarks>
    public int CurrentPageNumber
    {
       get => _CurrentPageNumber;
@@ -16,7 +21,7 @@ public partial class PDFViewer
       }
    }
    int _CurrentPageNumber = 0;
-   
+
 
    /// <summary>
    /// Gets or sets the collection of pages contained in the PDF document.
@@ -25,7 +30,7 @@ public partial class PDFViewer
    /// PDFPageInfo instance. Modifying this collection updates the set of pages available in the document in memory.</remarks>
    public List<PDFPageInfo> Pages
    {
-      get => _Pages; 
+      get => _Pages;
       set => _Pages = value;
    }
    List<PDFPageInfo> _Pages = new List<PDFPageInfo>();
@@ -64,6 +69,25 @@ public partial class PDFViewer
       }
    }
    bool _IsToolbarVisible = true;
+
+
+   /// <summary>
+   /// Gets the PDF information associated with the document.
+   /// </summary>
+   /// <remarks>This property is set internally and is not intended to be modified directly by consumers.
+   /// Changes to this property raise the PropertyChanged event, allowing subscribers to be notified when the PDF
+   /// information is updated.</remarks>
+   public PDFInfos Infos
+   {
+      get => _PDFInfos;
+      internal set
+      {
+         _PDFInfos = value;
+
+         OnPropertyChanged("Infos");
+      }
+   }
+   private PDFInfos _PDFInfos = new PDFInfos();
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 }

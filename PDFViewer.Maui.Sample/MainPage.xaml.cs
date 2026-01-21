@@ -19,7 +19,7 @@ namespace PDFViewer.Maui.Sample
         {
             if (e.PropertyName == nameof(pdfViewer.IsBusy))
             {
-                Title = (pdfViewer.IsBusy ? "IsBusy" : pdfViewer.GetInfos().Title);
+                Title = (pdfViewer.IsBusy ? "IsBusy" : pdfViewer.Infos.Title);
             }
         }
 
@@ -76,7 +76,7 @@ namespace PDFViewer.Maui.Sample
         private async void GetInfo()
         {
             // Display some info about the PDF
-            PDFInfos pdfInfos = pdfViewer.GetInfos();
+            PDFInfos pdfInfos = pdfViewer.Infos;
 
             await DisplayAlertAsync("PDF Infos", ""
                + $"Title: {pdfInfos.Title}\n"
