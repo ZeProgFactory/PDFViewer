@@ -6,6 +6,6 @@ public interface IPdfSource
 
    Task<string> GetFilePathAsync();
 
-   Task<string> LoadPDF(string url);
+   Task<string> LoadPDF(string url, string password="");
 }
 

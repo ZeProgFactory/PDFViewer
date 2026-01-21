@@ -18,7 +18,7 @@ partial class PDFViewer
 {
    PdfRenderer _PdfRenderer = null;
 
-   public async Task LoadPDF(string pdfPath)
+   public async Task LoadPDF(string pdfPath, string password = "")
    {
       UnloadPDF();
 

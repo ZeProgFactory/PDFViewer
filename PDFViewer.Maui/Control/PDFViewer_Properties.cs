@@ -2,6 +2,9 @@
 
 public partial class PDFViewer
 {
+   public string LastMessage { get => _LastMessage; internal set => _LastMessage = value; }
+   string _LastMessage = "";
+
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
    /// <summary>
@@ -87,6 +90,7 @@ public partial class PDFViewer
          OnPropertyChanged("Infos");
       }
    }
+
    private PDFInfos _PDFInfos = new PDFInfos();
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 

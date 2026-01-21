@@ -14,7 +14,7 @@ public partial class PDFViewer
    /// <param name="pdfSource"></param>
    /// <param name="url"></param>
    /// <returns></returns>
-   public async Task<bool> LoadPDF(IPdfSource pdfSource, string url)
+   public async Task<bool> LoadPDF(IPdfSource pdfSource, string url, string password = "")
    {
       bool Result = false;
 
@@ -28,11 +28,17 @@ public partial class PDFViewer
       PdfTempFileHelper.DeleteTempFiles();
 
       _PDFInfos = new PDFInfos();
-      _PDFInfos.FileName = await pdfSource.LoadPDF(url);
+      _PDFInfos.FileName = await pdfSource.LoadPDF(url, password);
 
       if (System.IO.File.Exists(_PDFInfos.FileName))
       {
          _PDFInfos = await NewPDFInfos(_PDFInfos.FileName, url);
+
+         if (string.IsNullOrEmpty(_PDFInfos.FileName))
+         {
+            IsBusy = false;
+            return false;
+         }
 
          Result = true;
       }

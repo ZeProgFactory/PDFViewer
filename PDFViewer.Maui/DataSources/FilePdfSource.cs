@@ -5,18 +5,22 @@ namespace ZPF.PDFViewer.DataSources;
 public class FilePdfSource : IPdfSource
 {
    string _filePath;
+   string _password;
 
 
    public FilePdfSource()
    {
       _filePath = string.Empty;
+      _password = string.Empty;
    }
 
 
-   public FilePdfSource(string filePath)
+   public FilePdfSource(string filePath, string password = "")
    {
       _filePath = filePath;
+      _password = password;
    }
+
 
    public string LastError { get; private set; }
 
@@ -35,9 +39,10 @@ public class FilePdfSource : IPdfSource
    }
 
 
-   public Task<string> LoadPDF(string filePath)
+   public Task<string> LoadPDF(string filePath, string password="")
    {
       _filePath = filePath;
+      _password = password;
 
       return GetFilePathAsync();
    }

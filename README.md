@@ -14,7 +14,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | Platform  | Android | iOS  | MacOS | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
-| Progress  |   80 %  | 80 % | 80 %  |  80 %   |
+| Progress  |   80 %  | 80 % | 80 %  |  83 %   |
 
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer?style=for-the-badge)

@@ -16,7 +16,7 @@ partial class PDFViewer
 {
    PdfDocument _PdfDocument = null;
 
-   public async Task LoadPDF(string pdfPath)
+   public async Task LoadPDF(string pdfPath, string password = "")
    {
       UnloadPDF();
 
@@ -25,8 +25,24 @@ partial class PDFViewer
 
       using (IRandomAccessStream pdfStream = await pdfFile.OpenAsync(FileAccessMode.Read))
       {
-         // Load the PDF document
-         _PdfDocument = await PdfDocument.LoadFromStreamAsync(pdfStream);
+         try
+         {
+            // Load the PDF document
+
+            if (string.IsNullOrEmpty(password))
+            {
+               _PdfDocument = await PdfDocument.LoadFromStreamAsync(pdfStream);
+            }
+            else
+            {
+               _PdfDocument = await PdfDocument.LoadFromStreamAsync(pdfStream, password);
+            }
+         }
+         catch (Exception ex)
+         {
+            _PdfDocument = null;
+            LastMessage = ex.ToString();
+         }
       }
    }
 
@@ -76,14 +92,14 @@ partial class PDFViewer
          return;
       }
 
-      Debug.WriteLine($"In {pageNumber} {outputImagePath} \n" );
+      Debug.WriteLine($"In {pageNumber} {outputImagePath} \n");
 
       using (PdfPage page = _PdfDocument.GetPage(pageNumber))
       {
-         await RenderPage( page, outputImagePath );
+         await RenderPage(page, outputImagePath);
       }
 
-      Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n"  );
+      Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n");
    }
 
    private async Task<bool> RenderPage(PdfPage page, string outputImagePath)
@@ -132,23 +148,23 @@ partial class PDFViewer
       }
       catch (Exception ex)
       {
-         Debug.WriteLine($"{page.Index+1} {outputImagePath} \n" + ex.ToString());
+         Debug.WriteLine($"{page.Index + 1} {outputImagePath} \n" + ex.ToString());
          return false;
       }
 
       return true;
    }
 
-   public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo( PDFPageInfo pageInfo, string outputImagePath )
+   public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
    {
-      if (_PdfDocument == null || pageInfo == null )
+      if (_PdfDocument == null || pageInfo == null)
       {
          return null;
       }
 
       Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");
 
-      using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber-1))
+      using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber - 1))
       {
          #region - - - size, ... - - - 
 
@@ -162,7 +178,7 @@ partial class PDFViewer
          pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
          pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
 
-         if( string.IsNullOrEmpty(outputImagePath) )
+         if (string.IsNullOrEmpty(outputImagePath))
          {
             Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 
@@ -173,7 +189,7 @@ partial class PDFViewer
 
          #region - - - image - - - 
 
-         if( await RenderPage(page, outputImagePath) )
+         if (await RenderPage(page, outputImagePath))
          {
             pageInfo.ImageFileName = outputImagePath;
          }
