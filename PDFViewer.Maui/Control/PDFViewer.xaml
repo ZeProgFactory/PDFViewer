@@ -7,6 +7,19 @@
    x:DataType="local:PDFViewer"
    x:Class="ZPF.PDFViewer.Maui.PDFViewer">
 
+   <ContentView.Resources>
+      <ResourceDictionary>
+
+         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo" >
+            <Grid BackgroundColor="DarkGray" Margin="10" >
+               <Image Source="{Binding ImageFileName}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
+            </Grid>
+         </DataTemplate>
+
+      </ResourceDictionary>
+   </ContentView.Resources>
+
+
    <Grid BackgroundColor="LightGray" RowDefinitions="auto,*" >
 
       <!--Todo: add zoom buttons -->
@@ -27,12 +40,12 @@
                <FontImageSource Glyph="{Static ico:IF.Add_New}" FontFamily="IconFont" Color="Black" Size="24" />
             </Button.ImageSource>
          </Button>-->
-      
+
       </HorizontalStackLayout>
 
       <!--Todo: add page navigation buttons, current page/total pages display-->
       <HorizontalStackLayout Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="End" >
-         
+
          <!--<Button Text="First" Command="{Binding FirstPageCommand, Source={x:Reference Name=pdfViewer}}" />
          <Button Text="Prev" Command="{Binding PrevPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
 
@@ -52,16 +65,15 @@
          <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
          </CollectionView.ItemsLayout>
-         
-         <CollectionView.ItemTemplate>
+
+         <!--<CollectionView.ItemTemplate>
             <DataTemplate x:DataType="pdf:PDFPageInfo" >
                <Grid BackgroundColor="DarkGray" Margin="10" >
-                  <Image Source="{Binding ImageFileName}" BackgroundColor="White" Margin="5" 
-                      Scale="{Binding Scale}"
-                       />
+                  <Image Source="{Binding ImageFileName}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
                </Grid>
             </DataTemplate>
-         </CollectionView.ItemTemplate>
+         </CollectionView.ItemTemplate>-->
+         
       </CollectionView>
 
       <ActivityIndicator Grid.RowSpan="2"

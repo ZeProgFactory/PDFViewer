@@ -11,6 +11,37 @@ public partial class PDFViewer : ContentView
       InitializeComponent();
 
       PDFPageInfo.OnNeedData += PDFPageInfo_OnNeedData;
+
+      // - - -  - - - 
+
+      // Retrieve DataTemplate from StaticResource
+      if (Resources.TryGetValue("PDFTemplate", out var templateObj) && templateObj is DataTemplate PDFTemplate)
+      {
+         // Use the DataTemplate in code
+         collectionView.ItemTemplate = new DataTemplate(() =>
+         {
+            var view = (View)PDFTemplate.CreateContent();
+
+            return WrapView(view);
+         });
+      }
+      else
+      {
+         Console.WriteLine("DataTemplate 'MyItemTemplate' not found.");
+      }
+
+
+      //// Retrieve DataTemplate from StaticResource
+      //if (Resources.TryGetValue("PDFTemplate", out var templateObj) && templateObj is DataTemplate template)
+      //{
+      //   // Use the DataTemplate in code
+      //   collectionView.ItemTemplate = template;
+      //}
+      //else
+      //{
+      //   Console.WriteLine("DataTemplate 'MyItemTemplate' not found.");
+      //}
+
    }
 
    private PDFInfos _PDFInfos = new PDFInfos();
@@ -154,6 +185,37 @@ public partial class PDFViewer : ContentView
 
       p.SetValues(await UpdatePageInfo(p, tnFileName));
    }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
+
+   public event EventHandler<SelectedItemChangedEventArgs> DoubleClickOnPage;
+
+   private ContentView WrapView(View view)
+   {
+      // --- Wrap in a container you control ---
+      var wrapper = new ContentView
+      {
+         Content = view,
+         //BackgroundColor = Colors.Transparent,
+      };
+
+      // Add gestures to the wrapper
+      var doubleTap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
+      doubleTap.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+         if (DoubleClickOnPage != null)
+         {
+            DoubleClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+         }
+      };
+
+      wrapper.Content.GestureRecognizers.Add(doubleTap);
+
+      return wrapper;
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
 
 
 }
