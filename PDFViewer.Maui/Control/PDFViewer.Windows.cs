@@ -143,7 +143,7 @@ partial class PDFViewer
    {
       if (_PdfDocument == null || pageInfo == null )
       {
-         return pageInfo;
+         return null;
       }
 
       Debug.WriteLine($"UpdatePageInfo {pageInfo.PageNumber} {outputImagePath} \n");

@@ -9,6 +9,7 @@ public partial class PDFViewer
 
    /// <summary>
    /// Load PDF from URL wo rendering it.
+   /// The rendering is done when pages (ImageFileName) are requested.
    /// </summary>
    /// <param name="pdfSource"></param>
    /// <param name="url"></param>
@@ -40,6 +41,7 @@ public partial class PDFViewer
          _PDFInfos = new PDFInfos();
       }
 
+      // generating pages wo rendering them
       GeneratePages(_PDFInfos.PageCount);
 
       collectionView.ItemsSource = null;
@@ -68,6 +70,8 @@ public partial class PDFViewer
 
       //collectionView.Scale = scale;
 
+      CurrentPageNumber = 1;
+
       //Pages.Add(p);
 
       for (var i = 1; i <= numberOfPages; i++)
@@ -80,6 +84,14 @@ public partial class PDFViewer
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
+   /// <summary>
+   /// Asynchronously saves the first page of the document as an image file at the specified path.
+   /// </summary>
+   /// <remarks>Use this method to capture and export the first page of the document as an image. Ensure that
+   /// the output path has the appropriate permissions and file extension for the desired image format.</remarks>
+   /// <param name="outputImagePath">The file path where the image of the first page will be saved. The path must be valid and writable, and should
+   /// include a supported image file extension.</param>
+   /// <returns>A task that represents the asynchronous save operation.</returns>
    public async System.Threading.Tasks.Task SaveFirstPageAsImageAsync(string outputImagePath)
    {
       await SavePageAsImageAsync(outputImagePath, 0);
@@ -87,11 +99,18 @@ public partial class PDFViewer
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
+   /// <summary>
+   /// Removes all pages from the collection and updates the associated view to reflect the cleared state.
+   /// </summary>
+   /// <remarks>After calling this method, the collection view is reset to an empty state and then repopulated
+   /// with the current set of pages. Any data bindings or UI elements dependent on the pages collection will be
+   /// refreshed accordingly.</remarks>
    public void ClearPages()
    {
       Pages.Clear();
       GC.Collect();
       OnPropertyChanged("Pages");
+      CurrentPageNumber = 0;
 
       collectionView.ItemsSource = null;
       collectionView.ItemsSource = Pages;
