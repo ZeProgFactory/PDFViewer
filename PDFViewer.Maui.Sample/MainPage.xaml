@@ -19,7 +19,8 @@
              BackgroundColor="Gray" VerticalOptions="Start" WidthRequest="120" />
 
       <pdf:PDFViewer x:Name="pdfViewer" 
-         Grid.Column="1" Grid.Row="1" Margin="5" />
+         Grid.Column="1" Grid.Row="1" Margin="5"
+         IsToolbarVisible="True" />
 
    </Grid>
 

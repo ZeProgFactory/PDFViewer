@@ -29,46 +29,9 @@ public partial class PDFViewer : ContentView
       {
          Console.WriteLine("DataTemplate 'MyItemTemplate' not found.");
       }
-
-
-      //// Retrieve DataTemplate from StaticResource
-      //if (Resources.TryGetValue("PDFTemplate", out var templateObj) && templateObj is DataTemplate template)
-      //{
-      //   // Use the DataTemplate in code
-      //   collectionView.ItemTemplate = template;
-      //}
-      //else
-      //{
-      //   Console.WriteLine("DataTemplate 'MyItemTemplate' not found.");
-      //}
-
    }
 
    private PDFInfos _PDFInfos = new PDFInfos();
-
-
-   public List<PDFPageInfo> Pages
-   {
-      get => _Pages; set => _Pages = value;
-   }
-   List<PDFPageInfo> _Pages = new List<PDFPageInfo>();
-
-
-   /// <summary>
-   /// Gets a value indicating whether the component is currently performing a background operation.
-   /// </summary>
-   public bool IsBusy
-   {
-      get => _IsBusy;
-      internal set
-      {
-         //ToDo: SetValue
-         _IsBusy = value;
-
-         OnPropertyChanged("IsBusy");
-      }
-   }
-   bool _IsBusy = false;
 
 
    /// <summary>
@@ -160,7 +123,7 @@ public partial class PDFViewer : ContentView
 
       for (var i = 1; i <= numberOfPages; i++)
       {
-         Pages.Add(new PDFPageInfo() { PageNumber = i, Scale = scale});
+         Pages.Add(new PDFPageInfo() { PageNumber = i, Scale = scale });
       }
 
       OnPropertyChanged("Pages");
@@ -188,7 +151,9 @@ public partial class PDFViewer : ContentView
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
 
+   //public event EventHandler<SelectedItemChangedEventArgs> ClickOnPage;
    public event EventHandler<SelectedItemChangedEventArgs> DoubleClickOnPage;
+   //public event EventHandler<SelectedItemChangedEventArgs> RightClickOnPage;
 
    private ContentView WrapView(View view)
    {
@@ -200,19 +165,103 @@ public partial class PDFViewer : ContentView
       };
 
       // Add gestures to the wrapper
+      var singleTap = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+      singleTap.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+
+         if (item != null)
+         {
+            //collectionView.SelectedItem = item;
+
+            //if (item is FileItem)
+            //{
+            //   SelectItem((FileItem)item);
+            //}
+         }
+      };
+
       var doubleTap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
       doubleTap.Tapped += (s, e) =>
       {
          var item = ((BindableObject)s).BindingContext;
+
          if (DoubleClickOnPage != null)
          {
             DoubleClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
          }
       };
 
+      wrapper.Content.GestureRecognizers.Add(singleTap);
       wrapper.Content.GestureRecognizers.Add(doubleTap);
 
+
+#if WINDOWS || MACCATALYST
+
+      var rightClickRecognizer = new TapGestureRecognizer
+      {
+         Buttons = ButtonsMask.Secondary
+      };
+
+      rightClickRecognizer.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+
+         if (item is PDFPageInfo)
+         {
+            //   // ContextMenu((FileItem)item);
+         }
+      };
+
+      wrapper.Content.GestureRecognizers.Add(rightClickRecognizer);
+#endif
+
+#if ANDROID || IOS || WINDOWS || MACCATALYST
+      // CommunityToolkit.Maui.Behaviors;
+      //var touchBehavior = new TouchBehavior
+      //{
+      //   LongPressCommand = new Command(async () =>
+      //   {
+      //      // Simulate a context menu with a popup
+      //      var item = wrapper.Content.BindingContext;
+      //      // ContextMenu((PDFPageInfo)item);
+      //   })
+      //};
+
+      //wrapper.Content.Behaviors.Add(touchBehavior);
+#endif
+
+
       return wrapper;
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
+
+   private void collectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+   {
+      if (e.CurrentSelection.Count > 0)
+      {
+         var selectedItem = e.CurrentSelection[0];
+
+         CurrentPageNumber = (selectedItem as PDFPageInfo).PageNumber;
+         //int index = Items.IndexOf(selectedItem as string);
+
+         //DisplayAlert("Item Selected",
+         //    $"Item: {selectedItem}\nIndex: {index}",
+         //    "OK");
+      }
+   }
+
+   private void collectionView_Scrolled(object sender, ItemsViewScrolledEventArgs e)
+   {
+      // e.FirstVisibleItemIndex gives the first visible item index
+      int firstIndex = Math.Max(e.FirstVisibleItemIndex + 1, 1);
+      int lastIndex = e.LastVisibleItemIndex + 1;
+
+      if (CurrentPageNumber < firstIndex || CurrentPageNumber > lastIndex)
+      {
+         CurrentPageNumber = firstIndex;
+      }
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
