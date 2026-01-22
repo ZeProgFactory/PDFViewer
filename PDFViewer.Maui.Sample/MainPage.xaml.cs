@@ -130,6 +130,11 @@ namespace PDFViewer.Maui.Sample
             imageCover.Source = pageInfo.ImageFileName;
          }
 
+         var g = sender as Grid;
+         var i = g.Children.First() as Image;
+
+         i.Source = pageInfo.ImageFileName;
+
       }
    }
 }

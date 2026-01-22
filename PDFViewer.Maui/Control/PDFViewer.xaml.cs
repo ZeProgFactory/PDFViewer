@@ -75,7 +75,7 @@ public partial class PDFViewer : ContentView
          {
             if (ClickOnPage != null)
             {
-               ClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+               ClickOnPage(view, new SelectedItemChangedEventArgs(item, -1));
             }
          }
       };
@@ -89,7 +89,7 @@ public partial class PDFViewer : ContentView
          {
             if (DoubleClickOnPage != null)
             {
-               DoubleClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+               DoubleClickOnPage(view, new SelectedItemChangedEventArgs(item, -1));
             }
          }
       };
