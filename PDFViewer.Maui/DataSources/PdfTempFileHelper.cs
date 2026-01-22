@@ -1,4 +1,6 @@
-﻿namespace ZPF.PDFViewer.DataSources;
+﻿using System.Diagnostics;
+
+namespace ZPF.PDFViewer.DataSources;
 
 public class PdfTempFileHelper
 {
@@ -9,18 +11,7 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPdfFilePath()
    {
-#if ANDROID || IOS || MACCATALYST
-      var tmpFolder = Path.GetTempPath();
-#else
-      var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
-
-      if (!Directory.Exists(tmpFolder))
-      {
-         Directory.CreateDirectory(tmpFolder);
-      }
-#endif
-
-      var path = Path.Combine(tmpFolder, Path.GetRandomFileName() + ".pdf");
+      var path = CreateTempPageFilePath(Path.GetRandomFileName() + ".pdf");
 
 #if ANDROID || IOS || MACCATALYST
       path = path.Replace("\\", "/");
@@ -35,15 +26,26 @@ public class PdfTempFileHelper
    /// </summary>
    public static string CreateTempPageFilePath(string filename)
    {
-#if ANDROID || IOS || MACCATALYST
-      var tmpFolder = Path.GetTempPath();
+#if ANDROID
+      var tmpFolder = Path.Combine(FileSystem.AppDataDirectory, _TmpSubFolder);
+#elif IOS || MACCATALYST
+      var tmpFolder = Path.Combine(FileSystem.AppDataDirectory, _TmpSubFolder);
 #else
       var tmpFolder = Path.Combine(Path.GetTempPath(), _TmpSubFolder);
+#endif
+
+#if ANDROID || IOS || MACCATALYST
+      tmpFolder = tmpFolder.Replace("\\", "/");
+      tmpFolder = tmpFolder.Replace("//", "/");
+#endif
 
       if (!Directory.Exists(tmpFolder))
       {
          Directory.CreateDirectory(tmpFolder);
       }
+
+#if ANDROID
+      tmpFolder = Path.GetTempPath();
 #endif
 
       return Path.Combine(tmpFolder, filename);
@@ -52,7 +54,7 @@ public class PdfTempFileHelper
 
    public static void DeleteTempFiles()
    {
-#if ANDROID || IOS || MACCATALYST
+#if ANDROID
 #else
       var tmpFolder = CreateTempPageFilePath("");
 
@@ -65,7 +67,10 @@ public class PdfTempFileHelper
          {
             File.Delete(file);
          }
-         catch { }
+         catch 
+         { 
+            Debugger.Break();
+         }
       }
 #endif
    }

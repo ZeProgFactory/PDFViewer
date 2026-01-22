@@ -19,10 +19,37 @@ partial class PDFViewer
 
    public async Task LoadPDF(string pdfPath, string password = "")
    {
-      UnloadPDF();
-
       // Open the PDF file
-      _PdfDocument = new PdfDocument(NSUrl.FromFilename(pdfPath));
+      if (!System.IO.File.Exists(pdfPath))
+      {
+         Debugger.Break();
+      }
+
+      try
+      {
+         _PdfDocument = new PdfDocument(NSUrl.FromFilename(pdfPath));
+
+         if (!string.IsNullOrEmpty(password) && _PdfDocument.IsLocked)
+         {
+            Infos.IsPasswordProtected = true;
+            _PdfDocument.Unlock(password);
+         }
+         else
+         {
+            if (_PdfDocument.IsLocked)
+            {
+               _PdfDocument = null;
+               LastMessage = "PDF is locked.";
+            }
+         }
+      }
+      catch (Exception ex)
+      {
+         _PdfDocument = null;
+         LastMessage = ex.Message.ToString();
+
+         Debugger.Break();
+      }
    }
 
 
@@ -40,21 +67,23 @@ partial class PDFViewer
       PdfTempFileHelper.DeleteTempFiles();
    }
 
-   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url)
+   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url, string password = "")
    {
+      _PDFInfos = new PDFInfos();
+
       if (_PdfDocument == null)
       {
-         await LoadPDF(pdfPath);
+         await LoadPDF(pdfPath, password);
       }
 
-      //_PdfDocument.Description;
-
-      _PDFInfos = new PDFInfos()
+      if (_PdfDocument != null)
       {
-         PageCount = (int)_PdfDocument.PageCount,
-         FileName = url,
-         FileSizeInBytes = new System.IO.FileInfo(pdfPath).Length,
-      };
+         //_PdfDocument.Description;
+
+         _PDFInfos.PageCount = (int)_PdfDocument.PageCount;
+         _PDFInfos.FileName = url;
+         _PDFInfos.FileSizeInBytes = new System.IO.FileInfo(pdfPath).Length;
+      }
 
       return _PDFInfos;
    }

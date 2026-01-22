@@ -3,20 +3,17 @@
 public class HttpPdfSource : IPdfSource
 {
    string _url;
-   string _password;
 
 
    public HttpPdfSource()
    {
       _url = string.Empty;
-      _password = string.Empty;
    }
 
 
-   public HttpPdfSource(string url, string password = "")
+   public HttpPdfSource(string url)
    {
       _url = url;
-      _password = password;
    }
 
 
@@ -51,10 +48,9 @@ public class HttpPdfSource : IPdfSource
    }
 
 
-   public Task<string> LoadPDF(string url, string password = ""   )
+   public Task<string> LoadPDF(string url )
    {
       _url = url;
-      _password = password;
 
       return GetFilePathAsync();
    }

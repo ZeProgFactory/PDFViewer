@@ -1,15 +1,16 @@
 ﻿#if ANDROID
 
-using Android.Graphics.Pdf;
-using Android.Graphics;
-using Android.OS;
-using AndroidX.RecyclerView.Widget;
-using Microsoft.Maui.Handlers;
-using Android.Widget;
-using Android.Views;
-using ZPF.PDFViewer.DataSources;
-using Kotlin.Jvm.Functions;
 using System.Diagnostics;
+using Android.Graphics;
+using Android.Graphics.Pdf;
+using Android.OS;
+using Android.Views;
+using Android.Widget;
+using AndroidX.RecyclerView.Widget;
+using Kotlin.Jvm.Functions;
+using Microsoft.Maui.Handlers;
+using ZPF.PDFViewer.DataSources;
+using static Android.Graphics.Pdf.PdfDocument;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -20,30 +21,42 @@ partial class PDFViewer
 
    public async Task LoadPDF(string pdfPath, string password = "")
    {
-      UnloadPDF();
-
       // Open the PDF file
-      //StorageFile pdfFile = await StorageFile.GetFileFromPathAsync(pdfPath);
-
-      //using (IRandomAccessStream pdfStream = await pdfFile.OpenAsync(FileAccessMode.Read))
-      //{
-      //   // Load the PDF document
-      //   _PdfDocument = await PdfDocument.LoadFromStreamAsync(pdfStream);
-      //}
-
       if (!System.IO.File.Exists(pdfPath))
       {
          Debugger.Break();
       }
 
+      System.Diagnostics.Debug.WriteLine($"LoadPDF {pdfPath} \n");
+
       try
       {
-         _PdfRenderer = new PdfRenderer(ParcelFileDescriptor.Open(new Java.IO.File(pdfPath), ParcelFileMode.ReadOnly));
+         if (string.IsNullOrEmpty(password))
+         {
+            _PdfRenderer = new PdfRenderer(ParcelFileDescriptor.Open(new Java.IO.File(pdfPath), ParcelFileMode.ReadOnly));
+         }
+         else
+         {
+            // Open the file
+            var fileDescriptor = ParcelFileDescriptor.Open(
+                new Java.IO.File(pdfPath),
+                ParcelFileMode.ReadOnly
+            );
+
+            // Build LoadParams with password
+            // !!! only starting from API 35 (Android 14) !!!
+            var loadParams = new Android.Graphics.Pdf.LoadParams.Builder()
+                .SetPassword(password)
+                .Build();
+
+            // Create renderer with password
+            _PdfRenderer = new PdfRenderer(fileDescriptor, loadParams);
+         }
       }
       catch (Exception ex)
       {
-         System.Diagnostics.Debug.WriteLine(ex.ToString());
-         Debugger.Break();
+         _PdfRenderer = null;
+         LastMessage = ex.Message.ToString();
       }
    }
 
@@ -66,11 +79,11 @@ partial class PDFViewer
    }
 
 
-   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url)
+   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url, string password = "")
    {
       if (_PdfRenderer == null)
       {
-         await LoadPDF(pdfPath);
+         await LoadPDF(pdfPath, password);
       }
 
       if (_PdfRenderer != null)
@@ -222,7 +235,7 @@ partial class PDFViewer
 
       #region - - - size, ... - - - 
 
-      pageInfo.Rotation = ( page.Width > page.Height ) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
+      pageInfo.Rotation = (page.Width > page.Height) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
 
       pageInfo.Width = PDFHelper.ToCM(page.Width);
       pageInfo.Height = PDFHelper.ToCM(page.Height);
@@ -245,7 +258,8 @@ partial class PDFViewer
 
       #region - - - image - - - 
 
-      pageInfo.ImageFileName = await RenderPage( page, outputImagePath);
+      pageInfo.ImageFileName = await RenderPage(page, outputImagePath);
+      System.Diagnostics.Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 
       #endregion
 

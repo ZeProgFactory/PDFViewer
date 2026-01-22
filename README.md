@@ -1,4 +1,4 @@
-# 20/01/2026 - Work in progress ...
+# 22/01/2026 - Work in progress ...
   
 # PDFViewer
 A simple Maui PDF viewer based on the nativ PDF libraries ...   
@@ -14,7 +14,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | Platform  | Android | iOS  | MacOS | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
-| Progress  |   80 %  | 80 % | 80 %  |  83 %   |
+| Progress  |   85 %  | **bug** | 85 %  |  85 %   |
 
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer?style=for-the-badge)
 ![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer?style=for-the-badge)
@@ -30,7 +30,7 @@ Install-Package ZPF.PDFViewer
 
 &nbsp;<br>
 ## Usage
-**Nothing** to ad to MauiProgram.
+**Nothing** to add to `MauiProgram`.
 
 &nbsp;<br>
 Simply add `PdfViewer` to XAML

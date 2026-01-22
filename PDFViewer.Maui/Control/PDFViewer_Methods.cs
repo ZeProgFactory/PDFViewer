@@ -28,11 +28,11 @@ public partial class PDFViewer
       PdfTempFileHelper.DeleteTempFiles();
 
       _PDFInfos = new PDFInfos();
-      _PDFInfos.FileName = await pdfSource.LoadPDF(url, password);
+      _PDFInfos.FileName = await pdfSource.LoadPDF(url);
 
       if (System.IO.File.Exists(_PDFInfos.FileName))
       {
-         _PDFInfos = await NewPDFInfos(_PDFInfos.FileName, url);
+         _PDFInfos = await NewPDFInfos(_PDFInfos.FileName, url, password);
 
          if (string.IsNullOrEmpty(_PDFInfos.FileName))
          {

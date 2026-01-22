@@ -18,9 +18,12 @@ partial class PDFViewer
 
    public async Task LoadPDF(string pdfPath, string password = "")
    {
-      UnloadPDF();
-
       // Open the PDF file
+      if (!System.IO.File.Exists(pdfPath))
+      {
+         Debugger.Break();
+      }
+
       StorageFile pdfFile = await StorageFile.GetFileFromPathAsync(pdfPath);
 
       using (IRandomAccessStream pdfStream = await pdfFile.OpenAsync(FileAccessMode.Read))
@@ -41,7 +44,7 @@ partial class PDFViewer
          catch (Exception ex)
          {
             _PdfDocument = null;
-            LastMessage = ex.ToString();
+            LastMessage = ex.Message.ToString();
          }
       }
    }
@@ -59,11 +62,11 @@ partial class PDFViewer
    }
 
 
-   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url)
+   private async Task<PDFInfos> NewPDFInfos(string pdfPath, string url, string password = "")
    {
       if (_PdfDocument == null)
       {
-         await LoadPDF(pdfPath);
+         await LoadPDF(pdfPath, password);
       }
 
       if (_PdfDocument != null)
