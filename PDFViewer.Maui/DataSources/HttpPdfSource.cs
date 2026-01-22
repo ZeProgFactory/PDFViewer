@@ -44,6 +44,8 @@ public class HttpPdfSource : IPdfSource
          System.Diagnostics.Debug.WriteLine(ex.ToString());
       }
 
+      System.Diagnostics.Debug.WriteLine($"LoadPDF HttpPdfSource {tempFile}");
+
       return tempFile;
    }
 

@@ -45,7 +45,7 @@ public class PdfTempFileHelper
       }
 
 #if ANDROID
-      tmpFolder = Path.GetTempPath();
+      //tmpFolder = Path.GetTempPath();
 #endif
 
       return Path.Combine(tmpFolder, filename);
@@ -54,8 +54,8 @@ public class PdfTempFileHelper
 
    public static void DeleteTempFiles()
    {
-#if ANDROID
-#else
+//#if ANDROID
+//#else
       var tmpFolder = CreateTempPageFilePath("");
 
       // Get all files in the folder (non-recursive)
@@ -72,6 +72,12 @@ public class PdfTempFileHelper
             Debugger.Break();
          }
       }
-#endif
+
+      if( Directory.GetFiles(tmpFolder).Count() > 0 )
+      { 
+         Debugger.Break();
+      }
+
+      //#endif
    }
 }

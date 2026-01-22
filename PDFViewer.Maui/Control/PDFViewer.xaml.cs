@@ -31,7 +31,6 @@ public partial class PDFViewer : ContentView
       }
    }
 
-
    private async void PDFPageInfo_OnNeedData(object sender)
    {
       if (sender is not PDFPageInfo p)
@@ -53,7 +52,7 @@ public partial class PDFViewer : ContentView
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
 
-   //public event EventHandler<SelectedItemChangedEventArgs> ClickOnPage;
+   public event EventHandler<SelectedItemChangedEventArgs> ClickOnPage;
    public event EventHandler<SelectedItemChangedEventArgs> DoubleClickOnPage;
    //public event EventHandler<SelectedItemChangedEventArgs> RightClickOnPage;
 
@@ -74,12 +73,10 @@ public partial class PDFViewer : ContentView
 
          if (item != null)
          {
-            //collectionView.SelectedItem = item;
-
-            //if (item is FileItem)
-            //{
-            //   SelectItem((FileItem)item);
-            //}
+            if (ClickOnPage != null)
+            {
+               ClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+            }
          }
       };
 
@@ -88,9 +85,12 @@ public partial class PDFViewer : ContentView
       {
          var item = ((BindableObject)s).BindingContext;
 
-         if (DoubleClickOnPage != null)
+         if (item != null)
          {
-            DoubleClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+            if (DoubleClickOnPage != null)
+            {
+               DoubleClickOnPage(this, new SelectedItemChangedEventArgs(item, -1));
+            }
          }
       };
 

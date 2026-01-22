@@ -120,5 +120,16 @@ namespace PDFViewer.Maui.Sample
 
          imageCover.Source = tmpFile;
       }
+
+      private void pdfViewer_ClickOnPage(object sender, SelectedItemChangedEventArgs e)
+      {
+         var pageInfo = e.SelectedItem as PDFPageInfo;
+
+         if (pageInfo != null)
+         {
+            imageCover.Source = pageInfo.ImageFileName;
+         }
+
+      }
    }
 }

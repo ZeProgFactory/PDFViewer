@@ -94,8 +94,9 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
       this._PageNumber = pDFPageInfo.PageNumber;
       this.Width = pDFPageInfo.Width;
       this.Height = pDFPageInfo.Height;
-      this._ImageFileName = pDFPageInfo.ImageFileName;
       this._IsCurrentPage = pDFPageInfo.IsCurrentPage;
+
+      this.ImageFileName = pDFPageInfo.ImageFileName;
    }
 
    // - - -  - - - 

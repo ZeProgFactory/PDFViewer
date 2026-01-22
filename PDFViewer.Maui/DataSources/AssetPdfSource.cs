@@ -57,6 +57,8 @@ public class AssetPdfSource : IPdfSource
          var tempFile = PdfTempFileHelper.CreateTempPdfFilePath();
          await File.WriteAllBytesAsync(tempFile, bytes);
 
+         System.Diagnostics.Debug.WriteLine($"LoadPDF AssetPdfSource {tempFile}");
+
          return tempFile;
       }
       catch (Exception ex)
