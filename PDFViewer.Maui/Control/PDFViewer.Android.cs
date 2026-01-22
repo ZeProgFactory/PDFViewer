@@ -249,7 +249,7 @@ partial class PDFViewer
          // close the page
          page.Close();
 
-         System.Diagnostics.Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
+         System.Diagnostics.Debug.WriteLine($"Out bug {pageInfo.PageNumber} {outputImagePath} \n");
 
          return pageInfo;
       }

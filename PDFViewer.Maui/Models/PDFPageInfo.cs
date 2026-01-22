@@ -34,8 +34,6 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
             {
                OnNeedData(this);
             }
-
-            // return $"page_{PageNumber}.png";
          }
 
          return _ImageFileName;
@@ -92,9 +90,15 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    public void SetValues(PDFPageInfo pDFPageInfo)
    {
       this._PageNumber = pDFPageInfo.PageNumber;
+      this._IsCurrentPage = pDFPageInfo.IsCurrentPage;
+
       this.Width = pDFPageInfo.Width;
       this.Height = pDFPageInfo.Height;
-      this._IsCurrentPage = pDFPageInfo.IsCurrentPage;
+
+      this.HeightRequest = pDFPageInfo.HeightRequest;
+      this.WidthRequest = pDFPageInfo.WidthRequest;
+
+      this.Scale = pDFPageInfo.Scale;
 
       this.ImageFileName = pDFPageInfo.ImageFileName;
    }

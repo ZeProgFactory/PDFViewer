@@ -1,4 +1,6 @@
-﻿namespace ZPF.PDFViewer.Maui;
+﻿using System.Collections.ObjectModel;
+
+namespace ZPF.PDFViewer.Maui;
 
 public partial class PDFViewer
 {
@@ -31,12 +33,12 @@ public partial class PDFViewer
    /// </summary>
    /// <remarks>Each element in the collection represents information about a single page, encapsulated in a
    /// PDFPageInfo instance. Modifying this collection updates the set of pages available in the document in memory.</remarks>
-   public List<PDFPageInfo> Pages
+   public ObservableCollection<PDFPageInfo> Pages
    {
       get => _Pages;
       set => _Pages = value;
    }
-   List<PDFPageInfo> _Pages = new List<PDFPageInfo>();
+   ObservableCollection<PDFPageInfo> _Pages = new ObservableCollection<PDFPageInfo>();
 
 
    /// <summary>

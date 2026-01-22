@@ -12,7 +12,7 @@
 
          <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo" >
             <Grid BackgroundColor="DarkGray" Margin="10" >
-               <Image Source="{Binding ImageFileName}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
+               <Image Source="{Binding ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
             </Grid>
          </DataTemplate>
 
