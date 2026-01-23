@@ -8,6 +8,7 @@ using Foundation;
 using ImageIO;
 using MobileCoreServices;
 using PdfKit;
+using UIKit;
 using ZPF.PDFViewer.DataSources;
 
 namespace ZPF.PDFViewer.Maui;
@@ -103,10 +104,10 @@ partial class PDFViewer
       // Get page
       var page = _PdfDocument.GetPage((nint)pageNumber);
 
-      await RenderPage(page, outputImagePath);
+      await RenderPageToFile(page, outputImagePath);
    }
 
-   private async Task<bool> RenderPage(PdfPage page, string outputImagePath)
+   private async Task<bool> RenderPageToFile(PdfPage page, string outputImagePath)
    {
       float scale = 2.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.
 
@@ -193,6 +194,46 @@ partial class PDFViewer
    }
 
 
+   private async Task<ImageSource> RenderPageToImageSource(PdfPage page, string outputImagePath)
+   {
+      nfloat scale = 2.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.   
+
+      // Get page bounds
+      var bounds = page.GetBoundsForBox(PdfDisplayBox.Media);
+      var targetSize = new CGSize(bounds.Width * scale, bounds.Height * scale);
+
+      // Begin drawing
+      UIGraphics.BeginImageContextWithOptions(targetSize, false, scale);
+      var ctx = UIGraphics.GetCurrentContext();
+
+      // Flip coordinate system
+      ctx.SaveState();
+      ctx.TranslateCTM(0, targetSize.Height);
+      ctx.ScaleCTM(1, -1);
+
+      // Scale for resolution
+      ctx.ScaleCTM(scale, scale);
+
+      // Correct Draw() call
+      page.Draw(PdfDisplayBox.Media, ctx);
+
+      ctx.RestoreState();
+
+      // Get UIImage
+      var uiImage = UIGraphics.GetImageFromCurrentImageContext();
+      UIGraphics.EndImageContext();
+
+      // Convert to PNG bytes
+      var data = uiImage.AsPNG();
+      var bytes = data.ToArray();
+
+      // Return MAUI ImageSource
+      return ImageSource.FromStream(() => new MemoryStream(bytes));
+   }
+
+
+
+
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath, [CallerMemberName] string callerName = "")
    {
       if (_PdfDocument == null || pageInfo == null)
@@ -228,10 +269,14 @@ partial class PDFViewer
 
       #region - - - image - - - 
 
-      if (await RenderPage(page, outputImagePath))
-      {
-         pageInfo.ImageFileName = outputImagePath;
-      }
+      //if (await RenderPageToFile(page, outputImagePath))
+      //{
+      //   pageInfo.ImageFileName = outputImagePath;
+      //}
+
+      pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
+      pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
+
 
       #endregion
 

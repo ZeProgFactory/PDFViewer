@@ -28,6 +28,7 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    {
       get
       {
+#if VIA_FILE 
          if (string.IsNullOrEmpty(_ImageFileName))
          {
             if (OnNeedData != null)
@@ -35,12 +36,36 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
                OnNeedData(this);
             }
          }
+#endif
 
          return _ImageFileName;
       }
       set => SetField(ref _ImageFileName, value);
    }
    string _ImageFileName = "";
+
+
+   [JsonIgnore]
+   public ImageSource ImageSource 
+   {
+      get
+      {
+#if ! VIA_FILE
+         if (_ImageSource == null)
+         {
+            if (OnNeedData != null)
+            {
+               OnNeedData(this);
+            }
+         }
+#endif
+
+         return _ImageSource;
+      }
+      set => SetField(ref _ImageSource, value); 
+   }
+   ImageSource _ImageSource = null;
+
 
    [JsonIgnore]
    public bool IsCurrentPage
@@ -101,6 +126,7 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
       this.Scale = pDFPageInfo.Scale;
 
       this.ImageFileName = pDFPageInfo.ImageFileName;
+      this.ImageSource = pDFPageInfo.ImageSource;  
    }
 
    // - - -  - - - 

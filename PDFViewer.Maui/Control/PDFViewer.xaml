@@ -10,9 +10,10 @@
    <ContentView.Resources>
       <ResourceDictionary>
 
-         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo" >
-            <Grid BackgroundColor="DarkGray" Margin="10" >
-               <Image Source="{Binding ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
+         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
+            <Grid BackgroundColor="DarkGray" Margin="10"  >
+               <!--<Image Source="{Binding  ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />-->
+               <Image Source="{Binding ImageSource}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />
             </Grid>
          </DataTemplate>
 

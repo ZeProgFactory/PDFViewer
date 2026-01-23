@@ -1,6 +1,7 @@
 ﻿#if WINDOWS
 
 using System.Diagnostics;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Data.Pdf;
 using Windows.Graphics.Imaging;
@@ -99,13 +100,14 @@ partial class PDFViewer
 
       using (PdfPage page = _PdfDocument.GetPage(pageNumber))
       {
-         await RenderPage(page, outputImagePath);
+         await RenderPageToFile(page, outputImagePath);
       }
 
       Debug.WriteLine($"Out {pageNumber} {outputImagePath} \n");
    }
 
-   private async Task<bool> RenderPage(PdfPage page, string outputImagePath)
+
+   private async Task<bool> RenderPageToFile(PdfPage page, string outputImagePath)
    {
       // Render page to an in-memory stream
       InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
@@ -158,6 +160,21 @@ partial class PDFViewer
       return true;
    }
 
+
+   private async Task<ImageSource> RenderPageToImageSource(PdfPage page, string outputImagePath)
+   {
+      var ras = new InMemoryRandomAccessStream();
+      await page.RenderToStreamAsync(ras);
+
+      // Convert to a byte[] so MAUI can reopen it safely
+      ras.Seek(0);
+      var buffer = new byte[ras.Size];
+      await ras.ReadAsync(buffer.AsBuffer(), (uint)ras.Size, InputStreamOptions.None);
+
+      return ImageSource.FromStream(() => new MemoryStream(buffer));
+   }
+
+
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
    {
       if (_PdfDocument == null || pageInfo == null)
@@ -192,10 +209,13 @@ partial class PDFViewer
 
          #region - - - image - - - 
 
-         if (await RenderPage(page, outputImagePath))
-         {
-            pageInfo.ImageFileName = outputImagePath;
-         }
+         //if (await RenderPageToFile(page, outputImagePath))
+         //{
+         //   pageInfo.ImageFileName = outputImagePath;
+         //}
+
+         pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
+         pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
 
          #endregion
       }

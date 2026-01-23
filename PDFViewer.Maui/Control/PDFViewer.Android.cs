@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
+using Java.IO;
 using Kotlin.Jvm.Functions;
 using Microsoft.Maui.Handlers;
 using ZPF.PDFViewer.DataSources;
@@ -18,6 +19,7 @@ namespace ZPF.PDFViewer.Maui;
 partial class PDFViewer
 {
    PdfRenderer _PdfRenderer = null;
+   ParcelFileDescriptor _FileDescriptor = null;
 
    public async Task LoadPDF(string pdfPath, string password = "")
    {
@@ -38,10 +40,7 @@ partial class PDFViewer
          else
          {
             // Open the file
-            var fileDescriptor = ParcelFileDescriptor.Open(
-                new Java.IO.File(pdfPath),
-                ParcelFileMode.ReadOnly
-            );
+            _FileDescriptor = ParcelFileDescriptor.Open(new Java.IO.File(pdfPath), ParcelFileMode.ReadOnly);
 
             // Build LoadParams with password
             // !!! only starting from API 35 (Android 14) !!!
@@ -50,7 +49,7 @@ partial class PDFViewer
                 .Build();
 
             // Create renderer with password
-            _PdfRenderer = new PdfRenderer(fileDescriptor, loadParams);
+            _PdfRenderer = new PdfRenderer(_FileDescriptor, loadParams);
          }
       }
       catch (Exception ex)
@@ -67,8 +66,11 @@ partial class PDFViewer
       {
          // close the renderer
          _PdfRenderer.Close();
-
          _PdfRenderer = null;
+
+         _FileDescriptor?.Close();
+         _FileDescriptor = null;
+
          _PDFInfos = new PDFInfos();
       }
 
@@ -114,109 +116,77 @@ partial class PDFViewer
 
       var page = _PdfRenderer.OpenPage((int)pageNumber);
 
-      await RenderPage(page, outputImagePath);
+      await RenderPageToFile(page, outputImagePath);
 
       // close the page
       page.Close();
    }
 
 
-   private Matrix? GetCropMatrix(PdfRenderer.Page page, Bitmap bitmap, Thickness bounds)
-   {
-      if (bounds.IsEmpty)
-         return null;
-
-      int pageWidth = page.Width;
-      int pageHeight = page.Height;
-
-      var cropLeft = (int)bounds.Left;
-      int cropTop = (int)bounds.Top;
-      int cropRight = pageWidth - (int)bounds.Right;
-      int cropBottom = pageHeight - (int)bounds.Bottom;
-
-      // Create a matrix for shifting and scaling
-      Matrix matrix = new Matrix();
-
-      // Scale the cut area to the entire bitmap
-      float scaleX = (float)bitmap.Width / (cropRight - cropLeft);
-      float scaleY = (float)bitmap.Height / (cropBottom - cropTop);
-
-      matrix.SetScale(scaleX, scaleY);
-
-      // Shift the rendering area so that only the necessary part of the PDF is drawn
-      matrix.PostTranslate(-cropLeft * scaleX, -cropTop * scaleY);
-
-      return matrix;
-   }
-
-
-   /// <summary>
-   /// Saves an Android.Graphics.Bitmap to a file in PNG or JPEG format.
-   /// </summary>
-   /// <param name="bitmap">The bitmap to save.</param>
-   /// <param name="fileName">The file name (without path).</param>
-   /// <param name="format">The image format (PNG or JPEG).</param>
-   /// <param name="quality">JPEG quality (0-100). Ignored for PNG.</param>
-   /// <returns>The full file path where the bitmap was saved.</returns>
-   public string SaveBitmapToFile(Bitmap bitmap, string fileName, Bitmap.CompressFormat format, int quality = 100)
-   {
-      if (bitmap == null)
-         throw new ArgumentNullException(nameof(bitmap));
-
-      if (string.IsNullOrWhiteSpace(fileName))
-         throw new ArgumentException("File name cannot be empty.", nameof(fileName));
-
-      try
-      {
-         using (var stream = new FileStream(fileName, FileMode.Create))
-         {
-            // Compress and write bitmap to file
-            bool success = bitmap.Compress(format, quality, stream);
-            if (!success)
-               throw new IOException("Failed to compress bitmap.");
-         }
-      }
-      catch (Exception ex)
-      {
-         throw new IOException($"Error saving bitmap to file: {ex.Message}", ex);
-         Debugger.Break();
-      }
-
-      return fileName;
-   }
-
-
-   private async Task<string> RenderPage(PdfRenderer.Page page, string outputImagePath)
+   private async Task<string> RenderPageToFile(PdfRenderer.Page page, string outputImagePath)
    {
       try
       {
-         // create bitmap at appropriate size
+         // Create bitmap with page size 
          var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
 
          //  If you need to apply a color to the page
          bitmap.EraseColor(Android.Graphics.Color.White);
 
-         // Crop page
-         var matrix = GetCropMatrix(page, bitmap, Thickness.Zero);
-
          // render PDF page to bitmap
-         page.Render(bitmap, null, matrix, PdfRenderMode.ForDisplay);
+         page.Render(bitmap, null, null, PdfRenderMode.ForDisplay);
+         //page.Close();
 
-         string savedPath = SaveBitmapToFile(bitmap, outputImagePath, Bitmap.CompressFormat.Png);
-
-         System.Diagnostics.Debug.WriteLine($"LoadPDF {savedPath}");
-
-         if( savedPath != outputImagePath)
+         // Save bitmap to file 
+         using (var fs = new FileStream(outputImagePath, FileMode.Create))
          {
-            Debugger.Break();
+            bitmap.Compress(Bitmap.CompressFormat.Png, 100, fs);
          }
+         bitmap.Dispose();
+         //renderer.Close(); 
+         //fileDescriptor.Close();
 
-         return savedPath;
+         System.Diagnostics.Debug.WriteLine($"LoadPDF {outputImagePath}");
+
+         return outputImagePath;
       }
       catch (Exception ex)
       {
          Debugger.Break();
          return "";
+      }
+   }
+
+
+   private async Task<ImageSource> RenderPageToImageSource(PdfRenderer.Page page, string outputImagePath)
+   {
+      try
+      {
+         // Create bitmap with page size 
+         var bitmap = Bitmap.CreateBitmap(page.Width, page.Height, Bitmap.Config.Argb8888);
+
+         //  If you need to apply a color to the page
+         bitmap.EraseColor(Android.Graphics.Color.White);
+
+         // render PDF page to bitmap
+         page.Render(bitmap, null, null, PdfRenderMode.ForDisplay);
+         //page.Close();
+
+         // Convert bitmap to stream 
+         var ms = new MemoryStream();
+         bitmap.Compress(Bitmap.CompressFormat.Png, 100, ms);
+         ms.Position = 0;
+
+         bitmap.Dispose();
+
+         System.Diagnostics.Debug.WriteLine($"LoadPDF {outputImagePath}");
+
+         return ImageSource.FromStream(() => ms);
+      }
+      catch (Exception ex)
+      {
+         Debugger.Break();
+         return null;
       }
    }
 
@@ -258,7 +228,11 @@ partial class PDFViewer
 
       #region - - - image - - - 
 
-      pageInfo.ImageFileName = await RenderPage(page, outputImagePath);
+      //pageInfo.ImageFileName = await RenderPageToFile(page, outputImagePath);
+
+      pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
+      pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
+
       System.Diagnostics.Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 
       #endregion
