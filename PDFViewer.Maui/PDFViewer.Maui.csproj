@@ -26,6 +26,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageTags>Maui;PDF</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
