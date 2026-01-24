@@ -1,5 +1,14 @@
 ﻿namespace ZPF.PDFViewer;
 
+/// <summary>
+/// Represents metadata and basic information about a Portable Document Format (PDF) document, including its file name,
+/// page count, file size, title, and password protection status.
+/// </summary>
+/// <remarks>The PDFInfos class provides properties to access common attributes of a PDF file. The Title property
+/// returns the document's title if set; otherwise, it derives the title from the file name without its extension. The
+/// IsPasswordProtected property indicates whether the PDF requires a password to open. This class is intended for use
+/// in scenarios where PDF file details need to be displayed or processed, such as in document viewers or file
+/// management tools.</remarks>
 public class PDFInfos
 {
     public string FileName

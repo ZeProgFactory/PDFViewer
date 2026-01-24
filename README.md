@@ -1,4 +1,4 @@
-# 22/01/2026 - Work in progress ...
+# 24/01/2026 - Work in progress ...
   
 # PDFViewer
 A simple Maui PDF viewer based on the nativ PDF libraries ...   
@@ -25,7 +25,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 &nbsp;<br>
 ## Installation
 ```
-Install-Package ZPF.PDFViewer
+Install-Package ZPF.PDFViewer.Maui
 ```
 
 &nbsp;<br>

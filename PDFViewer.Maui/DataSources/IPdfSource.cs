@@ -1,5 +1,6 @@
 ﻿namespace ZPF.PDFViewer.DataSources;
 
+
 public interface IPdfSource
 {
    string LastError { get; }

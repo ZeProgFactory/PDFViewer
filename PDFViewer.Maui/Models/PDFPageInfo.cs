@@ -5,6 +5,15 @@ namespace ZPF.PDFViewer;
 public delegate void OnNeedDataEventHandler(object sender);
 
 //ToDo: observeableobject
+
+/// <summary>
+/// Represents information about a single page in a PDF document, including its dimensions, image source, and display
+/// status.
+/// </summary>
+/// <remarks>This class provides properties for managing the page number, width and height in centimeters, image
+/// file name, and image source for rendering. It also tracks whether the page is currently selected and supports
+/// updating its values from another instance. The class is designed for use in PDF viewing scenarios where page
+/// metadata and visual representation are required.</remarks>
 public class PDFPageInfo : BaseViewModel<PDFPageInfo>
 {
    public int PageNumber
@@ -45,6 +54,9 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    string _ImageFileName = "";
 
 
+   /// <summary>
+   /// 
+   /// </summary>
    [JsonIgnore]
    public ImageSource ImageSource 
    {
