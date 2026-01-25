@@ -6,13 +6,14 @@
 
 ## `String)`
 
-**Résumé :**
+**Summary :**
 
 Load PDF from URL wo rendering it.             The rendering is done when pages (ImageFileName) are requested.
 
 - **param `pdfSource`** : 
 - **param `url`** : 
-**Retour :**
+**Returns :**
+
 
 
 

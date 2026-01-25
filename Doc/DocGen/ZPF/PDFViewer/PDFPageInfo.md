@@ -4,38 +4,88 @@
 
 ---
 
-## `Height`
+&nbsp;<br/>
+## Double `Height` ( get;  set;) 
 
-**Résumé :**
+**Summary :**
 
 Height in cm
 
----
-
-
-## `ImageSource`
-
-**Résumé :**
-
-
 
 ---
 
 
-## `Scale`
+&nbsp;<br/>
+## Double `HeightRequest` ( get;  set;) 
 
-**Résumé :**
+---
+
+
+&nbsp;<br/>
+## String `ImageFileName` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## ImageSource `ImageSource` ( get;  set;) 
+
+**Summary :**
+
+
+
+
+---
+
+
+&nbsp;<br/>
+## Boolean `IsCurrentPage` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## Int32 `PageNumber` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## PDFPageOrientations `Rotation` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## Double `Scale` ( get;  set;) 
+
+**Summary :**
 
 Gets or sets the scale factor applied to the element.                           Remarks:                Default value is 1.0.
 
+
 ---
 
 
-## `Width`
+&nbsp;<br/>
+## Color `SelectedColor` ( get; ) 
 
-**Résumé :**
+---
+
+
+&nbsp;<br/>
+## Double `Width` ( get;  set;) 
+
+**Summary :**
 
 Width in cm
+
+
+---
+
+
+&nbsp;<br/>
+## Double `WidthRequest` ( get;  set;) 
 
 ---
 

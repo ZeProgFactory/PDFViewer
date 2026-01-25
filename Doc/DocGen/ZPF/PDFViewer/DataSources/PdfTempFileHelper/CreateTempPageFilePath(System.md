@@ -6,9 +6,10 @@
 
 ## `String)`
 
-**Résumé :**
+**Summary :**
 
 Creates a unique temporary file path for a page file.
+
 
 ---
 

@@ -6,9 +6,10 @@
 
 ## `CreateTempPdfFilePath`
 
-**Résumé :**
+**Summary :**
 
 Creates a unique temporary file path for a PDF file.
+
 
 ---
 
