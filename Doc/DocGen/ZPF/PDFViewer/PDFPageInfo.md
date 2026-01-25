@@ -22,7 +22,7 @@ Height in cm
 
 
 &nbsp;<br/>
-## String `ImageFileName` ( get;  set;) 
+## string `ImageFileName` ( get;  set;) 
 
 ---
 
@@ -39,13 +39,13 @@ Height in cm
 
 
 &nbsp;<br/>
-## Boolean `IsCurrentPage` ( get;  set;) 
+## bool `IsCurrentPage` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Int32 `PageNumber` ( get;  set;) 
+## int `PageNumber` ( get;  set;) 
 
 ---
 
@@ -86,6 +86,24 @@ Width in cm
 
 &nbsp;<br/>
 ## Double `WidthRequest` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## void `ClearPropertyChanged` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetValues` ( PDFPageInfo pDFPageInfo ) 
+
+---
+
+
+&nbsp;<br/>
+## string `ToString` (  ) 
 
 ---
 

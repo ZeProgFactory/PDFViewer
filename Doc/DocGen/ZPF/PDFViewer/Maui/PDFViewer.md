@@ -17,7 +17,7 @@
 
 
 &nbsp;<br/>
-## String `AutomationId` ( get;  set;) 
+## string `AutomationId` ( get;  set;) 
 
 ---
 
@@ -35,13 +35,13 @@
 
 
 &nbsp;<br/>
-## Boolean `Batched` ( get; ) 
+## bool `Batched` ( get; ) 
 
 ---
 
 
 &nbsp;<br/>
-## IList`1 `Behaviors` ( get; ) 
+## IList<Behavior> `Behaviors` ( get; ) 
 
 ---
 
@@ -65,25 +65,25 @@
 
 
 &nbsp;<br/>
-## Boolean `CascadeInputTransparent` ( get;  set;) 
+## bool `CascadeInputTransparent` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## IReadOnlyList`1 `Children` ( get; ) 
+## IReadOnlyList<Element> `Children` ( get; ) 
 
 ---
 
 
 &nbsp;<br/>
-## IList`1 `class` ( get;  set;) 
+## IList<string> `class` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## String `ClassId` ( get;  set;) 
+## string `ClassId` ( get;  set;) 
 
 ---
 
@@ -107,7 +107,7 @@
 
 
 &nbsp;<br/>
-## Int32 `CurrentPageNumber` ( get;  set;) 
+## int `CurrentPageNumber` ( get;  set;) 
 
 **Summary :**
 
@@ -128,7 +128,7 @@ This property is updated internally and raises a property change notification wh
 
 
 &nbsp;<br/>
-## Boolean `DisableLayout` ( get;  set;) 
+## bool `DisableLayout` ( get;  set;) 
 
 ---
 
@@ -146,7 +146,7 @@ This property is updated internally and raises a property change notification wh
 
 
 &nbsp;<br/>
-## IList`1 `Effects` ( get; ) 
+## IList<Effect> `Effects` ( get; ) 
 
 ---
 
@@ -164,7 +164,7 @@ This property is updated internally and raises a property change notification wh
 
 
 &nbsp;<br/>
-## IList`1 `GestureRecognizers` ( get; ) 
+## IList<IGestureRecognizer> `GestureRecognizers` ( get; ) 
 
 ---
 
@@ -221,13 +221,13 @@ This property is set internally and is not intended to be modified directly by c
 
 
 &nbsp;<br/>
-## Boolean `InputTransparent` ( get;  set;) 
+## bool `InputTransparent` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsBusy` ( get;  set;) 
+## bool `IsBusy` ( get;  set;) 
 
 **Summary :**
 
@@ -238,49 +238,49 @@ Gets a value indicating whether the component is currently performing a backgrou
 
 
 &nbsp;<br/>
-## Boolean `IsClippedToBounds` ( get;  set;) 
+## bool `IsClippedToBounds` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsEnabled` ( get;  set;) 
+## bool `IsEnabled` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsFocused` ( get; ) 
+## bool `IsFocused` ( get; ) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsInPlatformLayout` ( get;  set;) 
+## bool `IsInPlatformLayout` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsLoaded` ( get; ) 
+## bool `IsLoaded` ( get; ) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsPlatformEnabled` ( get;  set;) 
+## bool `IsPlatformEnabled` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsPlatformStateConsistent` ( get;  set;) 
+## bool `IsPlatformStateConsistent` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Boolean `IsToolbarVisible` ( get;  set;) 
+## bool `IsToolbarVisible` ( get;  set;) 
 
 **Summary :**
 
@@ -295,19 +295,19 @@ Changing this property raises the property changed notification, allowing data b
 
 
 &nbsp;<br/>
-## Boolean `IsVisible` ( get;  set;) 
+## bool `IsVisible` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## String `LastMessage` ( get;  set;) 
+## string `LastMessage` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## ReadOnlyCollection`1 `LogicalChildren` ( get; ) 
+## ReadOnlyCollection<Element> `LogicalChildren` ( get; ) 
 
 ---
 
@@ -367,7 +367,7 @@ Changing this property raises the property changed notification, allowing data b
 
 
 &nbsp;<br/>
-## ObservableCollection`1 `Pages` ( get;  set;) 
+## ObservableCollection<PDFPageInfo> `Pages` ( get;  set;) 
 
 **Summary :**
 
@@ -454,13 +454,13 @@ Each element in the collection represents information about a single page, encap
 
 
 &nbsp;<br/>
-## IList`1 `StyleClass` ( get;  set;) 
+## IList<string> `StyleClass` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## String `StyleId` ( get;  set;) 
+## string `StyleId` ( get;  set;) 
 
 ---
 
@@ -478,7 +478,7 @@ Each element in the collection represents information about a single page, encap
 
 
 &nbsp;<br/>
-## IList`1 `Triggers` ( get; ) 
+## IList<TriggerBase> `Triggers` ( get; ) 
 
 ---
 
@@ -526,13 +526,310 @@ Each element in the collection represents information about a single page, encap
 
 
 &nbsp;<br/>
-## Int32 `ZIndex` ( get;  set;) 
+## int `ZIndex` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
 ## Decimal `ZoomFactor` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## void `AddLogicalChild` ( Element element ) 
+
+---
+
+
+&nbsp;<br/>
+## void `Arrange` ( Rect bounds ) 
+
+---
+
+
+&nbsp;<br/>
+## void `BatchBegin` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `BatchCommit` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `CalcZoom` ( PDFPageInfo pageInfo ) 
+
+---
+
+
+&nbsp;<br/>
+## void `ClearLogicalChildren` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `ClearPages` (  ) 
+
+**Summary :**
+
+Removes all pages from the collection and updates the associated view to reflect the cleared state.
+
+**Remarks :**
+
+After calling this method, the collection view is reset to an empty state and then repopulated             with the current set of pages. Any data bindings or UI elements dependent on the pages collection will be             refreshed accordingly.
+
+
+---
+
+
+&nbsp;<br/>
+## void `ClearValue` ( BindableProperty property ) 
+
+---
+
+
+&nbsp;<br/>
+## void `ClearValue` ( BindablePropertyKey propertyKey ) 
+
+---
+
+
+&nbsp;<br/>
+## void `CoerceValue` ( BindableProperty property ) 
+
+---
+
+
+&nbsp;<br/>
+## void `CoerceValue` ( BindablePropertyKey propertyKey ) 
+
+---
+
+
+&nbsp;<br/>
+## Size `CrossPlatformArrange` ( Rect bounds ) 
+
+---
+
+
+&nbsp;<br/>
+## Size `CrossPlatformMeasure` ( Double widthConstraint, Double heightConstraint ) 
+
+---
+
+
+&nbsp;<br/>
+## Task `DoZoom` ( Decimal scale ) 
+
+---
+
+
+&nbsp;<br/>
+## bool `EffectIsAttached` ( string name ) 
+
+---
+
+
+&nbsp;<br/>
+## Object `FindByName` ( string name ) 
+
+---
+
+
+&nbsp;<br/>
+## bool `Focus` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `ForceLayout` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## IList<GestureElement> `GetChildElements` ( Point point ) 
+
+---
+
+
+&nbsp;<br/>
+## Object `GetValue` ( BindableProperty property ) 
+
+---
+
+
+&nbsp;<br/>
+## void `InsertLogicalChild` ( int index, Element element ) 
+
+---
+
+
+&nbsp;<br/>
+## void `InvalidateMeasureNonVirtual` ( InvalidationTrigger trigger ) 
+
+---
+
+
+&nbsp;<br/>
+## bool `IsSet` ( BindableProperty targetProperty ) 
+
+---
+
+
+&nbsp;<br/>
+## void `Layout` ( Rect bounds ) 
+
+---
+
+
+&nbsp;<br/>
+## Task `LoadPDF` ( string pdfPath, string password ) 
+
+---
+
+
+&nbsp;<br/>
+## Task<bool> `LoadPDF` ( IPdfSource pdfSource, string url, string password ) 
+
+---
+
+
+&nbsp;<br/>
+## void `LowerChild` ( View view ) 
+
+---
+
+
+&nbsp;<br/>
+## void `LowerChild` ( View view ) 
+
+---
+
+
+&nbsp;<br/>
+## SizeRequest `Measure` ( Double widthConstraint, Double heightConstraint, MeasureFlags flags ) 
+
+---
+
+
+&nbsp;<br/>
+## Size `Measure` ( Double widthConstraint, Double heightConstraint ) 
+
+---
+
+
+&nbsp;<br/>
+## void `PlatformSizeChanged` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `RaiseChild` ( View view ) 
+
+---
+
+
+&nbsp;<br/>
+## void `RaiseChild` ( View view ) 
+
+---
+
+
+&nbsp;<br/>
+## void `RemoveBinding` ( BindableProperty property ) 
+
+---
+
+
+&nbsp;<br/>
+## void `RemoveDynamicResource` ( BindableProperty property ) 
+
+---
+
+
+&nbsp;<br/>
+## bool `RemoveLogicalChild` ( Element element ) 
+
+---
+
+
+&nbsp;<br/>
+## ControlTemplate `ResolveControlTemplate` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## Task `SaveFirstPageAsImageAsync` ( string outputImagePath ) 
+
+---
+
+
+&nbsp;<br/>
+## Task `SavePageAsImageAsync` ( string outputImagePath, UInt32 pageNumber ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetBinding` ( BindableProperty targetProperty, BindingBase binding ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetDynamicResource` ( BindableProperty property, string key ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetValue` ( BindableProperty property, Object value ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetValue` ( BindablePropertyKey propertyKey, Object value ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetValueFromRenderer` ( BindableProperty property, Object value ) 
+
+---
+
+
+&nbsp;<br/>
+## void `SetValueFromRenderer` ( BindablePropertyKey property, Object value ) 
+
+---
+
+
+&nbsp;<br/>
+## void `Unfocus` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## void `UnloadPDF` (  ) 
+
+---
+
+
+&nbsp;<br/>
+## Task<PDFPageInfo> `UpdatePageInfo` ( PDFPageInfo pageInfo, string outputImagePath ) 
 
 ---
 

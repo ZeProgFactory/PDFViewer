@@ -5,7 +5,7 @@
 ---
 
 &nbsp;<br/>
-## String `FileName` ( get;  set;) 
+## string `FileName` ( get;  set;) 
 
 ---
 
@@ -17,7 +17,7 @@
 
 
 &nbsp;<br/>
-## Boolean `IsPasswordProtected` ( get;  set;) 
+## bool `IsPasswordProtected` ( get;  set;) 
 
 **Summary :**
 
@@ -28,19 +28,25 @@ Gets whether the Portable Document Format (PDF) document is password-protected.
 
 
 &nbsp;<br/>
-## Int32 `PageCount` ( get;  set;) 
+## int `PageCount` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## Int32 `PageIndex` ( get;  set;) 
+## int `PageIndex` ( get;  set;) 
 
 ---
 
 
 &nbsp;<br/>
-## String `Title` ( get; ) 
+## string `Title` ( get; ) 
+
+---
+
+
+&nbsp;<br/>
+## string `ToString` (  ) 
 
 ---
 
