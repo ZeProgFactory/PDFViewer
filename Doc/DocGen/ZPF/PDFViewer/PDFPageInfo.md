@@ -91,12 +91,6 @@ Width in cm
 
 
 &nbsp;<br/>
-## void `ClearPropertyChanged` (  ) 
-
----
-
-
-&nbsp;<br/>
 ## void `SetValues` ( PDFPageInfo pDFPageInfo ) 
 
 ---
