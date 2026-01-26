@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
@@ -24,7 +24,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryUrl>https://github.com/ZeProgFactory/PDFViewer</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<PackageTags>Maui;PDF</PackageTags>
+		<PackageTags>Maui;PDF;iOS;Android;MacCatalyst;WinUI;dotnet-maui;PDFViewer;PDFReader</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 		<Version>10.0.0.2</Version>
