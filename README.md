@@ -1,4 +1,4 @@
-# 25/01/2026 - Work in progress ...
+# 26/01/2026 - Work in progress ...
   
 # PDFViewer
 A simple Maui PDF viewer based on the nativ PDF libraries ...   
@@ -22,17 +22,17 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 
 ---
 
-&nbsp;<br>
+&nbsp;
 ## Installation
 ```
 Install-Package ZPF.PDFViewer.Maui
 ```
 
-&nbsp;<br>
+&nbsp;
 ## Usage
 **Nothing** to add to `MauiProgram`.
 
-&nbsp;<br>
+&nbsp;
 Simply add `PdfViewer` to XAML
 ```xaml
 <ContentPage
@@ -47,7 +47,7 @@ Simply add `PdfViewer` to XAML
 ```
 
 <!---
-&nbsp;<br>
+&nbsp;
 Set `PdfSource` in ViewModel
 ```C#
 internal partial class MainPageViewModel : ObservableObject
@@ -73,7 +73,7 @@ internal partial class MainPageViewModel : ObservableObject
 ```
 -->
 
-&nbsp;<br>
+&nbsp;
 ## Helper classes implementing `IPdfSource`
 The `PdfView` component works **only with file paths**. This is because the native platform components primarily operate with file paths, and handling different PDF data sources directly inside the component would significantly complicate the code.
 
@@ -101,14 +101,14 @@ Example of using PdfSource
 You can also create your own implementation of the `IPdfSource` interface to address your specific needs.
 
 
-&nbsp;<br>
+&nbsp;
 ## Helper classe `PDFToImageHelper`
 
 Methods to save PDF pages as images:
 - `SaveFirstPageAsImageAsync(string pdfPath, string outputImagePath)`
 - `SavePageAsImageAsync(string pdfPath, string outputImagePath, uint pageNumber = 0)`
 
-&nbsp;<br>
+&nbsp;
 Example of using `PDFToImageHelper`
 ```C#
    {
@@ -120,11 +120,9 @@ Example of using `PDFToImageHelper`
    }
 ```
 
-&nbsp;<br>
+&nbsp;
 ---
-   
-## [Experimental doc](Doc/DocGen/index.md)  
-  
-&nbsp;<br><br>
----
+**[Experimental doc](Doc/DocGen/index.md)...**
+ 
+&nbsp;
   

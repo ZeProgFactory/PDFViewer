@@ -27,6 +27,10 @@
 		<PackageTags>Maui;PDF</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Version>10.0.0.2</Version>
+		<Copyright>2026 ZeProgFactory</Copyright>
+		<Company>MichaelE</Company>
+		<Description>A simple Maui PDF viewer based on the nativ PDF libraries ...</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
