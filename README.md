@@ -16,9 +16,10 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
 | Progress  |  90 %  | 90 %  | 90 %  |  90 %   |
 
-![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer?style=for-the-badge)
-![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer?style=for-the-badge)
-![last commit](https://img.shields.io/github/last-commit/ZeProgFactory/PDFViewer?style=for-the-badge)
+![NuGet Downloads](https://img.shields.io/nuget/v/ZPF.PDFViewer.Maui) &nbsp;
+![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer.Maui) &nbsp;
+![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer) &nbsp;
+![last commit](https://img.shields.io/github/last-commit/ZeProgFactory/PDFViewer) 
 
 ---
 
