@@ -1,12 +1,12 @@
 # `PdfTempFileHelper`
 
-**Namespace :** `ZPF.PDFViewer.DataSources`
+**Namespace** : `ZPF.PDFViewer.DataSources`
 
 ---
 
 ## `CreateTempPdfFilePath`
 
-**Summary :**
+**Summary** :
 
 Creates a unique temporary file path for a PDF file.
 

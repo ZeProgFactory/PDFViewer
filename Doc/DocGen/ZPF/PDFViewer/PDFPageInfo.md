@@ -1,13 +1,13 @@
 # `PDFPageInfo`
 
-**Namespace :** `ZPF.PDFViewer`
+**Namespace** : `ZPF.PDFViewer`
 
 ---
 
 &nbsp;<br/>
 ## Double `Height` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Height in cm
 
@@ -30,7 +30,7 @@ Height in cm
 &nbsp;<br/>
 ## ImageSource `ImageSource` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 
 
@@ -59,7 +59,7 @@ Height in cm
 &nbsp;<br/>
 ## Double `Scale` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets or sets the scale factor applied to the element.                           Remarks:                Default value is 1.0.
 
@@ -76,7 +76,7 @@ Gets or sets the scale factor applied to the element.                           
 &nbsp;<br/>
 ## Double `Width` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Width in cm
 

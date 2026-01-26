@@ -1,8 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using ZPF.PDFViewer.Events;
 
 namespace ZPF.PDFViewer;
-
-public delegate void OnNeedDataEventHandler(object sender);
 
 //ToDo: observeableobject
 

@@ -1,6 +1,6 @@
 # `PDFInfos`
 
-**Namespace :** `ZPF.PDFViewer`
+**Namespace** : `ZPF.PDFViewer`
 
 ---
 
@@ -19,7 +19,7 @@
 &nbsp;<br/>
 ## bool `IsPasswordProtected` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets whether the Portable Document Format (PDF) document is password-protected.
 

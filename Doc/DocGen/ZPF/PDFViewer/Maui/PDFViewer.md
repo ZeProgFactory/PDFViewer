@@ -1,6 +1,6 @@
 # `PDFViewer`
 
-**Namespace :** `ZPF.PDFViewer.Maui`
+**Namespace** : `ZPF.PDFViewer.Maui`
 
 ---
 
@@ -13,11 +13,11 @@
 &nbsp;<br/>
 ## int `CurrentPageNumber` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets the current page number in the pagination system.
 
-**Remarks :**
+**Remarks** :
 
 This property is updated internally and raises a property change notification when its value             changes. It is intended for read-only access from outside the class.
 
@@ -28,11 +28,11 @@ This property is updated internally and raises a property change notification wh
 &nbsp;<br/>
 ## PDFInfos `Infos` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets the PDF information associated with the document.
 
-**Remarks :**
+**Remarks** :
 
 This property is set internally and is not intended to be modified directly by consumers.             Changes to this property raise the PropertyChanged event, allowing subscribers to be notified when the PDF             information is updated.
 
@@ -43,7 +43,7 @@ This property is set internally and is not intended to be modified directly by c
 &nbsp;<br/>
 ## bool `IsBusy` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets a value indicating whether the component is currently performing a background operation.
 
@@ -54,11 +54,11 @@ Gets a value indicating whether the component is currently performing a backgrou
 &nbsp;<br/>
 ## bool `IsToolbarVisible` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets or sets a value indicating whether the toolbar is visible.
 
-**Remarks :**
+**Remarks** :
 
 Changing this property raises the property changed notification, allowing data bindings or             listeners to respond to visibility changes.
 
@@ -73,13 +73,13 @@ Changing this property raises the property changed notification, allowing data b
 
 
 &nbsp;<br/>
-## ObservableCollection<PDFPageInfo> `Pages` ( get;  set;) 
+## ObservableCollection&lt;PDFPageInfo&gt; `Pages` ( get;  set;) 
 
-**Summary :**
+**Summary** :
 
 Gets or sets the collection of pages contained in the PDF document.
 
-**Remarks :**
+**Remarks** :
 
 Each element in the collection represents information about a single page, encapsulated in a             PDFPageInfo instance. Modifying this collection updates the set of pages available in the document in memory.
 
@@ -102,11 +102,11 @@ Each element in the collection represents information about a single page, encap
 &nbsp;<br/>
 ## void `ClearPages` (  ) 
 
-**Summary :**
+**Summary** :
 
 Removes all pages from the collection and updates the associated view to reflect the cleared state.
 
-**Remarks :**
+**Remarks** :
 
 After calling this method, the collection view is reset to an empty state and then repopulated             with the current set of pages. Any data bindings or UI elements dependent on the pages collection will be             refreshed accordingly.
 
@@ -127,7 +127,7 @@ After calling this method, the collection view is reset to an empty state and th
 
 
 &nbsp;<br/>
-## Task<bool> `LoadPDF` ( IPdfSource pdfSource, string url, string password ) 
+## Task&lt;bool&gt; `LoadPDF` ( IPdfSource pdfSource, string url, string password ) 
 
 ---
 
@@ -151,7 +151,7 @@ After calling this method, the collection view is reset to an empty state and th
 
 
 &nbsp;<br/>
-## Task<PDFPageInfo> `UpdatePageInfo` ( PDFPageInfo pageInfo, string outputImagePath ) 
+## Task&lt;PDFPageInfo&gt; `UpdatePageInfo` ( PDFPageInfo pageInfo, string outputImagePath ) 
 
 ---
 
