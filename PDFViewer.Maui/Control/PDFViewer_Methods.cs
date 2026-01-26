@@ -50,6 +50,8 @@ public partial class PDFViewer
       // generating pages wo rendering them
       GeneratePages(_PDFInfos.PageCount);
 
+      DoZoom(_Scale);
+
       collectionView.ItemsSource = null;
       collectionView.ItemsSource = Pages;
 

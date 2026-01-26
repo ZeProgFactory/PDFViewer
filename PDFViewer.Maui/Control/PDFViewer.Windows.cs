@@ -111,7 +111,15 @@ partial class PDFViewer
    {
       // Render page to an in-memory stream
       InMemoryRandomAccessStream imageStream = new InMemoryRandomAccessStream();
-      await page.RenderToStreamAsync(imageStream);
+
+      PdfPageRenderOptions options = new PdfPageRenderOptions
+      {
+         // You can set options like DestinationWidth, DestinationHeight, etc.
+         // BackgroundColor = Windows.UI.Color.White,
+         DestinationHeight = (uint)page.Size.Height * 2,
+         DestinationWidth = (uint)page.Size.Width * 2,
+      };
+      await page.RenderToStreamAsync(imageStream, options);
 
       // Create a BitmapDecoder from the rendered stream
       imageStream.Seek(0);
@@ -195,8 +203,8 @@ partial class PDFViewer
          pageInfo.Height = PDFHelper.ToCM(page.Size.Height);
 
          var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
-         pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
-         pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
+         pageInfo.WidthRequest = rect.Width * 2 * pageInfo.Scale;
+         pageInfo.HeightRequest = rect.Height * 2 * pageInfo.Scale;
 
          if (string.IsNullOrEmpty(outputImagePath))
          {

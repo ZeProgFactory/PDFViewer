@@ -167,4 +167,23 @@ public partial class PDFViewer : ContentView
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
+
+   private void collectionView_SizeChanged(object sender, EventArgs e)
+   {
+      DoZoom(_Scale);
+   }
+
+   double _Scale = 1.0;
+
+   private void DoZoom(double scale)
+   {
+      _Scale = scale;
+
+      foreach (var page in Pages)
+      {
+         page.Scale = scale;
+      }
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
 }

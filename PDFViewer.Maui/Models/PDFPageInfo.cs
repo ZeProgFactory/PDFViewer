@@ -118,7 +118,7 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    /// </summary>
    [JsonIgnore]
 
-   public double Scale { get => _Scale; set => _Scale = value; }
+   public double Scale { get => _Scale; set { _Scale = value; OnPropertyChanged(); } }
 
    double _Scale = 1.0;
 

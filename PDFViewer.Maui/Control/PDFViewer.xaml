@@ -11,9 +11,9 @@
       <ResourceDictionary>
 
          <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
-            <Grid BackgroundColor="DarkGray" Margin="10" ColumnDefinitions="*,auto,*" RowDefinitions="*,auto,*"  >
+            <Grid BackgroundColor="DarkGray" Margin="10" Scale="{Binding Scale}" >
                <!--<Image Source="{Binding  ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />-->
-               <Image Grid.Column="1" Grid.Row="1" Source="{Binding ImageSource}" BackgroundColor="White" Margin="0" Scale="{Binding Scale}" />
+               <Image Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
             </Grid>
          </DataTemplate>
 
@@ -36,8 +36,8 @@
             </Button.ImageSource>
          </Button>-->
 
-            <Label x:Name="lbZoom" Text="100 %" Margin="5"
-               VerticalOptions="Center" HorizontalOptions="Start" />
+            <!--<Label x:Name="lbZoom" Text="100 %" Margin="5"
+               VerticalOptions="Center" HorizontalOptions="Start" />-->
 
             <!--<Button x:Name="btnZoomOut" ContentLayout="Top,0" Padding="0"
                     CornerRadius="20" BackgroundColor="White" BorderWidth="4"  WidthRequest="40" Clicked="btnZoomOut_Clicked" >
@@ -68,7 +68,9 @@
       <!--WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"-->
 
       <CollectionView x:Name="collectionView" Grid.Row="1"
-                      SelectionMode="Single" SelectionChanged="collectionView_SelectionChanged" Scrolled="collectionView_Scrolled" >
+                      SelectionMode="Single" 
+                      SizeChanged="collectionView_SizeChanged"
+                      SelectionChanged="collectionView_SelectionChanged" Scrolled="collectionView_Scrolled" >
          <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"  />
          </CollectionView.ItemsLayout>
