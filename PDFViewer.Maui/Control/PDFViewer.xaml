@@ -27,7 +27,7 @@
 
       <Grid IsVisible="{Binding IsToolbarVisible}" >
 
-         <HorizontalStackLayout x:Name="zoomStack" Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="Start" >
+         <HorizontalStackLayout x:Name="zoomStack" Grid.Row="0" Padding="5" Spacing="10" Margin="10,0,0,0" HorizontalOptions="Start" >
             <Button x:Name="btnZoomIn" ContentLayout="Bottom,0" 
                     Padding="0,0,0,5" Text="-" TextColor="Black" FontSize="32"
                     CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
@@ -42,19 +42,24 @@
                     WidthRequest="40" HeightRequest="40" Clicked="btnZoomOut_Clicked" />
          </HorizontalStackLayout>
 
-         <!--Todo: add page navigation buttons, current page/total pages display-->
-         <HorizontalStackLayout Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="End" Margin="5" >
+         <Grid  x:Name="navStack" Grid.Row="0" Padding="5" ColumnDefinitions="auto,80,auto" HorizontalOptions="End" Margin="5,5,10,5" >
 
-            <!--<Button Text="First" Command="{Binding FirstPageCommand, Source={x:Reference Name=pdfViewer}}" />
-         <Button Text="Prev" Command="{Binding PrevPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
+            <Button x:Name="btnFirst" Grid.Column="0" ContentLayout="Bottom,0" 
+                    Padding="0,0,0,5" Text="«" TextColor="Black" FontSize="32"
+                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
+                    WidthRequest="40" HeightRequest="40" Clicked="btnFirst_Clicked"  />
 
-            <Label Text="{Binding CurrentPageNumber}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
-            <Label Text=" / " VerticalOptions="Center" HorizontalOptions="Center" />
-            <Label Text="{Binding Pages.Count}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
+            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" >
+               <Label Text="{Binding CurrentPageNumber}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
+               <Label Text=" / " VerticalOptions="Center" HorizontalOptions="Center" />
+               <Label Text="{Binding Pages.Count}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
+            </HorizontalStackLayout>
 
-            <!--<Button Text="Next" Command="{Binding NextPageCommand, Source={x:Reference Name=pdfViewer}}" />
-         <Button Text="Last" Command="{Binding LastPageCommand, Source={x:Reference Name=pdfViewer}}" />-->
-         </HorizontalStackLayout>
+            <Button x:Name="btnLast" Grid.Column="2" ContentLayout="Bottom,0" 
+                    Padding="0,0,0,5" Text="»" TextColor="Black" FontSize="32"
+                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
+                    WidthRequest="40" HeightRequest="40" Clicked="btnLast_Clicked"  />
+         </Grid>
       </Grid>
 
       <!--#endregion-->
@@ -77,7 +82,8 @@
           />-->
 
       <ScrollView x:Name="scrollView"  Grid.Row="1" BackgroundColor="Bisque" 
-                   Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
+                   Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"
+                   Scrolled="scrollView_Scrolled" >
 
          <VerticalStackLayout x:Name="stack"/>
 
