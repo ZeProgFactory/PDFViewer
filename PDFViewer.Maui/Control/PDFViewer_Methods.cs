@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using ZPF.PDFViewer.DataSources;
+﻿using ZPF.PDFViewer.DataSources;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -52,9 +51,6 @@ public partial class PDFViewer
 
       DoZoom(_Scale);
 
-      collectionView.ItemsSource = null;
-      collectionView.ItemsSource = Pages;
-
       // - - -  - - -
 
       IsBusy = false;
@@ -67,25 +63,66 @@ public partial class PDFViewer
       Pages.Clear();
       GC.Collect();
 
-      var p = new PDFPageInfo() { PageNumber = 1 };
+      //var p = new PDFPageInfo() { PageNumber = 1 };
 
-      //var tnFileName = PdfTempFileHelper.CreateTempPageFilePath("Cover.jpeg");
-      p.SetValues(await UpdatePageInfo(p, ""));
+      ////var tnFileName = PdfTempFileHelper.CreateTempPageFilePath("Cover.jpeg");
+      //p.SetValues(await UpdatePageInfo(p, ""));
 
-      var scale = Math.Min(
-         collectionView.Width / p.WidthRequest,
-         (collectionView.Height - 30) / p.HeightRequest);
+      //var scale = Math.Min(
+      //   collectionView.Width / p.WidthRequest,
+      //   (collectionView.Height - 30) / p.HeightRequest);
 
-      //collectionView.Scale = scale;
-
-      CurrentPageNumber = 1;
+      ////collectionView.Scale = scale;
 
       //Pages.Add(p);
 
-      for (var i = 1; i <= numberOfPages; i++)
+
+      for (var i = 0; i < numberOfPages; i++)
       {
-         Pages.Add(new PDFPageInfo() { PageNumber = i, Scale = scale });
+         var p = new PDFPageInfo() { PageNumber = i+1 };
+         Pages.Add(p);
+
+         // Retrieve DataTemplate from StaticResource
+         if (Resources.TryGetValue("PDFTemplate", out var templateObj) && templateObj is DataTemplate PDFTemplate)
+         {
+            View view = (View)PDFTemplate.CreateContent();
+            view.BindingContext = p;
+            stack.Children.Add(view);
+
+            var singleTap = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+            singleTap.Tapped += (s, e) =>
+            {
+               var item = ((BindableObject)s).BindingContext;
+
+               if (item != null)
+               {
+                  if (ClickOnPage != null)
+                  {
+                     ClickOnPage(view, new SelectedItemChangedEventArgs(item, -1));
+                  }
+               }
+            };
+
+            var doubleTap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
+            doubleTap.Tapped += (s, e) =>
+            {
+               var item = ((BindableObject)s).BindingContext;
+
+               if (item != null)
+               {
+                  if (DoubleClickOnPage != null)
+                  {
+                     DoubleClickOnPage(view, new SelectedItemChangedEventArgs(item, -1));
+                  }
+               }
+            };
+
+            view.GestureRecognizers.Add(singleTap);
+            view.GestureRecognizers.Add(doubleTap);
+         }
       }
+
+      CurrentPageNumber = 1;
 
       OnPropertyChanged("Pages");
    }
@@ -115,13 +152,14 @@ public partial class PDFViewer
    /// refreshed accordingly.</remarks>
    public void ClearPages()
    {
+      stack.Children.Clear();
       Pages.Clear();
       GC.Collect();
       OnPropertyChanged("Pages");
       CurrentPageNumber = 0;
 
-      collectionView.ItemsSource = null;
-      collectionView.ItemsSource = Pages;
+      //collectionView.ItemsSource = null;
+      //collectionView.ItemsSource = Pages;
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 

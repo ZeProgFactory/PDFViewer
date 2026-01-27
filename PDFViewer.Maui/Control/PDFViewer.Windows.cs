@@ -169,7 +169,7 @@ partial class PDFViewer
    }
 
 
-   private async Task<ImageSource> RenderPageToImageSource(PdfPage page, string outputImagePath)
+   private async Task<ImageSource> RenderPageToImageSource(PdfPage page)
    {
       var ras = new InMemoryRandomAccessStream();
       await page.RenderToStreamAsync(ras);
@@ -194,38 +194,16 @@ partial class PDFViewer
 
       using (PdfPage page = _PdfDocument.GetPage((uint)pageInfo.PageNumber - 1))
       {
-         #region - - - size, ... - - - 
-
          //ToDo: write converter
          pageInfo.Rotation = (page.Rotation == PdfPageRotation.Normal ? PDFPageOrientations.Portrait : PDFPageOrientations.Landscape);
 
          pageInfo.Width = PDFHelper.ToCM(page.Size.Width);
          pageInfo.Height = PDFHelper.ToCM(page.Size.Height);
 
-         var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
-         pageInfo.WidthRequest = rect.Width * 2 * pageInfo.Scale;
-         pageInfo.HeightRequest = rect.Height * 2 * pageInfo.Scale;
+         pageInfo.RealWidth = (int)page.Size.Width;
+         pageInfo.RealHeight = (int)page.Size.Height;
 
-         if (string.IsNullOrEmpty(outputImagePath))
-         {
-            Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
-
-            return pageInfo;
-         }
-
-         #endregion
-
-         #region - - - image - - - 
-
-         //if (await RenderPageToFile(page, outputImagePath))
-         //{
-         //   pageInfo.ImageFileName = outputImagePath;
-         //}
-
-         pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
-         pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
-
-         #endregion
+         pageInfo.ImageSource = await RenderPageToImageSource(page);
       }
 
       Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");

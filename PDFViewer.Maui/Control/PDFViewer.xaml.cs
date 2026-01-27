@@ -11,33 +11,6 @@ public partial class PDFViewer : ContentView
       InitializeComponent();
 
       PDFPageInfo.OnNeedData += PDFPageInfo_OnNeedData;
-
-      // - - -  - - - 
-
-      // Retrieve DataTemplate from StaticResource
-      if (Resources.TryGetValue("PDFTemplate", out var templateObj) && templateObj is DataTemplate PDFTemplate)
-      {
-         // Use the DataTemplate in code
-         collectionView.ItemTemplate = new DataTemplate(() =>
-         {
-#if COLLECTIONVIEW
-            var view = PDFTemplate.CreateContent();
-            return WrapView(view);
-#endif
-
-            var view = PDFTemplate.CreateContent() as ViewCell;
-            return WrapViewCell(view);
-            //if (itemView != null)
-            //{
-            //   itemView.View.BindingContext = evt;
-            //   sl.Children.Add(itemView.View);
-            //}
-         });
-      }
-      else
-      {
-         Console.WriteLine("DataTemplate 'MyItemTemplate' not found.");
-      }
    }
 
    private async void PDFPageInfo_OnNeedData(object sender)
@@ -45,18 +18,18 @@ public partial class PDFViewer : ContentView
       if (sender is not PDFPageInfo p)
          return;
 
-      string tnFileName = "";
+      //string tnFileName = "";
 
-      if (p.PageNumber == 1)
-      {
-         tnFileName = PdfTempFileHelper.CreateTempPageFilePath("_Thumbnail_.jpeg");
-      }
-      else
-      {
-         tnFileName = PdfTempFileHelper.CreateTempPageFilePath($"TNPage({p.PageNumber}).jpeg");
-      }
+      //if (p.PageNumber == 1)
+      //{
+      //   tnFileName = PdfTempFileHelper.CreateTempPageFilePath("_Thumbnail_.jpeg");
+      //}
+      //else
+      //{
+      //   tnFileName = PdfTempFileHelper.CreateTempPageFilePath($"TNPage({p.PageNumber}).jpeg");
+      //}
 
-      p.SetValues(await UpdatePageInfo(p, tnFileName));
+      p.SetValues(await UpdatePageInfo(p,""));
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -

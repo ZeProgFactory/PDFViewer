@@ -10,6 +10,7 @@ using MobileCoreServices;
 using PdfKit;
 using UIKit;
 using ZPF.PDFViewer.DataSources;
+using static ZPF.PDFViewer.PDFHelper;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -194,7 +195,7 @@ partial class PDFViewer
    }
 
 
-   private async Task<ImageSource> RenderPageToImageSource(PdfPage page, string outputImagePath)
+   private async Task<ImageSource> RenderPageToImageSource(PdfPage page)
    {
       nfloat scale = 2.0f; // ⭐ scale factor: 1 = native, 2 = 2×, 3 = 3×, etc.   
 
@@ -232,8 +233,6 @@ partial class PDFViewer
    }
 
 
-
-
    public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath, [CallerMemberName] string callerName = "")
    {
       if (_PdfDocument == null || pageInfo == null)
@@ -246,39 +245,17 @@ partial class PDFViewer
       // Get page
       var page = _PdfDocument.GetPage((nint)pageInfo.PageNumber - 1);
 
-      #region - - - size, ... - - - 
-
+      //ToDo: write converter
       pageInfo.Rotation = (page.Rotation == 0 || page.Rotation == 180) ? PDFHelper.PDFPageOrientations.Portrait : PDFHelper.PDFPageOrientations.Landscape;
 
       var b = page.GetBoundsForBox(PdfDisplayBox.Media);
       pageInfo.Width = PDFHelper.ToCM(b.Width);
       pageInfo.Height = PDFHelper.ToCM(b.Height);
 
-      var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
-      pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
-      pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
+      pageInfo.RealWidth = (int)b.Width;
+      pageInfo.RealHeight = (int)b.Height;
 
-      if (string.IsNullOrEmpty(outputImagePath))
-      {
-         Debug.WriteLine($"UpdatePageInfo Out {pageInfo.PageNumber} {callerName} \n");
-
-         return pageInfo;
-      }
-
-      #endregion
-
-      #region - - - image - - - 
-
-      //if (await RenderPageToFile(page, outputImagePath))
-      //{
-      //   pageInfo.ImageFileName = outputImagePath;
-      //}
-
-      pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
-      pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
-
-
-      #endregion
+      pageInfo.ImageSource = await RenderPageToImageSource(page);
 
       Debug.WriteLine($"UpdatePageInfo Out {pageInfo.PageNumber} {callerName} \n");
 

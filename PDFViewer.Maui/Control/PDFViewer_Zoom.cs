@@ -11,8 +11,9 @@ public partial class PDFViewer
 
    public double CalculatedZoom { get; set; } = -1;
 
+
    public double ZoomFactor { get => _ZoomFactor; internal set => _ZoomFactor = value; }
-   double _ZoomFactor = 0.5;
+   double _ZoomFactor = 1.0;
 
 
    int RealWidth = 0;
@@ -22,15 +23,15 @@ public partial class PDFViewer
    {
       //Debug.WriteLine($" {svImage.Width}  {imagePage.Width}  {dropImage.Width}");
 
-      RealWidth = (int)PDFHelper.ToPT(pageInfo.Width) * 3;
-      RealHeight = (int)PDFHelper.ToPT(pageInfo.Height) * 3;
+      //RealWidth = (int)PDFHelper.ToPT(pageInfo.Width) * 3;
+      //RealHeight = (int)PDFHelper.ToPT(pageInfo.Height) * 3;
 
-      MainThread.BeginInvokeOnMainThread(() =>
-      {
-         // Code to run on the main thread
-         pageInfo.WidthRequest = RealWidth + 20;
-         pageInfo.HeightRequest = RealHeight + 20;
-      });
+      //MainThread.BeginInvokeOnMainThread(() =>
+      //{
+      //   // Code to run on the main thread
+      //   pageInfo.WidthRequest = RealWidth + 20;
+      //   pageInfo.HeightRequest = RealHeight + 20;
+      //});
 
       //CalculatedZoom = (decimal)((int)(svImage.Width / RealWidth * 10) / 10.0);
 
@@ -59,12 +60,10 @@ public partial class PDFViewer
    {
       _ZoomFactor = zoom;
 
-
-
-      foreach (var page in Pages)
+      foreach (var p in Pages)
       {
-         page.Scale = _ZoomFactor;
-         //page.WidthRequest = (collectionView.Width - 40) * _ZoomFactor;
+         var scale = (scrollView.Width - 60) / p.RealWidth;
+         p.Scale = scale * zoom;
       }
 
       //try

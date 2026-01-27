@@ -32,36 +32,12 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    /// </summary>
    public double Height { get; set; } = -1;
 
-   public string ImageFileName
-   {
-      get
-      {
-#if VIA_FILE 
-         if (string.IsNullOrEmpty(_ImageFileName))
-         {
-            if (OnNeedData != null)
-            {
-               OnNeedData(this);
-            }
-         }
-#endif
 
-         return _ImageFileName;
-      }
-      set => SetField(ref _ImageFileName, value);
-   }
-   string _ImageFileName = "";
-
-
-   /// <summary>
-   /// 
-   /// </summary>
    [JsonIgnore]
    public ImageSource ImageSource 
    {
       get
       {
-#if ! VIA_FILE
          if (_ImageSource == null)
          {
             if (OnNeedData != null)
@@ -69,7 +45,6 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
                OnNeedData(this);
             }
          }
-#endif
 
          return _ImageSource;
       }
@@ -92,18 +67,20 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    }
    bool _IsCurrentPage = false;
 
+
    [JsonIgnore]
    public Color SelectedColor { get => (IsCurrentPage ? Colors.Red : Colors.Transparent); }
 
 
    [JsonIgnore]
-   public double WidthRequest { get => _WidthRequest; set => SetField(ref _WidthRequest, value); }
-   double _WidthRequest = -1;
-
+   public int RealWidth { get; internal set; }
+   [JsonIgnore]
+   public int RealHeight { get; internal set; }
 
    [JsonIgnore]
-   public double HeightRequest { get => _HeightRequest; set => SetField(ref _HeightRequest, value); }
-   double _HeightRequest = -1;
+   public double WidthRequest => (RealWidth * Scale) + 20;
+   [JsonIgnore]
+   public double HeightRequest => (RealHeight * Scale) + 20;
 
 
    public PDFHelper.PDFPageOrientations Rotation { get; internal set; }
@@ -117,8 +94,18 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
    /// </summary>
    [JsonIgnore]
 
-   public double Scale { get => _Scale; set { _Scale = value; OnPropertyChanged(); } }
-
+   public double Scale
+   {
+      get => _Scale;
+      set
+      {
+         if (SetField(ref _Scale, value))
+         {
+            OnPropertyChanged("WidthRequest");
+            OnPropertyChanged("HeightRequest");
+         }
+      }
+   }
    double _Scale = 1.0;
 
    // - - -  - - - 
@@ -131,12 +118,11 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
       this.Width = pDFPageInfo.Width;
       this.Height = pDFPageInfo.Height;
 
-      this.HeightRequest = pDFPageInfo.HeightRequest;
-      this.WidthRequest = pDFPageInfo.WidthRequest;
+      this.RealWidth = pDFPageInfo.RealWidth;
+      this.RealHeight = pDFPageInfo.RealHeight;
 
       this.Scale = pDFPageInfo.Scale;
 
-      this.ImageFileName = pDFPageInfo.ImageFileName;
       this.ImageSource = pDFPageInfo.ImageSource;  
    }
 

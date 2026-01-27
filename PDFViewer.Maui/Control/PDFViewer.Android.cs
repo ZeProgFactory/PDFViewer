@@ -12,6 +12,7 @@ using Kotlin.Jvm.Functions;
 using Microsoft.Maui.Handlers;
 using ZPF.PDFViewer.DataSources;
 using static Android.Graphics.Pdf.PdfDocument;
+using static ZPF.PDFViewer.PDFHelper;
 
 namespace ZPF.PDFViewer.Maui;
 
@@ -158,7 +159,7 @@ partial class PDFViewer
    }
 
 
-   private async Task<ImageSource> RenderPageToImageSource(PdfRenderer.Page page, string outputImagePath)
+   private async Task<ImageSource> RenderPageToImageSource(PdfRenderer.Page page)
    {
       try
       {
@@ -178,8 +179,6 @@ partial class PDFViewer
          ms.Position = 0;
 
          bitmap.Dispose();
-
-         System.Diagnostics.Debug.WriteLine($"LoadPDF {outputImagePath}");
 
          return ImageSource.FromStream(() => ms);
       }
@@ -205,33 +204,16 @@ partial class PDFViewer
 
       #region - - - size, ... - - - 
 
+      //ToDo: write converter
       pageInfo.Rotation = (page.Width > page.Height) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
 
       pageInfo.Width = PDFHelper.ToCM(page.Width);
       pageInfo.Height = PDFHelper.ToCM(page.Height);
 
-      var rect = PDFHelper.GetPageSizeWithRotation(pageInfo);
-      pageInfo.WidthRequest = rect.Width * pageInfo.Scale;
-      pageInfo.HeightRequest = rect.Height * pageInfo.Scale;
+      pageInfo.RealWidth = (int)page.Width;
+      pageInfo.RealHeight = (int)page.Height;
 
-      if (string.IsNullOrEmpty(outputImagePath))
-      {
-         // close the page
-         page.Close();
-
-         System.Diagnostics.Debug.WriteLine($"Out bug {pageInfo.PageNumber} {outputImagePath} \n");
-
-         return pageInfo;
-      }
-
-      #endregion
-
-      #region - - - image - - - 
-
-      //pageInfo.ImageFileName = await RenderPageToFile(page, outputImagePath);
-
-      pageInfo.ImageSource = await RenderPageToImageSource(page, outputImagePath);
-      pageInfo.ImageFileName = "dummy"; // to mark that image is loaded
+      pageInfo.ImageSource = await RenderPageToImageSource(page);
 
       System.Diagnostics.Debug.WriteLine($"Out {pageInfo.PageNumber} {outputImagePath} \n");
 

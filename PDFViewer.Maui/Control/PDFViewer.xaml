@@ -10,13 +10,11 @@
    <ContentView.Resources>
       <ResourceDictionary>
 
-         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
-            <ViewCell>
-               <Grid BackgroundColor="DarkGray" Margin="10" Scale="{Binding Scale}" WidthRequest="1500">
-                  <!--<Image Source="{Binding  ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />-->
-                  <Image Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
-               </Grid>
-            </ViewCell>
+         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:Page">
+            <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
+               HeightRequest="{Binding HeightRequest}"
+               WidthRequest="{Binding WidthRequest}"
+               BackgroundColor="LightGray" Margin="0,0,0,5" />
          </DataTemplate>
 
       </ResourceDictionary>
@@ -78,13 +76,19 @@
          </CollectionView.ItemsLayout>
       </CollectionView>-->
 
-      <ListView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
+      <!--<ListView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
          SelectionMode="Single" 
          SizeChanged="collectionView_SizeChanged"
          ItemTemplate="{StaticResource PDFTemplate}"
-          >
+          />-->
 
-      </ListView>
+      <ScrollView x:Name="scrollView"  Grid.Row="1" BackgroundColor="Bisque" 
+                   Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
+         
+         <VerticalStackLayout x:Name="stack"/>
+
+      </ScrollView>
+      
 
       <ActivityIndicator Grid.RowSpan="2"
             IsRunning="{Binding IsBusy}"
