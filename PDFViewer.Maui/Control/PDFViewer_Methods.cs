@@ -49,7 +49,7 @@ public partial class PDFViewer
       // generating pages wo rendering them
       GeneratePages(_PDFInfos.PageCount);
 
-      DoZoom(_Scale);
+      await DoZoom(_Scale);
 
       // - - -  - - -
 
@@ -62,20 +62,6 @@ public partial class PDFViewer
    {
       Pages.Clear();
       GC.Collect();
-
-      //var p = new PDFPageInfo() { PageNumber = 1 };
-
-      ////var tnFileName = PdfTempFileHelper.CreateTempPageFilePath("Cover.jpeg");
-      //p.SetValues(await UpdatePageInfo(p, ""));
-
-      //var scale = Math.Min(
-      //   collectionView.Width / p.WidthRequest,
-      //   (collectionView.Height - 30) / p.HeightRequest);
-
-      ////collectionView.Scale = scale;
-
-      //Pages.Add(p);
-
 
       for (var i = 0; i < numberOfPages; i++)
       {
@@ -157,9 +143,6 @@ public partial class PDFViewer
       GC.Collect();
       OnPropertyChanged("Pages");
       CurrentPageNumber = 0;
-
-      //collectionView.ItemsSource = null;
-      //collectionView.ItemsSource = Pages;
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 

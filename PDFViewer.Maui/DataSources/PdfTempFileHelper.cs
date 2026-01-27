@@ -2,6 +2,13 @@
 
 namespace ZPF.PDFViewer.DataSources;
 
+/// <summary>
+/// Provides utility methods for creating and managing temporary file paths for PDF documents and related page files.
+/// </summary>
+/// <remarks>This class offers platform-aware methods to generate unique temporary file paths for PDF and page
+/// files, ensuring correct directory formatting and creation across supported operating systems. It also includes
+/// functionality to delete all temporary files within the designated folder. Use these methods to safely handle
+/// temporary PDF-related files in cross-platform applications.</remarks>
 public class PdfTempFileHelper
 {
    public static string _TmpSubFolder = @"PDFViewer\";

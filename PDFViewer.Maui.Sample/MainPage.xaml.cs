@@ -45,6 +45,10 @@ namespace PDFViewer.Maui.Sample
                LoadPDFFromHTTP_PWD();
                break;
 
+            case "PICKER":
+               LoadPDFFilePicker();
+               break;
+
             case "INFO":
                GetInfo();
                break;
@@ -55,6 +59,33 @@ namespace PDFViewer.Maui.Sample
          }
 
       }
+
+
+      private async void LoadPDFFilePicker()
+      {
+         var customPdfType = new FilePickerFileType(
+            new Dictionary<DevicePlatform, IEnumerable<string>>
+            {
+               { DevicePlatform.iOS, new[] { "com.adobe.pdf" } },
+               { DevicePlatform.Android, new[] { "application/pdf" } },
+               { DevicePlatform.WinUI, new[] { ".pdf" } },
+               { DevicePlatform.MacCatalyst, new[] { "com.adobe.pdf" } }
+            });
+
+         var options = new PickOptions
+         {
+            PickerTitle = "Select a PDF",
+            FileTypes = customPdfType
+         };
+
+         var result = await FilePicker.PickAsync(options);
+
+         if (result != null)
+         {
+            await pdfViewer.LoadPDF(new FilePdfSource(), result.FullPath);
+         }
+      }
+
 
       private async void LoadPDFFromRessource(string pdfRessourceName)
       {
@@ -83,7 +114,7 @@ namespace PDFViewer.Maui.Sample
          var url = "https://sample-files.com/downloads/documents/pdf/protected.pdf";
 
          var pwd = await DisplayPromptAsync(
-                     "Enter PDF Password", "This PDF is password protected. Please enter the password to open it.", 
+                     "Enter PDF Password", "This PDF is password protected. Please enter the password to open it.",
                      "OK", "Cancel", "password", initialValue: "samplefiles");
 
          await pdfViewer.LoadPDF(new HttpPdfSource(), url, pwd);

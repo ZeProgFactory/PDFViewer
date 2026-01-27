@@ -64,23 +64,6 @@
 
       <!--#endregion-->
 
-      <!--WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"-->
-
-      <!--<CollectionView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
-                      SelectionMode="Single"
-                      SizeChanged="collectionView_SizeChanged"
-                      SelectionChanged="collectionView_SelectionChanged" Scrolled="collectionView_Scrolled" >
-         <CollectionView.ItemsLayout>
-            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"  />
-         </CollectionView.ItemsLayout>
-      </CollectionView>-->
-
-      <!--<ListView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
-         SelectionMode="Single" 
-         SizeChanged="collectionView_SizeChanged"
-         ItemTemplate="{StaticResource PDFTemplate}"
-          />-->
-
       <ScrollView x:Name="scrollView"  Grid.Row="1" BackgroundColor="Bisque" 
                    Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"
                    Scrolled="scrollView_Scrolled" >

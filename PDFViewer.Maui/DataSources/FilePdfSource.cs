@@ -2,6 +2,12 @@
 
 namespace ZPF.PDFViewer.DataSources;
 
+/// <summary>
+/// Represents a PDF source that provides access to PDF files via a specified file path.
+/// </summary>
+/// <remarks>Use this class to retrieve the file path of a PDF document asynchronously and to load PDF files from
+/// disk. If the specified file path does not exist, the LastError property will contain an error message indicating the
+/// issue. This class is suitable for scenarios where PDF files are accessed from the local file system.</remarks>
 public class FilePdfSource : IPdfSource
 {
    string _filePath;
@@ -19,7 +25,7 @@ public class FilePdfSource : IPdfSource
    }
 
 
-   public string LastError { get; private set; }
+   public string LastError { get; private set; } = "";
 
 
    public Task<string> GetFilePathAsync()

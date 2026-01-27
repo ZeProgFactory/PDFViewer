@@ -3,6 +3,12 @@ using System.Xml.Linq;
 
 namespace ZPF.PDFViewer.DataSources;
 
+/// <summary>
+/// Represents a source for PDF files that are embedded as resources within the application.
+/// </summary>
+/// <remarks>Use this class to access PDF documents that are packaged as embedded resources. It provides methods
+/// to retrieve the file path of the embedded PDF, handling extraction and temporary storage as needed. The class also
+/// exposes the last error encountered during operations for diagnostic purposes.</remarks>
 public class AssetPdfSource : IPdfSource
 {
    string _resourceName;
@@ -51,7 +57,7 @@ public class AssetPdfSource : IPdfSource
          using (Stream stream = assembly.GetManifestResourceStream(resourcePath))
          {
             bytes = new byte[stream.Length];
-            stream.Read(bytes, 0, bytes.Length);
+            stream.ReadExactly(bytes);
          }
 
          var tempFile = PdfTempFileHelper.CreateTempPdfFilePath();
@@ -76,9 +82,5 @@ public class AssetPdfSource : IPdfSource
       _resourceName = resourcePath;
 
       return GetFilePathAsync();
-   }
-
-   private class ResourceHelper
-   {
    }
 }
