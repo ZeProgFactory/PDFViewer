@@ -22,7 +22,8 @@
       <pdf:PDFViewer x:Name="pdfViewer" 
          Grid.Column="1" Grid.Row="1" Margin="5"
          IsToolbarVisible="True"
-         ClickOnPage="pdfViewer_ClickOnPage"/>
+         ClickOnPage="pdfViewer_ClickOnPage"
+         DoubleClickOnPage="pdfViewer_DoubleClickOnPage" />
 
    </Grid>
 

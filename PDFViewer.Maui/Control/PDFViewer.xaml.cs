@@ -20,9 +20,18 @@ public partial class PDFViewer : ContentView
          // Use the DataTemplate in code
          collectionView.ItemTemplate = new DataTemplate(() =>
          {
-            var view = (View)PDFTemplate.CreateContent();
-
+#if COLLECTIONVIEW
+            var view = PDFTemplate.CreateContent();
             return WrapView(view);
+#endif
+
+            var view = PDFTemplate.CreateContent() as ViewCell;
+            return WrapViewCell(view);
+            //if (itemView != null)
+            //{
+            //   itemView.View.BindingContext = evt;
+            //   sl.Children.Add(itemView.View);
+            //}
          });
       }
       else
@@ -55,6 +64,79 @@ public partial class PDFViewer : ContentView
    public event EventHandler<SelectedItemChangedEventArgs> ClickOnPage;
    public event EventHandler<SelectedItemChangedEventArgs> DoubleClickOnPage;
    //public event EventHandler<SelectedItemChangedEventArgs> RightClickOnPage;
+
+   private ViewCell WrapViewCell(ViewCell view)
+   {
+      // Add gestures to the view
+      var singleTap = new TapGestureRecognizer { NumberOfTapsRequired = 1 };
+      singleTap.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+
+         if (item != null)
+         {
+            if (ClickOnPage != null)
+            {
+               ClickOnPage(view.View, new SelectedItemChangedEventArgs(item, -1));
+            }
+         }
+      };
+
+      var doubleTap = new TapGestureRecognizer { NumberOfTapsRequired = 2 };
+      doubleTap.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+
+         if (item != null)
+         {
+            if (DoubleClickOnPage != null)
+            {
+               DoubleClickOnPage(view.View, new SelectedItemChangedEventArgs(item, -1));
+            }
+         }
+      };
+
+      view.View.GestureRecognizers.Add(singleTap);
+      view.View.GestureRecognizers.Add(doubleTap);
+
+
+#if WINDOWS || MACCATALYST
+
+      var rightClickRecognizer = new TapGestureRecognizer
+      {
+         Buttons = ButtonsMask.Secondary
+      };
+
+      rightClickRecognizer.Tapped += (s, e) =>
+      {
+         var item = ((BindableObject)s).BindingContext;
+
+         if (item is PDFPageInfo)
+         {
+            //   // ContextMenu((FileItem)item);
+         }
+      };
+
+      view.View.GestureRecognizers.Add(rightClickRecognizer);
+#endif
+
+#if ANDROID || IOS || WINDOWS || MACCATALYST
+      // CommunityToolkit.Maui.Behaviors;
+      //var touchBehavior = new TouchBehavior
+      //{
+      //   LongPressCommand = new Command(async () =>
+      //   {
+      //      // Simulate a context menu with a popup
+      //      var item = wrapper.Content.BindingContext;
+      //      // ContextMenu((PDFPageInfo)item);
+      //   })
+      //};
+
+      //wrapper.Content.Behaviors.Add(touchBehavior);
+#endif
+
+      return view;
+   }
 
    private ContentView WrapView(View view)
    {
@@ -133,7 +215,6 @@ public partial class PDFViewer : ContentView
       //wrapper.Content.Behaviors.Add(touchBehavior);
 #endif
 
-
       return wrapper;
    }
 
@@ -171,18 +252,6 @@ public partial class PDFViewer : ContentView
    private void collectionView_SizeChanged(object sender, EventArgs e)
    {
       DoZoom(_Scale);
-   }
-
-   double _Scale = 1.0;
-
-   private void DoZoom(double scale)
-   {
-      _Scale = scale;
-
-      foreach (var page in Pages)
-      {
-         page.Scale = scale;
-      }
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -

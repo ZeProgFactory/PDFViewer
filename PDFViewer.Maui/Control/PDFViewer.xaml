@@ -11,10 +11,12 @@
       <ResourceDictionary>
 
          <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
-            <Grid BackgroundColor="DarkGray" Margin="10" Scale="{Binding Scale}" >
-               <!--<Image Source="{Binding  ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />-->
-               <Image Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
-            </Grid>
+            <ViewCell>
+               <Grid BackgroundColor="DarkGray" Margin="10" Scale="{Binding Scale}" WidthRequest="1500">
+                  <!--<Image Source="{Binding  ImageFileName, Mode=TwoWay}" BackgroundColor="White" Margin="5" Scale="{Binding Scale}" />-->
+                  <Image Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
+               </Grid>
+            </ViewCell>
          </DataTemplate>
 
       </ResourceDictionary>
@@ -24,9 +26,9 @@
    <Grid BackgroundColor="LightGray" RowDefinitions="auto,*" >
 
       <!--#region - - - toolbar - - -  -->
-      
+
       <Grid IsVisible="{Binding IsToolbarVisible}" >
-         
+
          <!--Todo: add zoom buttons -->
          <HorizontalStackLayout Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="Start" >
             <!--<Button x:Name="btnZoomIn" ContentLayout="Top,0" Padding="0"
@@ -64,17 +66,25 @@
       </Grid>
 
       <!--#endregion-->
-      
+
       <!--WidthRequest="{Binding WidthRequest}" HeightRequest="{Binding HeightRequest}"-->
 
-      <CollectionView x:Name="collectionView" Grid.Row="1"
-                      SelectionMode="Single" 
+      <!--<CollectionView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
+                      SelectionMode="Single"
                       SizeChanged="collectionView_SizeChanged"
                       SelectionChanged="collectionView_SelectionChanged" Scrolled="collectionView_Scrolled" >
          <CollectionView.ItemsLayout>
             <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"  />
          </CollectionView.ItemsLayout>
-      </CollectionView>
+      </CollectionView>-->
+
+      <ListView x:Name="collectionView" Grid.Row="1" HorizontalScrollBarVisibility="Always"
+         SelectionMode="Single" 
+         SizeChanged="collectionView_SizeChanged"
+         ItemTemplate="{StaticResource PDFTemplate}"
+          >
+
+      </ListView>
 
       <ActivityIndicator Grid.RowSpan="2"
             IsRunning="{Binding IsBusy}"

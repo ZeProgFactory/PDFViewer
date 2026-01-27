@@ -7,17 +7,18 @@ public partial class PDFViewer
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
    //ToDo: List<decimal> _Zooms = new List<decimal>() { 0.1m, 0.2m, 0.3m, 0.4m, 0.5m, 0.6m, 0.7m, 0.8m, 0.9m, 1.0m, 1.1m, 1.2m, 1.3m, 1.4m, 1.5m, 1.6m, 1.7m, 1.8m, 1.9m, 2.0m };
-   List<decimal> _Zooms = new List<decimal>() { 0.1m, 0.2m, 0.3m, 0.4m, 0.5m, 0.6m, 0.7m, 0.8m, 0.9m, 1.0m };
+   List<double> _Zooms = new List<double>() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
 
-   public static decimal ZoomFactor { get => _ZoomFactor; set => _ZoomFactor = value; }
-   public decimal CalculatedZoom { get; set; } = -1;
+   public double CalculatedZoom { get; set; } = -1;
 
-   static decimal _ZoomFactor = 0.5m;
+   public double ZoomFactor { get => _ZoomFactor; internal set => _ZoomFactor = value; }
+   double _ZoomFactor = 0.5;
+
 
    int RealWidth = 0;
    int RealHeight = 0;
 
-   public void CalcZoom( PDFPageInfo pageInfo )
+   public void CalcZoom(PDFPageInfo pageInfo)
    {
       //Debug.WriteLine($" {svImage.Width}  {imagePage.Width}  {dropImage.Width}");
 
@@ -51,8 +52,21 @@ public partial class PDFViewer
    public static int FirstTimeZoomDelay = 100;
    bool First_DoZoom = true;
 
-   public async Task DoZoom(decimal scale)
+   double _Scale = 1.0;
+
+
+   public async Task DoZoom(double zoom)
    {
+      _ZoomFactor = zoom;
+
+
+
+      foreach (var page in Pages)
+      {
+         page.Scale = _ZoomFactor;
+         //page.WidthRequest = (collectionView.Width - 40) * _ZoomFactor;
+      }
+
       //try
       //{
       //   ZoomFactor = scale;

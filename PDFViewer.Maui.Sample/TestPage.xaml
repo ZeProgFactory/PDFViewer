@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pdf="clr-namespace:ZPF.PDFViewer"
+             x:Class="PDFViewer.Maui.Sample.TestPage"
+             Title="TestPage">
+
+   <ContentPage.Resources>
+      <ResourceDictionary>
+
+         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:Page">
+            <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
+               HeightRequest="{Binding HeightRequest}"
+               WidthRequest="{Binding WidthRequest}"
+               BackgroundColor="LightGray" Margin="0,0,0,5" />
+         </DataTemplate>
+
+      </ResourceDictionary>
+   </ContentPage.Resources>
+
+   <Grid BackgroundColor="Cyan" RowDefinitions="*,*,*" Margin="10" >
+
+      <ListView x:Name="listView" Margin="10" BackgroundColor="Bisque"  HorizontalScrollBarVisibility="Always">
+         <ListView.ItemTemplate>
+            <DataTemplate>
+               <ViewCell>
+                  <Image Margin="10" WidthRequest="1000"
+                        Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
+               </ViewCell>
+            </DataTemplate>
+         </ListView.ItemTemplate>
+
+      </ListView>
+
+      <CollectionView x:Name="collectionView" Grid.Row="1" Margin="10" BackgroundColor="Bisque" HorizontalScrollBarVisibility="Always">
+         <CollectionView.ItemTemplate>
+            <DataTemplate>
+               <Image Margin="10" WidthRequest="1000"
+                        Source="{Binding ImageSource}" Aspect="AspectFit" BackgroundColor="LightGray" />
+            </DataTemplate>
+         </CollectionView.ItemTemplate>
+      </CollectionView>
+
+      <ScrollView x:Name="scrollView"  Grid.Row="2" Margin="10" BackgroundColor="Bisque" 
+                   Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
+         <VerticalStackLayout x:Name="stack">
+
+         </VerticalStackLayout>
+      </ScrollView>
+
+   </Grid>
+
+</ContentPage>

@@ -7,10 +7,13 @@
    Title="PDFViewer.Maui.Sample">
 
    <ShellContent
-      Title="Home"
+      Title="Sample"
       ContentTemplate="{DataTemplate local:MainPage}"
       Route="main" />
-
-
+   
+   <ShellContent
+      Title="Test"
+      ContentTemplate="{DataTemplate local:TestPage}"
+      Route="test" />
 
 </Shell>

@@ -121,20 +121,35 @@ namespace PDFViewer.Maui.Sample
          imageCover.Source = tmpFile;
       }
 
+
       private void pdfViewer_ClickOnPage(object sender, SelectedItemChangedEventArgs e)
       {
-         var pageInfo = e.SelectedItem as PDFPageInfo;
+         //var pageInfo = e.SelectedItem as PDFPageInfo;
 
-         if (pageInfo != null)
+         //if (pageInfo != null)
+         //{
+         //   imageCover.Source = pageInfo.ImageFileName;
+         //}
+
+         //var g = sender as Grid;
+         //var i = g.Children.First() as Image;
+
+         //i.Source = pageInfo.ImageFileName;
+
+      }
+
+
+      private async void pdfViewer_DoubleClickOnPage(object sender, SelectedItemChangedEventArgs e)
+      {
+         if (pdfViewer.ZoomFactor == 1.0)
          {
-            imageCover.Source = pageInfo.ImageFileName;
+            await pdfViewer.DoZoom(2.0);
          }
+         else
+         {
+            await pdfViewer.DoZoom(1.0);
 
-         var g = sender as Grid;
-         var i = g.Children.First() as Image;
-
-         i.Source = pageInfo.ImageFileName;
-
+         }
       }
    }
 }

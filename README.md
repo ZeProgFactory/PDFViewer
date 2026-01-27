@@ -1,5 +1,11 @@
-# 26/01/2026 - Work in progress ...
+# 27/01/2026 - Work in progress ...
   
+__We were unable to get `CollectionView` to scroll horizontally properly, 
+so we had to revert to a `ScrollView`. If anyone knows how to implement horizontal 
+scrolling on `CollectionView`, we would appreciate your assistance.
+😉__
+
+&nbsp; 
 # PDFViewer
 A simple Maui PDF viewer based on the nativ PDF libraries ...   
 based on ideas and code of [vitalii-vov](https://github.com/vitalii-vov) ( https://github.com/vitalii-vov/Maui.PDFView )
@@ -14,7 +20,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | Platform  | Android | iOS  | MacOS | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
-| Progress  |  90 %  | 90 %  | 90 %  |  90 %   |
+| Progress  |  85 %  | 85 %  | 85 %  |  85 %   |
 
 ![NuGet Downloads](https://img.shields.io/nuget/v/ZPF.PDFViewer.Maui) &nbsp;
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer.Maui) &nbsp;
@@ -23,7 +29,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 
 ---
 
-&nbsp;
+&nbsp; 
 ## Installation
 ```
 Install-Package ZPF.PDFViewer.Maui
