@@ -27,25 +27,19 @@
 
       <Grid IsVisible="{Binding IsToolbarVisible}" >
 
-         <!--Todo: add zoom buttons -->
-         <HorizontalStackLayout Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="Start" >
-            <!--<Button x:Name="btnZoomIn" ContentLayout="Top,0" Padding="0"
-                 CornerRadius="20" BackgroundColor="White" BorderWidth="4"  WidthRequest="40" Clicked="btnZoomIn_Clicked"  >
-            <Button.ImageSource>
-               <FontImageSource Glyph="{Static ico:IF.Minus}" FontFamily="IconFont" Color="Black" Size="24" />
-            </Button.ImageSource>
-         </Button>-->
+         <HorizontalStackLayout x:Name="zoomStack" Grid.Row="0" Padding="5" Spacing="10" HorizontalOptions="Start" >
+            <Button x:Name="btnZoomIn" ContentLayout="Bottom,0" 
+                    Padding="0,0,0,5" Text="-" TextColor="Black" FontSize="32"
+                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
+                    WidthRequest="40" HeightRequest="40" Clicked="btnZoomIn_Clicked"  />
 
-            <!--<Label x:Name="lbZoom" Text="100 %" Margin="5"
-               VerticalOptions="Center" HorizontalOptions="Start" />-->
+            <Label x:Name="lbZoom" Text="?? %" WidthRequest="42" FontAttributes="Bold"
+               VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
 
-            <!--<Button x:Name="btnZoomOut" ContentLayout="Top,0" Padding="0"
-                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  WidthRequest="40" Clicked="btnZoomOut_Clicked" >
-            <Button.ImageSource>
-               <FontImageSource Glyph="{Static ico:IF.Add_New}" FontFamily="IconFont" Color="Black" Size="24" />
-            </Button.ImageSource>
-         </Button>-->
-
+            <Button x:Name="btnZoomOut" ContentLayout="Bottom,0"  
+                    Padding="0,0,0,4" Text="+" TextColor="Black" FontSize="32"
+                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
+                    WidthRequest="40" HeightRequest="40" Clicked="btnZoomOut_Clicked" />
          </HorizontalStackLayout>
 
          <!--Todo: add page navigation buttons, current page/total pages display-->
@@ -84,11 +78,11 @@
 
       <ScrollView x:Name="scrollView"  Grid.Row="1" BackgroundColor="Bisque" 
                    Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
-         
+
          <VerticalStackLayout x:Name="stack"/>
 
       </ScrollView>
-      
+
 
       <ActivityIndicator Grid.RowSpan="2"
             IsRunning="{Binding IsBusy}"

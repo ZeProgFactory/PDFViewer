@@ -6,8 +6,8 @@ public partial class PDFViewer
 {
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
-   //ToDo: List<decimal> _Zooms = new List<decimal>() { 0.1m, 0.2m, 0.3m, 0.4m, 0.5m, 0.6m, 0.7m, 0.8m, 0.9m, 1.0m, 1.1m, 1.2m, 1.3m, 1.4m, 1.5m, 1.6m, 1.7m, 1.8m, 1.9m, 2.0m };
-   List<double> _Zooms = new List<double>() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
+   List<double> _Zooms = new List<double>() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0 };
+   //List<double> _Zooms = new List<double>() { 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 };
 
    public double CalculatedZoom { get; set; } = -1;
 
@@ -58,7 +58,10 @@ public partial class PDFViewer
 
    public async Task DoZoom(double zoom)
    {
+      zoomStack.IsVisible = true;
+
       _ZoomFactor = zoom;
+      lbZoom.Text = $"{(int)(_ZoomFactor * 100)} %";
 
       foreach (var p in Pages)
       {

@@ -10,6 +10,9 @@ public partial class PDFViewer : ContentView
 
       InitializeComponent();
 
+      zoomStack.IsVisible = false;
+      lbZoom.Text = "";
+
       PDFPageInfo.OnNeedData += PDFPageInfo_OnNeedData;
    }
 
@@ -17,17 +20,6 @@ public partial class PDFViewer : ContentView
    {
       if (sender is not PDFPageInfo p)
          return;
-
-      //string tnFileName = "";
-
-      //if (p.PageNumber == 1)
-      //{
-      //   tnFileName = PdfTempFileHelper.CreateTempPageFilePath("_Thumbnail_.jpeg");
-      //}
-      //else
-      //{
-      //   tnFileName = PdfTempFileHelper.CreateTempPageFilePath($"TNPage({p.PageNumber}).jpeg");
-      //}
 
       p.SetValues(await UpdatePageInfo(p,""));
    }
