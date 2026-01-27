@@ -10,7 +10,7 @@
    <ContentView.Resources>
       <ResourceDictionary>
 
-         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:Page">
+         <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
             <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
                HeightRequest="{Binding HeightRequest}"
                WidthRequest="{Binding WidthRequest}"
