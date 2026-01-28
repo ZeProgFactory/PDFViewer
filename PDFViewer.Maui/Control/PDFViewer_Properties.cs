@@ -20,6 +20,8 @@ public partial class PDFViewer
       internal set
       {
          //ToDo: SetValue
+         //ToDo: set page index to navigate through pages
+
          _CurrentPageNumber = value;
 
          OnPropertyChanged("CurrentPageNumber");

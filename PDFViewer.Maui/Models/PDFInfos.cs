@@ -31,9 +31,6 @@ public class PDFInfos
    /// document is modified or reloaded.</remarks>
    public int PageCount { get; internal set; } = -1;
 
-   //ToDo: set page index to navigate through pages
-   public int PageIndex { get; set; } = -1;
-
    /// <summary>
    /// Gets the size of the file, in bytes.
    /// </summary>
@@ -63,6 +60,6 @@ public class PDFInfos
 
    override public string ToString()
    {
-      return $"PDFInfos: Title='{Title}', FileName='{FileName}', PageCount={PageCount}, PageIndex={PageIndex}, FileSizeInBytes={FileSizeInBytes}, IsPasswordProtected={IsPasswordProtected}";
+      return $"PDFInfos: Title='{Title}', FileName='{FileName}', PageCount={PageCount}, FileSizeInBytes={FileSizeInBytes}, IsPasswordProtected={IsPasswordProtected}";
    }
 }

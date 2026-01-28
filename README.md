@@ -17,10 +17,12 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | .NET MAUI | .NET 10   | 
 | :-------- | :-------  | 
 
-| Platform  | Android | iOS  | MacOS | Windows |
+| Platform  | Android | iOS  |  Mac  | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
 | Progress  |  85 %  | 85 %  | 85 %  |  85 %   |
+
+MacCatalyst is not tested yet!
 
 ![NuGet Downloads](https://img.shields.io/nuget/v/ZPF.PDFViewer.Maui) &nbsp;
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer.Maui) &nbsp;
@@ -78,6 +80,8 @@ Simply add `PdfViewer` to XAML
 ```C#
    await pdfViewer.LoadPDF(new FilePdfSource(), FullPath);
 ```
+
+For Android, Passwords are only supported on: 'android' 35.0 and later.
 
 
 &nbsp;

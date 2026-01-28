@@ -17,7 +17,7 @@ partial class PDFViewer
 {
    PdfDocument _PdfDocument = null;
 
-   public async Task LoadPDF(string pdfPath, string password = "")
+   async Task LoadPDF_Platforme(string pdfPath, string password = "")
    {
       // Open the PDF file
       if (!System.IO.File.Exists(pdfPath))
@@ -67,7 +67,7 @@ partial class PDFViewer
    {
       if (_PdfDocument == null)
       {
-         await LoadPDF(pdfPath, password);
+         await LoadPDF_Platforme(pdfPath, password);
       }
 
       if (_PdfDocument != null)

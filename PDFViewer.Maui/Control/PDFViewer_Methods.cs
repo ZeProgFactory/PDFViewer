@@ -6,6 +6,20 @@ public partial class PDFViewer
 {
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
+   public async Task<bool> LoadPDF(string filename)
+   {
+      return await LoadPDF(filename, "");
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
+
+   public async Task<bool> LoadPDF(string filename, string password = "")
+   {
+      return await LoadPDF( new FilePdfSource(), filename, password);
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
+
    /// <summary>
    /// Load PDF from URL wo rendering it.
    /// The rendering is done when pages (ImageFileName) are requested.
@@ -65,7 +79,7 @@ public partial class PDFViewer
 
       for (var i = 0; i < numberOfPages; i++)
       {
-         var p = new PDFPageInfo() { PageNumber = i+1 };
+         var p = new PDFPageInfo() { PageNumber = i + 1 };
          Pages.Add(p);
 
          // Retrieve DataTemplate from StaticResource

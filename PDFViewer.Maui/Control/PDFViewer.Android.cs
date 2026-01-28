@@ -22,7 +22,7 @@ partial class PDFViewer
    PdfRenderer _PdfRenderer = null;
    ParcelFileDescriptor _FileDescriptor = null;
 
-   public async Task LoadPDF(string pdfPath, string password = "")
+   async Task LoadPDF_Platforme(string pdfPath, string password = "")
    {
       // Open the PDF file
       if (!System.IO.File.Exists(pdfPath))
@@ -86,7 +86,7 @@ partial class PDFViewer
    {
       if (_PdfRenderer == null)
       {
-         await LoadPDF(pdfPath, password);
+         await LoadPDF_Platforme(pdfPath, password);
       }
 
       if (_PdfRenderer != null)
