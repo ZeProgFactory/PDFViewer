@@ -5,12 +5,6 @@
 ---
 
 &nbsp;<br/>
-## Decimal `CalculatedZoom` ( get;  set;) 
-
----
-
-
-&nbsp;<br/>
 ## int `CurrentPageNumber` ( get;  set;) 
 
 **Summary** :
@@ -88,13 +82,7 @@ Each element in the collection represents information about a single page, encap
 
 
 &nbsp;<br/>
-## Decimal `ZoomFactor` ( get;  set;) 
-
----
-
-
-&nbsp;<br/>
-## void `CalcZoom` ( PDFPageInfo pageInfo ) 
+## Double `ZoomFactor` ( get;  set;) 
 
 ---
 
@@ -115,7 +103,7 @@ After calling this method, the collection view is reset to an empty state and th
 
 
 &nbsp;<br/>
-## Task `DoZoom` ( Decimal scale ) 
+## Task `DoZoom` ( Double zoom ) 
 
 ---
 
@@ -146,12 +134,6 @@ After calling this method, the collection view is reset to an empty state and th
 
 &nbsp;<br/>
 ## void `UnloadPDF` (  ) 
-
----
-
-
-&nbsp;<br/>
-## Task&lt;PDFPageInfo&gt; `UpdatePageInfo` ( PDFPageInfo pageInfo, string outputImagePath ) 
 
 ---
 

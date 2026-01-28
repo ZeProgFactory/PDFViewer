@@ -183,7 +183,7 @@ partial class PDFViewer
    }
 
 
-   public async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
+   async System.Threading.Tasks.Task<PDFPageInfo> UpdatePageInfo(PDFPageInfo pageInfo, string outputImagePath)
    {
       if (_PdfDocument == null || pageInfo == null)
       {

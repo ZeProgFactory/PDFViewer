@@ -22,5 +22,6 @@
 ## Namespace `ZPF.PDFViewer.Maui`
 - [PDFToImageHelper](ZPF/PDFViewer/Maui/PDFToImageHelper.md)
 - [PDFViewer](ZPF/PDFViewer/Maui/PDFViewer.md)
+- [ViewExtensions](ZPF/PDFViewer/Maui/ViewExtensions.md)
 &nbsp;   
 &nbsp;   

@@ -12,13 +12,8 @@ public static class PDFHelper
       return (float)(cm * 37.79736534);
 #endif
 
-#if ANDROID
+      // ANDROID || IOS || MACCATALYST
       return cm / 0.03527731092f;
-#endif
-
-#if IOS || MACCATALYST
-      return cm / 0.03527731092f;
-#endif
    }
    public static float ToPT(double cm)
    {
@@ -33,13 +28,8 @@ public static class PDFHelper
       return (float)(pt / 37.79736534);
 #endif
 
-#if ANDROID
+      // ANDROID || IOS || MACCATALYST 
       return pt * 0.03527731092f;
-#endif
-
-#if IOS || MACCATALYST
-      return pt * 0.03527731092f;
-#endif
    }
    public static float ToCM(double pt)
    {
@@ -50,14 +40,14 @@ public static class PDFHelper
 
    public enum PDFPageOrientations { Portrait = 0, Landscape = 90, FlippedPortrait = 180, FlippedLandscape = 270 }
 
-   public static System.Drawing.Rectangle GetPageSizeWithRotation(PDFPageInfo pageInfo)
-   {
-      //ToDo: calc size based on orientation
+   //public static System.Drawing.Rectangle GetPageSizeWithRotation(PDFPageInfo pageInfo)
+   //{
+   //   //ToDo: calc size based on orientation
 
-      var pageSize = new System.Drawing.Rectangle(0, 0, (int)ToPT(pageInfo.Width), (int)ToPT(pageInfo.Height));
+   //   var pageSize = new System.Drawing.Rectangle(0, 0, (int)ToPT(pageInfo.Width), (int)ToPT(pageInfo.Height));
 
-      return pageSize;
-   }
+   //   return pageSize;
+   //}
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
 }

@@ -11,6 +11,11 @@ namespace ZPF.PDFViewer.DataSources;
 /// temporary PDF-related files in cross-platform applications.</remarks>
 public class PdfTempFileHelper
 {
+   /// <summary>
+   /// Gets the relative path to the temporary subfolder used for storing PDF files within the application.
+   /// </summary>
+   /// <remarks>This field is intended for internal use to manage the storage location of temporary PDF files.
+   /// The path is relative to the application's working directory.</remarks>
    public static string _TmpSubFolder = @"PDFViewer\";
 
    /// <summary>
@@ -58,7 +63,13 @@ public class PdfTempFileHelper
       return Path.Combine(tmpFolder, filename);
    }
 
-
+   /// <summary>
+   /// Deletes all temporary files from the application's temporary folder.
+   /// </summary>
+   /// <remarks>This method removes all files located in the temporary folder created by the
+   /// CreateTempPageFilePath method. It is recommended to ensure that the application has the necessary permissions to
+   /// delete files in this directory before calling this method. If any files cannot be deleted, a debugger breakpoint
+   /// is triggered to assist with troubleshooting.</remarks>
    public static void DeleteTempFiles()
    {
 //#if ANDROID

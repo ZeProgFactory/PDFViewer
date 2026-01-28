@@ -11,39 +11,58 @@
 /// management tools.</remarks>
 public class PDFInfos
 {
-    public string FileName
-    {
-        get { return _FileName; }
-        set { _FileName = value; }
-    }
-    string _FileName = string.Empty;
+   /// <summary>
+   /// Gets the name of the file associated with this instance.
+   /// </summary>
+   /// <remarks>The file name is set internally and cannot be modified directly by external callers. This property is
+   /// typically used to identify or reference the file being processed by the instance.</remarks>
+   public string FileName
+   {
+      get { return _FileName; }
+      internal set { _FileName = value; }
+   }
+   string _FileName = string.Empty;
+
+   /// <summary>
+   /// Gets the total number of pages in the document. A value of -1 indicates that the page count has not been
+   /// determined.
+   /// </summary>
+   /// <remarks>The page count is set internally by the document processing logic. The value may change if the
+   /// document is modified or reloaded.</remarks>
+   public int PageCount { get; internal set; } = -1;
+
+   //ToDo: set page index to navigate through pages
+   public int PageIndex { get; set; } = -1;
+
+   /// <summary>
+   /// Gets the size of the file, in bytes.
+   /// </summary>
+   public long FileSizeInBytes { get; internal set; } = 0;
+
+   /// <summary>
+   /// Gets the title of the item. If the title is not set, returns the file name without its extension.
+   /// </summary>
+   /// <remarks>The title is automatically derived from the file name when it has not been explicitly
+   /// specified. This allows for a default, meaningful title even when a custom title is not provided.</remarks>
+   public string Title
+   {
+      get
+      {
+         return (string.IsNullOrEmpty(_Title) ? System.IO.Path.GetFileNameWithoutExtension(_FileName) : _Title);
+      }
+   }
+   string _Title = string.Empty;
 
 
-    public int PageCount { get; set; } = -1;
-    public int PageIndex { get; set; } = -1;
+   /// <summary>
+   /// Gets whether the Portable Document Format (PDF) document is password-protected.
+   /// </summary>
+   public bool IsPasswordProtected { get; internal set; } = false;
 
-    public long FileSizeInBytes { get; set; } = 0;
+   // - - -   - - -  
 
-
-    public string Title
-    {
-        get
-        {
-            return (string.IsNullOrEmpty(_Title) ? System.IO.Path.GetFileNameWithoutExtension(_FileName) : _Title);
-        }
-    }
-    string _Title = string.Empty;
-
-
-    /// <summary>
-    /// Gets whether the Portable Document Format (PDF) document is password-protected.
-    /// </summary>
-    public bool IsPasswordProtected { get; internal set; } = false;
-
-    // - - -   - - -  
-
-    override public string ToString()
-    {
-        return $"PDFInfos: Title='{Title}', FileName='{FileName}', PageCount={PageCount}, PageIndex={PageIndex}, FileSizeInBytes={FileSizeInBytes}, IsPasswordProtected={IsPasswordProtected}";
-    }
+   override public string ToString()
+   {
+      return $"PDFInfos: Title='{Title}', FileName='{FileName}', PageCount={PageCount}, PageIndex={PageIndex}, FileSizeInBytes={FileSizeInBytes}, IsPasswordProtected={IsPasswordProtected}";
+   }
 }

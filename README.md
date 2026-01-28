@@ -1,4 +1,4 @@
-# 27/01/2026 - Work in progress ...
+# 28/01/2026 - Work in progress ...
   
 __We were unable to get `CollectionView` to scroll horizontally properly, 
 so we had to revert to a `ScrollView`. If anyone knows how to implement horizontal 
@@ -29,6 +29,22 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 
 ---
 
+
+
+&nbsp; 
+## Download
+&nbsp;&nbsp; https://www.nuget.org/packages/ZPF.PDFViewer.Maui
+
+&nbsp; 
+## Installation
+```
+Install-Package ZPF.PDFViewer.Maui
+```
+or
+```
+dotnet add package ZPF.PDFViewer.Maui 
+```
+
 &nbsp; 
 ## Installation
 ```
@@ -43,46 +59,30 @@ Install-Package ZPF.PDFViewer.Maui
 Simply add `PdfViewer` to XAML
 ```xaml
 <ContentPage
-    x:Class="Example.Business.UI.Pages.MainPage"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:pdf="clr-namespace:ZPF.PDFViewer.Maui;assembly=PDFViewer.Maui">
+   x:Class="Example.Business.UI.Pages.MainPage"
+   xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+   xmlns:pdf="clr-namespace:ZPF.PDFViewer.Maui;assembly=PDFViewer.Maui">
 
-    <pdf:PdfViewer />
+   <pdf:PDFViewer 
+      IsToolbarVisible="True"
+      ClickOnPage="pdfViewer_ClickOnPage"
+      DoubleClickOnPage="pdfViewer_DoubleClickOnPage" />
 
 </ContentPage>
 ```
 
-<!---
+  
 &nbsp;
-Set `PdfSource` in ViewModel
+## Set PDF source in code-behind
 ```C#
-internal partial class MainPageViewModel : ObservableObject
-{
-    [ObservableProperty] private string? _pdfSource;
-
-    [RelayCommand] private void ChangeUri()
-    {
-        try 
-        {
-            //  See the example project to understand how to work with paths.
-            PdfSource = "/path/to/file.pdf";
-
-            //  You can set the Uri property to null to clear the component.
-            //PdfSource = null;
-        }
-        catch(Exception ex)
-        {
-             // handle exceptions
-        }
-    }
-}
+   await pdfViewer.LoadPDF(new FilePdfSource(), FullPath);
 ```
--->
+
 
 &nbsp;
 ## Helper classes implementing `IPdfSource`
-The `PdfView` component works **only with file paths**. This is because the native platform components primarily operate with file paths, and handling different PDF data sources directly inside the component would significantly complicate the code.
+The `PDFViewer` component works **only with file paths**. This is because the native platform components primarily operate with file paths, and handling different PDF data sources directly inside the component would significantly complicate the code.
 
 Therefore, you must always provide a **file path** regardless of the form your PDF data takes—whether it’s a file, an asset, or a URL.
 
@@ -92,18 +92,23 @@ To simplify working with these data sources, the component includes helper class
 - `FilePdfSource`
 - `HttpPdfSource`
 
-Example of using PdfSource
+&nbsp;
+
+Example of using LoadPDF with different sources:
 ```C#
 [RelayCommand] private async Task UploadUri()
 {      
-     await pdfViewer.LoadPDF(new HttpPdfSource(), "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-download-10-mb.pdf");
+   await pdfViewer.LoadPDF(new HttpPdfSource(), "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-download-10-mb.pdf");
 }
 
 [RelayCommand] private async Task UploadAsset()
 {
-    await pdfViewer.LoadPDF(new AssetPdfSource(),"Example.Resources.PDF.pdf2.pdf");
+   await pdfViewer.LoadPDF(new AssetPdfSource(),"Example.Resources.PDF.pdf2.pdf");
 }
 ```
+
+See the example project to see the different sources in action.
+
 
 You can also create your own implementation of the `IPdfSource` interface to address your specific needs.
 

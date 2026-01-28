@@ -16,24 +16,13 @@ Height in cm
 
 
 &nbsp;<br/>
-## Double `HeightRequest` ( get;  set;) 
-
----
-
-
-&nbsp;<br/>
-## string `ImageFileName` ( get;  set;) 
+## Double `HeightRequest` ( get; ) 
 
 ---
 
 
 &nbsp;<br/>
 ## ImageSource `ImageSource` ( get;  set;) 
-
-**Summary** :
-
-
-
 
 ---
 
@@ -46,6 +35,18 @@ Height in cm
 
 &nbsp;<br/>
 ## int `PageNumber` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## int `RealHeight` ( get;  set;) 
+
+---
+
+
+&nbsp;<br/>
+## int `RealWidth` ( get;  set;) 
 
 ---
 
@@ -85,7 +86,7 @@ Width in cm
 
 
 &nbsp;<br/>
-## Double `WidthRequest` ( get;  set;) 
+## Double `WidthRequest` ( get; ) 
 
 ---
 
