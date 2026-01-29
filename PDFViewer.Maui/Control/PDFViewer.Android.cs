@@ -153,7 +153,7 @@ partial class PDFViewer
       }
       catch (Exception ex)
       {
-         Debugger.Break();
+         LastMessage = ex.Message.ToString();
          return "";
       }
    }
@@ -184,6 +184,7 @@ partial class PDFViewer
       }
       catch (Exception ex)
       {
+         LastMessage = ex.Message.ToString();
          Debugger.Break();
          return null;
       }

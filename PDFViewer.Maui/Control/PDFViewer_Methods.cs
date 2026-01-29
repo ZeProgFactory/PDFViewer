@@ -26,6 +26,7 @@ public partial class PDFViewer
    /// </summary>
    /// <param name="pdfSource"></param>
    /// <param name="url"></param>
+   /// <param name="password"></param>
    /// <returns></returns>
    public async Task<bool> LoadPDF(IPdfSource pdfSource, string url, string password = "")
    {

@@ -10,10 +10,10 @@ public static class PDFHelper
    {
 #if WINDOWS
       return (float)(cm * 37.79736534);
-#endif
-
+#else
       // ANDROID || IOS || MACCATALYST
       return cm / 0.03527731092f;
+#endif
    }
    public static float ToPT(double cm)
    {
@@ -26,10 +26,10 @@ public static class PDFHelper
    {
 #if WINDOWS
       return (float)(pt / 37.79736534);
-#endif
-
+#else
       // ANDROID || IOS || MACCATALYST 
       return pt * 0.03527731092f;
+#endif
    }
    public static float ToCM(double pt)
    {

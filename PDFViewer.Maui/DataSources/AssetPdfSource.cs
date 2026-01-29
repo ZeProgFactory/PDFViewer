@@ -25,7 +25,7 @@ public class AssetPdfSource : IPdfSource
    }
 
 
-   public string LastError { get; private set; }
+   public string LastError { get; private set; } = "";
 
 
    public async Task<string> GetFilePathAsync()
