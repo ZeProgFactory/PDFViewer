@@ -14,9 +14,26 @@
             <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
                HeightRequest="{Binding HeightRequest}"
                WidthRequest="{Binding WidthRequest}"
-               BackgroundColor="LightGray" Margin="0,0,0,5" />
+               BackgroundColor="White" Margin="0,0,0,5" />
          </DataTemplate>
 
+         <Style TargetType="Button">
+            <Setter Property="BorderWidth" Value="3" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="BorderColor" Value="Grey" />
+            <Setter Property="BackgroundColor" Value="White" />
+
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="HeightRequest" Value="40" />
+
+            <Setter Property="ContentLayout" Value="bottom,0" />
+            <Setter Property="TextColor" Value="Black" />
+
+            <Setter Property="FontAttributes" Value="Bold" />
+
+            <Setter Property="FontSize" Value="33" />
+         </Style>
+         
       </ResourceDictionary>
    </ContentView.Resources>
 
@@ -28,26 +45,41 @@
       <Grid IsVisible="{Binding IsToolbarVisible}" >
 
          <HorizontalStackLayout x:Name="zoomStack" Grid.Row="0" Padding="5" Spacing="10" Margin="10,0,0,0" HorizontalOptions="Start" >
-            <Button x:Name="btnZoomIn" ContentLayout="Bottom,0" 
-                    Padding="0,0,0,5" Text="-" TextColor="Black" FontSize="32"
-                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
-                    WidthRequest="40" HeightRequest="40" Clicked="btnZoomIn_Clicked"  />
+            <Button x:Name="btnZoomIn" Text="-" Clicked="btnZoomIn_Clicked" >
+               <Button.Padding>
+                  <OnPlatform x:TypeArguments="Thickness">
+                     <On Platform="iOS" Value="0,0,0,5" />
+                     <On Platform="Android" Value="0,-4,0,8" />
+                     <On Platform="WinUI" Value="0,-4,0,6" />
+                  </OnPlatform>
+               </Button.Padding>
+            </Button>
 
             <Label x:Name="lbZoom" Text="?? %" WidthRequest="42" FontAttributes="Bold"
                VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
 
-            <Button x:Name="btnZoomOut" ContentLayout="Bottom,0"  
-                    Padding="0,0,0,4" Text="+" TextColor="Black" FontSize="32"
-                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
-                    WidthRequest="40" HeightRequest="40" Clicked="btnZoomOut_Clicked" />
+            <Button x:Name="btnZoomOut" Text="+" Clicked="btnZoomOut_Clicked" >
+               <Button.Padding>
+                  <OnPlatform x:TypeArguments="Thickness">
+                     <On Platform="iOS" Value="0,0,0,5" />
+                     <On Platform="Android" Value="0,-4,0,8" />
+                     <On Platform="WinUI" Value="0,-4,0,6" />
+                  </OnPlatform>
+               </Button.Padding>
+            </Button>
          </HorizontalStackLayout>
 
          <Grid  x:Name="navStack" Grid.Row="0" Padding="5" ColumnDefinitions="auto,80,auto" HorizontalOptions="End" Margin="5,5,10,5" >
 
-            <Button x:Name="btnFirst" Grid.Column="0" ContentLayout="Bottom,0" 
-                    Padding="0,0,0,5" Text="«" TextColor="Black" FontSize="32"
-                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
-                    WidthRequest="40" HeightRequest="40" Clicked="btnFirst_Clicked"  />
+            <Button x:Name="btnFirst" Grid.Column="0" Text="«" Clicked="btnFirst_Clicked">
+               <Button.Padding>
+                  <OnPlatform x:TypeArguments="Thickness">
+                     <On Platform="iOS" Value="0,0,0,5" />
+                     <On Platform="Android" Value="0,-6,0,8" />
+                     <On Platform="WinUI" Value="0,-4,0,6" />
+                  </OnPlatform>
+               </Button.Padding>
+            </Button>
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" >
                <Label Text="{Binding CurrentPageNumber}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
@@ -55,10 +87,15 @@
                <Label Text="{Binding Pages.Count}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
             </HorizontalStackLayout>
 
-            <Button x:Name="btnLast" Grid.Column="2" ContentLayout="Bottom,0" 
-                    Padding="0,0,0,5" Text="»" TextColor="Black" FontSize="32"
-                    CornerRadius="20" BackgroundColor="White" BorderWidth="4"  
-                    WidthRequest="40" HeightRequest="40" Clicked="btnLast_Clicked"  />
+            <Button x:Name="btnLast" Grid.Column="2" Text="»" Clicked="btnLast_Clicked">
+               <Button.Padding>
+                  <OnPlatform x:TypeArguments="Thickness">
+                     <On Platform="iOS" Value="0,0,0,5" />
+                     <On Platform="Android" Value="0,-6,0,8" />
+                     <On Platform="WinUI" Value="0,-4,0,6" />
+                  </OnPlatform>
+               </Button.Padding>
+            </Button>
          </Grid>
       </Grid>
 

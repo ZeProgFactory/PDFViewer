@@ -80,8 +80,6 @@ partial class PDFViewer
 
       if (_PdfDocument != null)
       {
-         //_PdfDocument.Description;
-
          _PDFInfos.PageCount = (int)_PdfDocument.PageCount;
          _PDFInfos.FileName = url;
          _PDFInfos.FileSizeInBytes = new System.IO.FileInfo(pdfPath).Length;
