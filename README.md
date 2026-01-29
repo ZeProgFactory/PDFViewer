@@ -1,4 +1,4 @@
-# 28/01/2026 - Work in progress ...
+# 29/01/2026 - Work in progress ...
   
 __We were unable to get `CollectionView` to scroll horizontally properly, 
 so we had to revert to a `ScrollView`. If anyone knows how to implement horizontal 
@@ -31,9 +31,24 @@ MacCatalyst is not tested yet!
 
 ---
 
+<div id="image-table">
+  <table >
+    <tr>
+      <td style="padding:10px">
+        <img src="Doc/ScreenShots/iOS01.png" alt="iOS" height="500" >
+      </td>
+      <td style="padding:10px">
+        <img src="Doc/ScreenShots/Android01.png" alt="Android" height="500" >
+      </td>
+      <td style="padding:10px">
+        <img src="Doc/ScreenShots/WinUI01.png" alt="WinUI" height="500" >
+      </td>
+    </tr>
+  </table>
+</div>
 
+---
 
-&nbsp; 
 ## Download
 &nbsp;&nbsp; https://www.nuget.org/packages/ZPF.PDFViewer.Maui
 
