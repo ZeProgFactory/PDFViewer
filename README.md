@@ -92,12 +92,27 @@ Simply add `PdfViewer` to XAML
   
 &nbsp;
 ## Set PDF source in code-behind
+
+### Load PDF from file path
 ```C#
-   await pdfViewer.LoadPDF(new FilePdfSource(), FullPath);
+   await pdfViewer.LoadPDF(fullPath);
 ```
 
+
+### Load PDF with password
+```C#
+   await pdfViewer.LoadPDF(fullPath, password);
+```
 For Android, Passwords are only supported on: 'android' 35.0 and later.
 
+
+### Error handling
+```C#
+   if (!await pdfViewer.LoadPDF(fullPath, password))
+   {
+      await DisplayAlertAsync("Oups ...", pdfViewer.LastMessage, "ok");
+   }
+```
 
 &nbsp;
 ## Helper classes implementing `IPdfSource`
@@ -113,21 +128,22 @@ To simplify working with these data sources, the component includes helper class
 
 &nbsp;
 
-Example of using LoadPDF with different sources:
+### Load PDF from file path
 ```C#
-[RelayCommand] private async Task UploadUri()
-{      
-   await pdfViewer.LoadPDF(new HttpPdfSource(), "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-download-10-mb.pdf");
-}
+   await pdfViewer.LoadPDF(new FilePdfSource(), FullPath);
+```
 
-[RelayCommand] private async Task UploadAsset()
-{
+### Load PDF from URL 
+```C#
+   await pdfViewer.LoadPDF(new HttpPdfSource(), "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-download-10-mb.pdf");
+```
+
+### Load PDF from resource asset
+```C#
    await pdfViewer.LoadPDF(new AssetPdfSource(),"Example.Resources.PDF.pdf2.pdf");
-}
 ```
 
 See the example project to see the different sources in action.
-
 
 You can also create your own implementation of the `IPdfSource` interface to address your specific needs.
 
