@@ -1,23 +1,24 @@
 
 <table style="background-color:#444; width: 100%;">
-   <tr>
-      <td align='left' >
-         <b>PDFViewer</b>
-      </td>
-      <td align='right' >
-         <a href="../../index.md">Home</a>
-      </td>
-   </tr>
-   <tr>
-      <td align='left' valign='center'>
-         <font  style="font-weight: bold; font-size: 26px;">PDFInfos</font>
-      </td>
-      <td align='right' valign='center' >
-         <font style="font-size: 14px;">Namespace :</font>
-         <font style="font-weight: bold; font-size: 14px;">ZPF.PDFViewer</font>
-      </td>
-   </tr>
+<tr>
+<td align='left' >
+<img width="441" height="1">
+<div style="font-weight: bold; font-size: 26px;"> 📚 Documentation PDFViewer</div>
+</td>
+<td align='right' >
+<img width="441" height="1">   
+<a href="../../index.md">Index</a>
+</td>
+</tr>
 </table>
+
+---
+# `PDFInfos`
+
+**Namespace** : `ZPF.PDFViewer`
+
+---
+
 
 &nbsp;   
 &nbsp;<br/>
