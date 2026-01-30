@@ -49,6 +49,10 @@ namespace PDFViewer.Maui.Sample
                LoadPDFFilePicker();
                break;
 
+            case "ERROR":
+               LoadPDFwError();
+               break;
+
             case "INFO":
                GetInfo();
                break;
@@ -60,6 +64,37 @@ namespace PDFViewer.Maui.Sample
 
       }
 
+      private async void LoadPDFwError()
+      {
+         {
+            var fullPath = "invalid path";
+
+            if (!await pdfViewer.LoadPDF(fullPath))
+            {
+               await DisplayAlertAsync("01 Oups ...", pdfViewer.LastMessage, "ok");
+            }
+         }
+
+         {
+            var fullPath = @"D:\GitWare\Nugets\PDFViewer\Data\protected.pdf";
+            var password = "not working";
+
+            if (!await pdfViewer.LoadPDF(fullPath, password))
+            {
+               await DisplayAlertAsync("02 Oups ...", pdfViewer.LastMessage, "ok");
+            }
+         }
+
+         {
+            var pdfRessourceName = @"not existing";
+
+            if (!await pdfViewer.LoadPDF(new AssetPdfSource(), pdfRessourceName) )
+            {
+               await DisplayAlertAsync("03 Oups ...", pdfViewer.LastMessage, "ok");
+            }
+         }
+
+      }
 
       private async void LoadPDFFilePicker()
       {

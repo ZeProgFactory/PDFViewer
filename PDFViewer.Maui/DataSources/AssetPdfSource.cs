@@ -25,12 +25,12 @@ public class AssetPdfSource : IPdfSource
    }
 
 
-   public string LastError { get; private set; } = "";
+   public string LastMessage { get; private set; } = "";
 
 
    public async Task<string> GetFilePathAsync()
    {
-      LastError = "";
+      LastMessage = "";
 
       try
       {
@@ -63,14 +63,11 @@ public class AssetPdfSource : IPdfSource
          var tempFile = PdfTempFileHelper.CreateTempPdfFilePath();
          await File.WriteAllBytesAsync(tempFile, bytes);
 
-         System.Diagnostics.Debug.WriteLine($"LoadPDF AssetPdfSource {tempFile}");
-
          return tempFile;
       }
-      catch (Exception ex)
+      catch 
       {
-         LastError = ex.ToString();
-         System.Diagnostics.Debug.WriteLine(ex.ToString());
+         LastMessage = "Could not use resource";
 
          return "";
       }

@@ -4,9 +4,9 @@
 /// Provides a PDF source that retrieves PDF files asynchronously from a specified HTTP URL.
 /// </summary>
 /// <remarks>This class implements the IPdfSource interface and enables downloading PDF files from the internet.
-/// It exposes the LastError property to allow callers to inspect error details after a failed retrieval attempt. Use
+/// It exposes the LastMessage property to allow callers to inspect error details after a failed retrieval attempt. Use
 /// LoadPDF to initiate a download from a given URL, or instantiate with a URL and call GetFilePathAsync to retrieve the
-/// file path of the downloaded PDF. The class is not thread-safe; concurrent calls may overwrite LastError or the
+/// file path of the downloaded PDF. The class is not thread-safe; concurrent calls may overwrite LastMessage or the
 /// internal URL.</remarks>
 public class HttpPdfSource : IPdfSource
 {
@@ -25,12 +25,12 @@ public class HttpPdfSource : IPdfSource
    }
 
 
-   public string LastError { get; private set; } = "";
+   public string LastMessage { get; private set; } = "";
 
 
    public async Task<string> GetFilePathAsync()
    {
-      LastError = "";
+      LastMessage = "";
       var tempFile = PdfTempFileHelper.CreateTempPdfFilePath();
 
       try
@@ -48,7 +48,7 @@ public class HttpPdfSource : IPdfSource
       }
       catch (Exception ex)
       {
-         LastError = ex.ToString();
+         LastMessage = ex.ToString();
          System.Diagnostics.Debug.WriteLine(ex.ToString());
       }
 

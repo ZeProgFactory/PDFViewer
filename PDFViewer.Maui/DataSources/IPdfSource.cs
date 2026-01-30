@@ -3,7 +3,7 @@
 
 public interface IPdfSource
 {
-   string LastError { get; }
+   string LastMessage { get; }
 
    Task<string> GetFilePathAsync();
 

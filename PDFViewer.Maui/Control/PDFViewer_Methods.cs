@@ -33,6 +33,7 @@ public partial class PDFViewer
       bool Result = false;
 
       IsBusy = true;
+      LastMessage = "";
 
       UnloadPDF();
 
@@ -43,6 +44,18 @@ public partial class PDFViewer
 
       _PDFInfos = new PDFInfos();
       _PDFInfos.FileName = await pdfSource.LoadPDF(url);
+
+      if (!string.IsNullOrEmpty(pdfSource.LastMessage))
+      {
+         _PDFInfos = new PDFInfos();
+         IsBusy = false;
+
+         zoomStack.IsVisible = false;
+         navStack.IsVisible = false;
+
+         LastMessage = pdfSource.LastMessage;
+         return false;
+      }
 
       if (System.IO.File.Exists(_PDFInfos.FileName))
       {
@@ -59,6 +72,13 @@ public partial class PDFViewer
       else
       {
          _PDFInfos = new PDFInfos();
+         IsBusy = false;
+
+         zoomStack.IsVisible = false;
+         navStack.IsVisible = false;
+
+         LastMessage = (string.IsNullOrEmpty(LastMessage) ? "File not found" : LastMessage);
+         return false;
       }
 
       // generating pages wo rendering them
