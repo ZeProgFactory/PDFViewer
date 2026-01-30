@@ -1,9 +1,25 @@
-# `PDFViewer`
 
-**Namespace** : `ZPF.PDFViewer.Maui`
+<table style="background-color:#444; width: 100%;">
+   <tr>
+      <td align='left' >
+         <b>PDFViewer</b>
+      </td>
+      <td align='right' >
+         <a href="../../../index.md">Home</a>
+      </td>
+   </tr>
+   <tr>
+      <td align='left' valign='center'>
+         <font  style="font-weight: bold; font-size: 26px;">PDFViewer</font>
+      </td>
+      <td align='right' valign='center' >
+         <font style="font-size: 14px;">Namespace :</font>
+         <font style="font-weight: bold; font-size: 14px;">ZPF.PDFViewer.Maui</font>
+      </td>
+   </tr>
+</table>
 
----
-
+&nbsp;   
 &nbsp;<br/>
 ## int `CurrentPageNumber` ( get;  set;) 
 
@@ -109,7 +125,13 @@ After calling this method, the collection view is reset to an empty state and th
 
 
 &nbsp;<br/>
-## Task `LoadPDF` ( string pdfPath, string password ) 
+## Task&lt;bool&gt; `LoadPDF` ( string filename ) 
+
+---
+
+
+&nbsp;<br/>
+## Task&lt;bool&gt; `LoadPDF` ( string filename, string password ) 
 
 ---
 
