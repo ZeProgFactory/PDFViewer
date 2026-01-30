@@ -27,16 +27,15 @@
 		<PackageTags>Maui;PDF;iOS;Android;MacCatalyst;WinUI;dotnet-maui;PDFViewer;PDFReader</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
-		<Version>10.0.0.3</Version>
+		<Version>10.0.0.4</Version>
 		<Copyright>2026 ZeProgFactory</Copyright>
 		<Company>MichaelE</Company>
 		<Description>A simple Maui PDF viewer based on the nativ PDF libraries ...</Description>
-		<PackageReleaseNotes>* Bugfix pagenumber &amp; add navigation to toolbar
-* Add zoom to toolbar
-* CollectionView (didn't scroll horizontally) --&gt; ScrollView
-* Revise badge links in README.md
-* Update NuGet Downloads badge for PDFViewer.Maui
-* Icon background</PackageReleaseNotes>
+		<PackageReleaseNotes> * Enhanced error handling
+ * Code review
+ * Bug fix backgroundcolor &amp; layout toolbar
+ * Add LoadPDF(string filename) &amp; LoadPDF(string filename, string password = "") 
+ * Add File dialog to sample</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
