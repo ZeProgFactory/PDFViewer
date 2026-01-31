@@ -23,7 +23,10 @@
 
       <pdf:PDFViewer x:Name="pdfViewer" 
          Grid.Column="1" Grid.Row="1" Margin="5"
+                     
          IsToolbarVisible="True"
+         BackgroundColor="AntiqueWhite"
+         ToolbarColor="LightGray" 
          ClickOnPage="pdfViewer_ClickOnPage"
          DoubleClickOnPage="pdfViewer_DoubleClickOnPage" />
 

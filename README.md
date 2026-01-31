@@ -1,4 +1,4 @@
-# 30/01/2026 - Work in progress ...
+# 31/01/2026 - Work in progress ...
   
 __We were unable to get `CollectionView` to scroll horizontally properly, 
 so we had to revert to a `ScrollView`. If anyone knows how to implement horizontal 
@@ -81,8 +81,10 @@ Simply add `PdfViewer` to XAML
    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
    xmlns:pdf="clr-namespace:ZPF.PDFViewer.Maui;assembly=PDFViewer.Maui">
 
-   <pdf:PDFViewer 
+   <pdf:PDFViewer                      
       IsToolbarVisible="True"
+      BackgroundColor="AntiqueWhite"
+      ToolbarColor="LightGray" 
       ClickOnPage="pdfViewer_ClickOnPage"
       DoubleClickOnPage="pdfViewer_DoubleClickOnPage" />
 
@@ -103,7 +105,7 @@ Simply add `PdfViewer` to XAML
 ```C#
    await pdfViewer.LoadPDF(fullPath, password);
 ```
-For Android, Passwords are only supported on: 'android' 35.0 and later.
+_For Android, Passwords are only supported on: 'android' 35.0 and later._
 
 
 ### Error handling

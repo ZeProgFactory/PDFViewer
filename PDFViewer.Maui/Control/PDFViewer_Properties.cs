@@ -79,6 +79,16 @@ public partial class PDFViewer
 
 
    /// <summary>
+   /// Gets or sets the Color which will fill the background of the toolbar. 
+   /// </summary>
+   public Color ToolbarColor 
+   { 
+      get => gridToolbar.BackgroundColor; 
+      set => gridToolbar.BackgroundColor=value;
+   } 
+
+
+   /// <summary>
    /// Gets the PDF information associated with the document.
    /// </summary>
    /// <remarks>This property is set internally and is not intended to be modified directly by consumers.

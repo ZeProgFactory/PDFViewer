@@ -38,11 +38,11 @@
    </ContentView.Resources>
 
 
-   <Grid BackgroundColor="LightGray" RowDefinitions="auto,*" >
+   <Grid RowDefinitions="auto,*" >
 
       <!--#region - - - toolbar - - -  -->
 
-      <Grid IsVisible="{Binding IsToolbarVisible}" >
+      <Grid x:Name="gridToolbar" BackgroundColor="LightGray" IsVisible="{Binding IsToolbarVisible}" >
 
          <HorizontalStackLayout x:Name="zoomStack" Grid.Row="0" Padding="5" Spacing="10" Margin="10,0,0,0" HorizontalOptions="Start" >
             <Button x:Name="btnZoomIn" Text="-" Clicked="btnZoomIn_Clicked" >
@@ -101,14 +101,13 @@
 
       <!--#endregion-->
 
-      <ScrollView x:Name="scrollView"  Grid.Row="1" BackgroundColor="Bisque" 
+      <ScrollView x:Name="scrollView"  Grid.Row="1"
                    Orientation="Both" HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always"
                    Scrolled="scrollView_Scrolled" >
 
          <VerticalStackLayout x:Name="stack"/>
 
       </ScrollView>
-
 
       <ActivityIndicator Grid.RowSpan="2"
             IsRunning="{Binding IsBusy}"
