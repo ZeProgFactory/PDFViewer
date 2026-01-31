@@ -13,7 +13,7 @@ public partial class PDFViewer
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
-   public async Task<bool> LoadPDF(string filename, string password = "", bool genPages = true)
+   public async Task<bool> LoadPDF(string filename, string password, bool genPages = true)
    {
       return await LoadPDF(new FilePdfSource(), filename, password, genPages);
    }

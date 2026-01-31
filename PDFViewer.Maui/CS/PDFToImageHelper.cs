@@ -40,12 +40,23 @@ public static class PDFToImageHelper
    }
 
 
+   /// <summary>
+   /// !!! Experimental !!!
+   /// </summary>
+   /// <param name="pdfPath"></param>
+   /// <returns></returns>
    public static async System.Threading.Tasks.Task<ImageSource> GetFirstPageAsImageSourceAsync(string pdfPath)
    {
       return await GetPageAsImageSourceAsync(pdfPath, 1);
    }
 
 
+   /// <summary>
+   /// !!! Experimental !!!
+   /// </summary>
+   /// <param name="pdfPath"></param>
+   /// <param name="pageNumber"></param>
+   /// <returns></returns>
    public static async System.Threading.Tasks.Task<ImageSource> GetPageAsImageSourceAsync(string pdfPath, int pageNumber = 1)
    {
       Debug.WriteLine($"PDFToImageHelper.GetPageAsImageSourceAsync {pdfPath} {pageNumber}");

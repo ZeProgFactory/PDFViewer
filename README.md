@@ -20,7 +20,7 @@ _“Powered by native PDF engines. Wrapped in simplicity.”_
 | Platform  | Android | iOS  |  Mac  | Windows |
 | :-------- | :-----: | :--: | :---: | :-----: |
 | Supported (goal) | ✅ | ✅ | ✅   |   ✅    |
-| Progress  |  85 %  | 85 %  | 85 %  |  85 %   |
+| Progress  |  90 %  | 90 %  | 90 %  |  90 %   |
 
 MacCatalyst is not tested yet!
 
