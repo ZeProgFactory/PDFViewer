@@ -34,8 +34,28 @@ public static class PDFToImageHelper
 
       var PDFViewer = new PDFViewer();
 
-      await PDFViewer.LoadPDF(pdfPath);
+      await PDFViewer.LoadPDF(pdfPath, false);
       await PDFViewer.SavePageAsImageAsync(outputImagePath, pageNumber);
       PDFViewer.UnloadPDF();
+   }
+
+
+   public static async System.Threading.Tasks.Task<ImageSource> GetFirstPageAsImageSourceAsync(string pdfPath)
+   {
+      return await GetPageAsImageSourceAsync(pdfPath, 1);
+   }
+
+
+   public static async System.Threading.Tasks.Task<ImageSource> GetPageAsImageSourceAsync(string pdfPath, int pageNumber = 1)
+   {
+      Debug.WriteLine($"PDFToImageHelper.GetPageAsImageSourceAsync {pdfPath} {pageNumber}");
+
+      var PDFViewer = new PDFViewer();
+
+      await PDFViewer.LoadPDF(pdfPath, false);
+      var imageSource = await PDFViewer.RenderPageToImageSource(pageNumber);
+      PDFViewer.UnloadPDF();
+
+      return imageSource;
    }
 }

@@ -6,16 +6,16 @@ public partial class PDFViewer
 {
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
-   public async Task<bool> LoadPDF(string filename)
+   public async Task<bool> LoadPDF(string filename, bool genPages = true)
    {
-      return await LoadPDF(filename, "");
+      return await LoadPDF(filename, "", genPages);
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 
-   public async Task<bool> LoadPDF(string filename, string password = "")
+   public async Task<bool> LoadPDF(string filename, string password = "", bool genPages = true)
    {
-      return await LoadPDF( new FilePdfSource(), filename, password);
+      return await LoadPDF(new FilePdfSource(), filename, password, genPages);
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
@@ -28,7 +28,7 @@ public partial class PDFViewer
    /// <param name="url"></param>
    /// <param name="password"></param>
    /// <returns></returns>
-   public async Task<bool> LoadPDF(IPdfSource pdfSource, string url, string password = "")
+   public async Task<bool> LoadPDF(IPdfSource pdfSource, string url, string password = "", bool genPages = true)
    {
       bool Result = false;
 
@@ -82,9 +82,12 @@ public partial class PDFViewer
       }
 
       // generating pages wo rendering them
-      GeneratePages(_PDFInfos.PageCount);
+      if (genPages)
+      {
+         GeneratePages(_PDFInfos.PageCount);
 
-      await DoZoom(_Scale);
+         await DoZoom(_Scale);
+      }
 
       // - - -  - - -
 

@@ -112,6 +112,11 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
 
    public void SetValues(PDFPageInfo pDFPageInfo)
    {
+      if( pDFPageInfo == null)
+      {
+         return;
+      }
+
       this._PageNumber = pDFPageInfo.PageNumber;
       this._IsCurrentPage = pDFPageInfo.IsCurrentPage;
 

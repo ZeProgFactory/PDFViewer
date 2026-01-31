@@ -159,6 +159,29 @@ partial class PDFViewer
    }
 
 
+   public async Task<ImageSource> RenderPageToImageSource(int pageNumber)
+   {
+      var pageInfo = new PDFPageInfo() { PageNumber = pageNumber };
+      var page = _PdfRenderer.OpenPage((int)pageInfo.PageNumber - 1);
+
+      //ToDo: write converter
+      pageInfo.Rotation = (page.Width > page.Height) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
+
+      pageInfo.Width = PDFHelper.ToCM(page.Width);
+      pageInfo.Height = PDFHelper.ToCM(page.Height);
+
+      pageInfo.RealWidth = (int)page.Width;
+      pageInfo.RealHeight = (int)page.Height;
+
+      pageInfo.ImageSource = await RenderPageToImageSource(page);
+
+      // close the page
+      page.Close();
+
+      return pageInfo.ImageSource;
+   }
+
+
    private async Task<ImageSource> RenderPageToImageSource(PdfRenderer.Page page)
    {
       try
