@@ -82,7 +82,9 @@
             </Button>
 
             <HorizontalStackLayout Grid.Column="1" HorizontalOptions="Center" >
-               <Label Text="{Binding CurrentPageNumber}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
+               <Entry Text="{Binding CurrentPageNumber}" FontAttributes="Bold" 
+                      VerticalOptions="Center" HorizontalOptions="Center" VerticalTextAlignment="Center" 
+                      TextChanged="Entry_TextChanged"  Completed="Entry_Completed" />
                <Label Text=" / " VerticalOptions="Center" HorizontalOptions="Center" />
                <Label Text="{Binding Pages.Count}" FontAttributes="Bold" VerticalOptions="Center" HorizontalOptions="Center" />
             </HorizontalStackLayout>

@@ -183,5 +183,49 @@ public partial class PDFViewer
       CurrentPageNumber = 0;
    }
 
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
+
+   /// <summary>
+   /// Scrolls to first page
+   /// </summary>
+   /// <returns></returns>
+   public async Task ScrollToFirstAsync()
+   {
+      await scrollView.ScrollToAsync(0, 0, true);
+   }
+
+   /// <summary>
+   /// Scrolls to 'pageNumber'
+   /// </summary>
+   /// <returns></returns>
+   public async Task ScrollToAsync(uint pageNumber)
+   {
+      if (pageNumber == 0)
+      {
+         await ScrollToFirstAsync();
+      }
+
+      pageNumber--;
+
+      if (stack.Children.Count >= pageNumber)
+      {
+         View view = (View)stack.Children[(int)pageNumber];
+         await scrollView.ScrollToAsync(view, ScrollToPosition.Start, true);
+      }
+      else
+      {
+         await ScrollToLastAsync();
+      }
+   }
+
+   /// <summary>
+   /// Scrolls to last page
+   /// </summary>
+   /// <returns></returns>
+   public async Task ScrollToLastAsync()
+   {
+      await scrollView.ScrollToAsync(0, scrollView.ContentSize.Height, true);
+   }
+
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - 
 }

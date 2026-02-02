@@ -54,7 +54,7 @@ public partial class PDFViewer : ContentView
             // it means this is the first visible item.
             if (location.Bottom >= scrollY)
             {
-               CurrentPageNumber = i+1;
+               CurrentPageNumber = i + 1;
                break;
             }
          }
@@ -63,12 +63,37 @@ public partial class PDFViewer : ContentView
 
    private async void btnFirst_Clicked(object sender, EventArgs e)
    {
-      await scrollView.ScrollToAsync(0, 0, true);
+      await ScrollToFirstAsync();
    }
 
    private async void btnLast_Clicked(object sender, EventArgs e)
    {
-      await scrollView.ScrollToAsync(0, scrollView.ContentSize.Height, true);
+      await ScrollToLastAsync();
+   }
+
+   // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
+
+   private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+   {
+      if (!string.IsNullOrEmpty(e.NewTextValue))
+      {
+         bool isWholeNumber = int.TryParse(e.NewTextValue, out int value) && value > 0;
+         if (!isWholeNumber)
+         {
+            ((Entry)sender).Text = e.OldTextValue;
+         }
+      }
+      else
+      {
+         ((Entry)sender).Text = null;
+      }
+   }
+
+   private async void Entry_Completed(object sender, EventArgs e)
+   {
+      var ind = int.Parse(((Entry)sender).Text);
+
+      await ScrollToAsync((uint)ind);
    }
 
    // - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -  - -
