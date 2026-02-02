@@ -35,13 +35,13 @@ MacCatalyst is not tested yet!
   <table >
     <tr>
       <td style="padding:10px">
-        <img src="Doc/ScreenShots/iOS01.png" alt="iOS" height="500" >
+        <img src="https://raw.githubusercontent.com/ZeProgFactory/PDFViewer/refs/heads/main/Doc/ScreenShots/iOS01.png" alt="iOS" height="500" >
       </td>
       <td style="padding:10px">
-        <img src="Doc/ScreenShots/Android01.png" alt="Android" height="500" >
+        <img src="https://raw.githubusercontent.com/ZeProgFactory/PDFViewer/refs/heads/main/Doc/ScreenShots/Android01.png" alt="Android" height="500" >
       </td>
       <td style="padding:10px">
-        <img src="Doc/ScreenShots/WinUI01.png" alt="WinUI" height="500" >
+        <img src="https://raw.githubusercontent.com/ZeProgFactory/PDFViewer/refs/heads/main/Doc/ScreenShots/WinUI01.png" alt="WinUI" height="500" >
       </td>
     </tr>
   </table>
