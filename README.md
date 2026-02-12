@@ -171,7 +171,6 @@ Example of using `PDFToImageHelper`
 
 &nbsp;
 ---
-**[Experimental doc](Doc/DocGen/index.pdf)...**
- 
+**[Experimental doc](https://raw.githubusercontent.com/ZeProgFactory/PDFViewer/main/Doc/DocGen/index.pdf)...**
 &nbsp;
   
