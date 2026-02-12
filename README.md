@@ -1,4 +1,4 @@
-# 02/02/2026 - Work in progress ...
+# 12/02/2026 - Work in progress ...
   
 __We were unable to get `CollectionView` to scroll horizontally properly, 
 so we had to revert to a `ScrollView`. If anyone knows how to implement horizontal 
@@ -171,7 +171,7 @@ Example of using `PDFToImageHelper`
 
 &nbsp;
 ---
-**[Experimental doc](Doc/DocGen/index.md)...**
+**[Experimental doc](Doc/DocGen/index.pdf)...**
  
 &nbsp;
   
