@@ -164,7 +164,6 @@ partial class PDFViewer
       var pageInfo = new PDFPageInfo() { PageNumber = pageNumber };
       var page = _PdfRenderer.OpenPage((int)pageInfo.PageNumber - 1);
 
-      //ToDo: write converter
       pageInfo.Rotation = (page.Width > page.Height) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
 
       pageInfo.Width = PDFHelper.ToCM(page.Width);
@@ -228,7 +227,6 @@ partial class PDFViewer
 
       #region - - - size, ... - - - 
 
-      //ToDo: write converter
       pageInfo.Rotation = (page.Width > page.Height) ? PDFHelper.PDFPageOrientations.Landscape : PDFHelper.PDFPageOrientations.Portrait;
 
       pageInfo.Width = PDFHelper.ToCM(page.Width);
