@@ -27,8 +27,8 @@ MacCatalyst is not tested yet!
 ![NuGet Downloads](https://img.shields.io/nuget/v/ZPF.PDFViewer.Maui) &nbsp;
 ![NuGet Downloads](https://img.shields.io/nuget/dt/ZPF.PDFViewer.Maui) &nbsp;
 ![GitHub License](https://img.shields.io/github/license/ZeProgFactory/PDFViewer) &nbsp;
-![last commit](https://img.shields.io/github/last-commit/ZeProgFactory/PDFViewer) 
-
+![last commit](https://img.shields.io/github/last-commit/ZeProgFactory/PDFViewer) &nbsp;
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ZeProgFactory/PDFViewer)
 ---
 
 <div id="image-table">
