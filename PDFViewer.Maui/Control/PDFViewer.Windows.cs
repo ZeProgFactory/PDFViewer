@@ -46,6 +46,11 @@ partial class PDFViewer
          {
             _PdfDocument = null;
             LastMessage = ex.Message.ToString();
+
+            if (string.IsNullOrEmpty(LastMessage))
+            {
+               LastMessage = $"Error loading PDF\n{pdfPath}";
+            }
          }
       }
    }

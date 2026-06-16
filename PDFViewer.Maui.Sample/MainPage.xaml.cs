@@ -88,7 +88,7 @@ namespace PDFViewer.Maui.Sample
          {
             var pdfRessourceName = @"not existing";
 
-            if (!await pdfViewer.LoadPDF(new AssetPdfSource(), pdfRessourceName) )
+            if (!await pdfViewer.LoadPDF(new AssetPdfSource(), pdfRessourceName))
             {
                await DisplayAlertAsync("03 Oups ...", pdfViewer.LastMessage, "ok");
             }
@@ -118,6 +118,11 @@ namespace PDFViewer.Maui.Sample
          if (result != null)
          {
             await pdfViewer.LoadPDF(new FilePdfSource(), result.FullPath);
+
+            if (!string.IsNullOrEmpty(pdfViewer.LastMessage))
+            {
+               await DisplayAlertAsync("Oups ...", pdfViewer.LastMessage, "ok");
+            }
          }
       }
 
