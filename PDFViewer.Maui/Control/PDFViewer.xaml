@@ -11,10 +11,17 @@
       <ResourceDictionary>
 
          <DataTemplate x:Key="PDFTemplate" x:DataType="pdf:PDFPageInfo">
-            <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
-               HeightRequest="{Binding HeightRequest}"
-               WidthRequest="{Binding WidthRequest}"
-               BackgroundColor="White" Margin="0,0,0,5" />
+            <Grid Margin="0,0,0,5"
+                  WidthRequest="{Binding BoxWidthRequest}"
+                  HeightRequest="{Binding BoxHeightRequest}"
+                  HorizontalOptions="Center" VerticalOptions="Center">
+               <Image Source="{Binding ImageSource}" Aspect="AspectFit" 
+                  HeightRequest="{Binding HeightRequest}"
+                  WidthRequest="{Binding WidthRequest}"
+                  Rotation="{Binding DisplayRotation}"
+                  HorizontalOptions="Center" VerticalOptions="Center"
+                  BackgroundColor="White" />
+            </Grid>
          </DataTemplate>
 
          <Style TargetType="Button">
@@ -64,6 +71,16 @@
                      <On Platform="iOS" Value="0,0,0,5" />
                      <On Platform="Android" Value="0,-4,0,8" />
                      <On Platform="WinUI" Value="0,-4,0,6" />
+                  </OnPlatform>
+               </Button.Padding>
+            </Button>
+
+            <Button x:Name="btnRotate" Text="⟳" Clicked="btnRotate_Clicked" FontSize="24" >
+               <Button.Padding>
+                  <OnPlatform x:TypeArguments="Thickness">
+                     <On Platform="iOS" Value="0,0,0,5" />
+                     <On Platform="Android" Value="0,-4,0,8" />
+                     <On Platform="WinUI" Value="0,-2,0,4" />
                   </OnPlatform>
                </Button.Padding>
             </Button>

@@ -87,6 +87,43 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
 
 
    /// <summary>
+   /// Rotation (in degrees: 0, 90, 180, 270) applied to the displayed page image.
+   /// </summary>
+   [JsonIgnore]
+   public double DisplayRotation
+   {
+      get => _DisplayRotation;
+      set
+      {
+         if (SetField(ref _DisplayRotation, value))
+         {
+            OnPropertyChanged(nameof(BoxWidthRequest));
+            OnPropertyChanged(nameof(BoxHeightRequest));
+         }
+      }
+   }
+   double _DisplayRotation = 0;
+
+   /// <summary>
+   /// True when the page is rotated by 90° or 270°, so width and height are swapped.
+   /// </summary>
+   [JsonIgnore]
+   public bool IsSideways => (((int)DisplayRotation % 360) + 360) % 180 != 0;
+
+   /// <summary>
+   /// Width of the layout box hosting the (possibly rotated) page image.
+   /// </summary>
+   [JsonIgnore]
+   public double BoxWidthRequest => IsSideways ? HeightRequest : WidthRequest;
+
+   /// <summary>
+   /// Height of the layout box hosting the (possibly rotated) page image.
+   /// </summary>
+   [JsonIgnore]
+   public double BoxHeightRequest => IsSideways ? WidthRequest : HeightRequest;
+
+
+   /// <summary>
    /// Gets or sets the scale factor applied to the element. 
    /// 
    /// Remarks:
@@ -103,6 +140,8 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
          {
             OnPropertyChanged("WidthRequest");
             OnPropertyChanged("HeightRequest");
+            OnPropertyChanged(nameof(BoxWidthRequest));
+            OnPropertyChanged(nameof(BoxHeightRequest));
          }
       }
    }
@@ -127,6 +166,8 @@ public class PDFPageInfo : BaseViewModel<PDFPageInfo>
       this.RealHeight = pDFPageInfo.RealHeight;
 
       this.Scale = pDFPageInfo.Scale;
+
+      this.DisplayRotation = pDFPageInfo.DisplayRotation;
 
       this.ImageSource = pDFPageInfo.ImageSource;  
    }

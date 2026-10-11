@@ -104,6 +104,7 @@ public partial class PDFViewer
       for (var i = 0; i < numberOfPages; i++)
       {
          var p = new PDFPageInfo() { PageNumber = i + 1 };
+         p.DisplayRotation = PageRotation;
          Pages.Add(p);
 
          // Retrieve DataTemplate from StaticResource
