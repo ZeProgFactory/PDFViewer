@@ -8,6 +8,12 @@ namespace PDFViewer.Maui.Sample
 {
    public partial class MainPage : ContentPage
    {
+      const string PrefLastFileKey = "LastPdfFilePath";
+      const string PrefLastPageKey = "LastPdfPageNumber";
+
+      // avoids overwriting the stored page while a document is still being restored
+      bool _isRestoring;
+
       public MainPage()
       {
          InitializeComponent();
@@ -16,11 +22,65 @@ namespace PDFViewer.Maui.Sample
       }
 
 
+      protected override async void OnAppearing()
+      {
+         base.OnAppearing();
+
+         await RestoreLastPDF();
+      }
+
+
+      private async Task RestoreLastPDF()
+      {
+         var lastFile = Preferences.Get(PrefLastFileKey, string.Empty);
+
+         if (string.IsNullOrEmpty(lastFile) || !File.Exists(lastFile))
+         {
+            // file was moved/deleted - forget it
+            Preferences.Remove(PrefLastFileKey);
+            Preferences.Remove(PrefLastPageKey);
+            return;
+         }
+
+         _isRestoring = true;
+
+         try
+         {
+            if (!await pdfViewer.LoadPDF(new FilePdfSource(), lastFile))
+            {
+               Preferences.Remove(PrefLastFileKey);
+               Preferences.Remove(PrefLastPageKey);
+               return;
+            }
+
+            var lastPage = Preferences.Get(PrefLastPageKey, 1);
+
+            if (lastPage > 1)
+            {
+               await pdfViewer.ScrollToAsync((uint)lastPage);
+            }
+         }
+         finally
+         {
+            _isRestoring = false;
+         }
+      }
+
+
       private void PdfViewer_PropertyChanged(object? sender, PropertyChangedEventArgs e)
       {
          if (e.PropertyName == nameof(pdfViewer.IsBusy))
          {
             Title = (pdfViewer.IsBusy ? "IsBusy" : pdfViewer.Infos.Title);
+         }
+         else if (e.PropertyName == nameof(pdfViewer.CurrentPageNumber))
+         {
+            if (!_isRestoring
+               && pdfViewer.CurrentPageNumber > 0
+               && Preferences.ContainsKey(PrefLastFileKey))
+            {
+               Preferences.Set(PrefLastPageKey, pdfViewer.CurrentPageNumber);
+            }
          }
       }
 
@@ -117,7 +177,14 @@ namespace PDFViewer.Maui.Sample
 
          if (result != null)
          {
-            await pdfViewer.LoadPDF(new FilePdfSource(), result.FullPath);
+            var ok = await pdfViewer.LoadPDF(new FilePdfSource(), result.FullPath);
+
+            if (ok)
+            {
+               // remember this document so it can be reopened on next start
+               Preferences.Set(PrefLastFileKey, result.FullPath);
+               Preferences.Set(PrefLastPageKey, 1);
+            }
 
             if (!string.IsNullOrEmpty(pdfViewer.LastMessage))
             {
@@ -129,6 +196,8 @@ namespace PDFViewer.Maui.Sample
 
       private async void LoadPDFFromRessource(string pdfRessourceName)
       {
+         ForgetLastPDF();
+
          await pdfViewer.LoadPDF(new AssetPdfSource(), pdfRessourceName);
 
          //var tmp = GetPdfFileContent(pdfRessourceName);
@@ -142,6 +211,7 @@ namespace PDFViewer.Maui.Sample
       {
          // Sample pdf download 10 MB
          var url = "https://www.learningcontainer.com/wp-content/uploads/2019/09/sample-pdf-download-10-mb.pdf";
+         ForgetLastPDF();
          await pdfViewer.LoadPDF(new HttpPdfSource(), url);
 
          Load1rstPage();
@@ -181,6 +251,13 @@ namespace PDFViewer.Maui.Sample
             //+ $"IsLinearized: {pdfInfos.IsLinearized}\n"
             , "OK"
             );
+      }
+
+
+      private void ForgetLastPDF()
+      {
+         Preferences.Remove(PrefLastFileKey);
+         Preferences.Remove(PrefLastPageKey);
       }
 
 

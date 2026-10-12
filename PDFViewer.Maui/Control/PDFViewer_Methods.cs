@@ -204,18 +204,44 @@ public partial class PDFViewer
       if (pageNumber == 0)
       {
          await ScrollToFirstAsync();
+         return;
       }
 
-      pageNumber--;
+      int index = (int)pageNumber - 1;
 
-      if (stack.Children.Count >= pageNumber)
-      {
-         View view = (View)stack.Children[(int)pageNumber];
-         await scrollView.ScrollToAsync(view, ScrollToPosition.Start, true);
-      }
-      else
+      if (index >= stack.Children.Count)
       {
          await ScrollToLastAsync();
+         return;
+      }
+
+      View view = (View)stack.Children[index];
+
+      // The page views are added and measured asynchronously. When this is called right after
+      // LoadPDF (e.g. restoring the last read page at startup) the target page is not laid out yet:
+      // its Y is still 0 and ScrollToAsync would simply scroll back to the top.
+      await WaitForLayoutAsync(view);
+
+      await scrollView.ScrollToAsync(view, ScrollToPosition.Start, true);
+   }
+
+   /// <summary>
+   /// Waits until <paramref name="view"/> has been measured/arranged, or until the timeout elapses.
+   /// </summary>
+   private static async Task WaitForLayoutAsync(View view, int timeoutMilliseconds = 5000)
+   {
+      var startedAt = Environment.TickCount64;
+
+      while (Environment.TickCount64 - startedAt < timeoutMilliseconds)
+      {
+         if (view.Height > 0 && view.Y > 0)
+         {
+            // give the layout pass a chance to settle before scrolling
+            await Task.Delay(50);
+            return;
+         }
+
+         await Task.Delay(50);
       }
    }
 
